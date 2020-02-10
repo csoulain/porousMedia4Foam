@@ -8,6 +8,7 @@
 
 Generic library to solve flow and transport in porous media using OpenFOAM.
 The package includes:
+
     - a porous media library for
         * single phase flow
         * multiphase flow (relative permeability and capillary pressure)
