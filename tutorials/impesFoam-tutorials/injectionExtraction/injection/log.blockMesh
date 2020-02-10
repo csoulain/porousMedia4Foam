@@ -1,0 +1,78 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Build  : 7-1ff648926f77
+Exec   : blockMesh
+Date   : Feb 10 2020
+Time   : 15:34:17
+Host   : "cyp-Precision-5520"
+PID    : 17044
+I/O    : uncollated
+Case   : /home/cyp/OpenFOAM/cyp-7/run/tuto-porousMedia4Foam/impesFoam-tutorials/injectionExtraction/injection
+nProcs : 1
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Creating block mesh from
+    "/home/cyp/OpenFOAM/cyp-7/run/tuto-porousMedia4Foam/impesFoam-tutorials/injectionExtraction/injection/system/blockMeshDict"
+Creating block edges
+No non-planar block faces defined
+Creating topology blocks
+Creating topology patches
+
+Creating block mesh topology
+
+Check topology
+
+	Basic statistics
+		Number of internal faces : 1
+		Number of boundary faces : 10
+		Number of defined boundary faces : 10
+		Number of undefined boundary faces : 0
+	Checking patch -> block consistency
+
+Creating block offsets
+Creating merge list .
+
+Creating polyMesh from blockMesh
+Creating patches
+Creating cells
+Creating points with scale 1
+    Block 0 cell size :
+        i : 0.17311 .. 0.0865552
+        j : 0.25
+        k : 1
+    Block 1 cell size :
+        i : 0.0865552 .. 0.17311
+        j : 0.25
+        k : 1
+
+There are no merge patch pairs edges
+
+Writing polyMesh
+----------------
+Mesh Information
+----------------
+  boundingBox: (0 0 0) (10 10 1)
+  nPoints: 6642
+  nCells: 3200
+  nFaces: 12920
+  nInternalFaces: 6280
+----------------
+Patches
+----------------
+  patch 0 (start: 6280 size: 80) name: top
+  patch 1 (start: 6360 size: 80) name: inlet
+  patch 2 (start: 6440 size: 80) name: axis
+  patch 3 (start: 6520 size: 6400) name: frontAndBack
+
+End
+

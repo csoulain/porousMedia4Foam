@@ -13,6 +13,7 @@
     const volScalarField& dkrbdS = porousMedia.dkrbdS();
 
 
+    porousMedia.update();
 
     // - inertial part
     volScalarField dfw
@@ -29,6 +30,7 @@
         * (Foam::pow(kra,2)*dkrbdS/mua
         + Foam::pow(krb,2)*dkradS/mub)/(Mmu*Foam::pow(kra,2)
         +2*kra*krb+1/Mmu*Foam::pow(krb,2));
+
 
     scalarField CFLCoats((runTime.deltaT()/eps)*dfw*fvc::surfaceSum(mag(phi)));
 

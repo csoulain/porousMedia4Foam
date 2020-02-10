@@ -16,7 +16,6 @@ unsaturatedPorousModels/relativePermeabilityModels/relativePermeabilityModel/rel
 
 unsaturatedPorousModels/relativePermeabilityModels/BrooksAndCorey/krBrooksAndCorey.C
 unsaturatedPorousModels/relativePermeabilityModels/VanGenuchten/krVanGenuchten.C
-unsaturatedPorousModels/relativePermeabilityModels/Ippisch/krIppisch.C
 
 
 unsaturatedPorousModels/capillarityModels/capillarityModel/capillarityModel.C
@@ -25,7 +24,7 @@ unsaturatedPorousModels/capillarityModels/none/none.C
 unsaturatedPorousModels/capillarityModels/Linear/pcLinear.C
 unsaturatedPorousModels/capillarityModels/VanGenuchten/pcVanGenuchten.C
 unsaturatedPorousModels/capillarityModels/BrooksAndCorey/pcBrooksAndCorey.C
-unsaturatedPorousModels/capillarityModels/Ippisch/pcIppisch.C
+
 
 unsaturatedPorousModels/unsaturatedPorousModel.C
 

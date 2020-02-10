@@ -45,7 +45,7 @@ timePrecision   6;
 
 runTimeModifiable yes;
 
-CFL             Todd;
+CFL             Courant; //Todd;
 
 maxCo		1;
 

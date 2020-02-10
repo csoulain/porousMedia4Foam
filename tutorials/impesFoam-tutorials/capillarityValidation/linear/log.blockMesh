@@ -1,0 +1,77 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Build  : 7-1ff648926f77
+Exec   : blockMesh
+Date   : Feb 07 2020
+Time   : 17:04:56
+Host   : "cyp-Precision-5520"
+PID    : 20696
+I/O    : uncollated
+Case   : /home/cyp/OpenFOAM/cyp-7/run/tuto-PMF/impesFoam-tutorials/capillarityValidation/linear
+nProcs : 1
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Creating block mesh from
+    "/home/cyp/OpenFOAM/cyp-7/run/tuto-PMF/impesFoam-tutorials/capillarityValidation/linear/system/blockMeshDict"
+Creating block edges
+No non-planar block faces defined
+Creating topology blocks
+Creating topology patches
+
+Reading patches section
+
+Creating block mesh topology
+
+Reading physicalType from existing boundary file
+
+Default patch type set to empty
+
+Check topology
+
+	Basic statistics
+		Number of internal faces : 0
+		Number of boundary faces : 6
+		Number of defined boundary faces : 6
+		Number of undefined boundary faces : 0
+	Checking patch -> block consistency
+
+Creating block offsets
+Creating merge list .
+
+Creating polyMesh from blockMesh
+Creating patches
+Creating cells
+Creating points with scale 1
+    Block 0 cell size :
+        i : 0.1
+        j : 0.001 .. 0.001
+        k : 0.1
+
+Writing polyMesh
+----------------
+Mesh Information
+----------------
+  boundingBox: (0 0 0) (0.1 1 0.1)
+  nPoints: 4004
+  nCells: 1000
+  nFaces: 5001
+  nInternalFaces: 999
+----------------
+Patches
+----------------
+  patch 0 (start: 999 size: 1) name: inlet
+  patch 1 (start: 1000 size: 1) name: outlet
+  patch 2 (start: 1001 size: 4000) name: frontAndBack
+
+End
+

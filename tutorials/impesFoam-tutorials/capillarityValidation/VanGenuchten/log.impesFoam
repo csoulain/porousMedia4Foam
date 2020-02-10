@@ -1,0 +1,106 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Build  : 7-1ff648926f77
+Exec   : impesFoam
+Date   : Feb 08 2020
+Time   : 16:02:35
+Host   : "cyp-Precision-5520"
+PID    : 28689
+I/O    : uncollated
+Case   : /home/cyp/OpenFOAM/cyp-7/run/tuto-PMF/impesFoam-tutorials/capillarityValidation/VanGenuchten
+nProcs : 1
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+
+Reading g
+Reading pressure field p
+
+Reading saturation field Sb
+
+Reading transportProperties
+Selecting absolute permeability model heterogeneousScalarConstant
+Selecting reduced saturation model => minMax
+
+Parameters for reduced saturation model
+{
+    Smax 0.999
+    Smin 0
+} 
+
+Selecting relativePermeability model => BrooksAndCorey
+
+Brooks and Corey parameters for relative permeability model
+{
+    n 3
+    kramax 1
+    krbmax 1
+} 
+
+Selecting capillarity model => VanGenuchten
+
+Van Genuchten parameters for capillary pressure model
+{
+    m 0.5
+    pc0 100
+    alpha 0
+} 
+
+
+Reading porosity field eps
+
+Reading permeability field K
+create Kf... OK 
+
+dimensions      [0 2 0 0 0 0 0];
+
+internalField   uniform 1e-11;
+
+boundaryField
+{
+    inlet
+    {
+        type            calculated;
+        value           uniform 1e-11;
+    }
+    outlet
+    {
+        type            calculated;
+        value           uniform 1e-11;
+    }
+    frontAndBack
+    {
+        type            empty;
+        value           nonuniform 0();
+    }
+}
+
+
+
+Reading field U
+Reading/calculating face flux field phi
+
+
+Starting time loop
+
+Todd CFL kr = 0.0001#0  Foam::error::printStack(Foam::Ostream&) at ??:?
+#1  Foam::sigFpe::sigHandler(int) at ??:?
+#2  ? in "/lib/x86_64-linux-gnu/libc.so.6"
+#3  Foam::divide(Foam::Field<double>&, Foam::UList<double> const&, Foam::UList<double> const&) at ??:?
+#4  ? at ??:?
+#5  Foam::tmp<Foam::GeometricField<double, Foam::fvsPatchField, Foam::surfaceMesh> > Foam::operator/<Foam::fvsPatchField, Foam::surfaceMesh>(Foam::tmp<Foam::GeometricField<double, Foam::fvsPatchField, Foam::surfaceMesh> > const&, Foam::GeometricField<double, Foam::fvsPatchField, Foam::surfaceMesh> const&) at ??:?
+#6  ? at ??:?
+#7  __libc_start_main in "/lib/x86_64-linux-gnu/libc.so.6"
+#8  ? at ??:?
+Floating point exception (core dumped)

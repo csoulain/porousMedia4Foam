@@ -1,6 +1,14 @@
 // --- Todd et al. (1972) Methods for increased accuracy in numerical reservoir simulator
 {
 
+dimensionedScalar Sbmin
+(
+    transportProperties.lookupOrDefault
+    (
+      "Sbmin",dimensionedScalar("Sbmin",dimless,0)
+    )
+);
+
     scalar count = 0.0;
     scalar somme = 0.0;
     scalarField Sum(Sb.size(),0);
@@ -58,7 +66,7 @@
     if(porousMedia.activateCapillarity())
     {
         const surfaceScalarField &Maf = porousMedia.Maf();
-      
+
         dimensionedScalar smallqP("smallRate",dimVolume/dimTime, VSMALL);
         scalarField Tpc
         (

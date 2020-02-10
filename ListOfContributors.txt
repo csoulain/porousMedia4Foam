@@ -1,4 +1,10 @@
-# Developers
+# Developers of porousMedia4Foam
+Cyprien Soulaine (cyprien.soulaine@gmail.com)
+Francisco Carrillo
+
+
+
+# Developers of porousMultiphaseFoam
 Pierre Horgue (phorgue@imft.fr)
 Jacques Franc
 Gabriel Gerlero

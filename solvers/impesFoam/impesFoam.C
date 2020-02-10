@@ -33,6 +33,11 @@ Developers
     P. Horgue, C. Soulaine, J. Franc, R. Guibert and G. Debenest
     "An open-source toolbox for multiphase flow in porous media"
 
+    - 2012 : CS - first impesFoam version
+    - 2013 : PH - impesFoam part of porousMultiphaseFoam Toolbox
+    - 2015 : JF - Coats and Todd time conditions
+    - 02/02/2020 - CS: unsaturatedPorousModel class, part of porousMedia4Foam
+
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"

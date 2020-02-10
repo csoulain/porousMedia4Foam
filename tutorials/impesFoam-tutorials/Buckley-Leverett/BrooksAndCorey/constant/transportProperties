@@ -15,11 +15,6 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-activateCapillarity	0.;
-
-eps		eps [0  0  0 0 0 0 0]	0.5;	
-//Sbmin	in constant/porousModels
-Sbmax		Sbmax [0  0  0 0 0 0 0]	0.9999;
 
 phase.a
 {
@@ -33,18 +28,50 @@ phase.b
   mu	mu [1 -1 -1 0 0 0 0]	1e-3;
 }
 
-relativePermeabilityModel   BrooksAndCorey;
 
-capillarityModel	BrooksAndCorey;
 
-BrooksAndCoreyCoeffs
+porousMediaModel
 {
-    // kr 
-    n 3;
 
-    // pc 
-    pc0 pc0 [1 -1 -2 0 0 0 0] 5;
-    alpha	0.2;	
+	eps		eps [0  0  0 0 0 0 0]	0.5;	
+
+	absolutePermeabilityModel  heterogeneousScalarConstant;
+
+
+	reducedSaturationModel	minMax;
+	minMaxCoeffs
+	{
+		Sbmin		Sbmin [0  0  0 0 0 0 0]	1e-4;
+		Sbmax		Sbmax [0  0  0 0 0 0 0]	0.9999;
+	}
+
+	heterogeneousScalarConstantCoeffs
+	{
+		  K0 K0 [0 2 0 0 0 0 0] 1e-11;
+	}
+
+	//Sbmin	in constant/porousModels ??
+	//Sbmin		Sbmin [0  0  0 0 0 0 0]	1e-4;
+	Sbmax		Sbmax [0  0  0 0 0 0 0]	0.9999;
+
+	relativePermeabilityModel   BrooksAndCorey;
+
+	capillarityModel	none;
+
+	BrooksAndCoreyCoeffs
+	{
+		// kr 
+		n 3;
+
+		// pc 
+		pc0 pc0 [1 -1 -2 0 0 0 0] 5;
+		alpha	0.2;	
+	}
+
+
+
 }
+
+
 
 // ************************************************************************* //

@@ -112,8 +112,6 @@ class unsaturatedPorousModel :  public porousModel
 
 
     // Member Functions
-
-
     tmp<volScalarField> Se() const
     {
         return reducedSaturationModelPtr_->Se();

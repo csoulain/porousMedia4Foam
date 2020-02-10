@@ -1,0 +1,36 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Build  : 7-1ff648926f77
+Exec   : setFields
+Date   : Feb 07 2020
+Time   : 17:04:56
+Host   : "cyp-Precision-5520"
+PID    : 20698
+I/O    : uncollated
+Case   : /home/cyp/OpenFOAM/cyp-7/run/tuto-PMF/impesFoam-tutorials/capillarityValidation/linear
+nProcs : 1
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+Reading setFieldsDict
+
+Setting field default values
+    Setting internal values of volScalarField Sb
+
+Setting field region values
+    Adding cells with center within boxes 1((0 0 0) (0.1 0.5 0.1))
+    Setting internal values of volScalarField Sb
+
+End
+
