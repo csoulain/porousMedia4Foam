@@ -1,0 +1,37 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                |
+  \      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \    /   O peration     | Website:  https://openfoam.org
+    \  /    A nd           | Version:  7
+     \/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+defaultFieldValues
+(
+    volScalarFieldValue Sb 0.002
+    volScalarFieldValue n 3
+);
+
+regions
+(
+    // to test heterogeneous BrooksAndCorey parameters
+    boxToCell
+    {
+        box (0 0 0) (5 10 1);
+        fieldValues
+            (
+                volScalarFieldValue n 4
+            );
+    }
+);
+
+// ************************************************************************* //

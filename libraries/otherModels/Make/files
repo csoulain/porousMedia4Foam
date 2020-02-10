@@ -1,0 +1,7 @@
+phaseModels/phase/phase.C
+phaseModels/fluidPhase/fluidPhase.C
+phaseModels/incompressiblePhase/incompressiblePhase.C
+
+mixtures/multiscalarMixture/multiscalarMixture.C
+
+LIB = $(FOAM_USER_LIBBIN)/libotherModels
