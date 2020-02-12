@@ -1,8 +1,8 @@
 /*---------------------------------------------------------------------------*\
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
-   \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2016 OpenFOAM Foundation
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -22,76 +22,61 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Application
-    darcyFoam
+    simpleFoam
 
 Description
-    Stationary solver for incompressible single-phase flow in porous medium
+    Steady-state solver for incompressible, turbulent flow, using the SIMPLE
+    algorithm.
 
-Developers
-    - Pierre Horgue
-    - 10/02/2020 - CS : modified with the porousModel class
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
-#include "incompressiblePhase.H"
+#include "singlePhaseTransportModel.H"
+#include "simpleControl.H"
+#include "fvOptions.H"
 #include "porousModel.H"
-#include "sourceEventFile.H"
+
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 int main(int argc, char *argv[])
 {
+    #include "postProcess.H"
 
-    argList::addOption("phase","a","specify the phase name");
-    Foam::argList args(argc,argv);
-
+    #include "setRootCaseLists.H"
     #include "createTime.H"
     #include "createMesh.H"
-    #include "readGravitationalAcceleration.H"
+    #include "createControl.H"
     #include "createFields.H"
-    #include "readEvent.H"
+    #include "initContinuityErrs.H"
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     Info<< "\nStarting time loop\n" << endl;
 
-    while (runTime.loop())
+    while (simple.loop(runTime))
     {
+        Info<< "Time = " << runTime.timeName() << nl << endl;
 
-        Info << "Time = " << runTime.timeName() << nl << endl;
-
-        #include "CourantNo.H"
-
-        fvScalarMatrix pEqn
-        (
-            fvm::laplacian(-Mf,p) + fvc::div(phiG) - sourceTerm
-        );
-
-        pEqn.solve();
-
-        phi = pEqn.flux() + phiG;
-
-        U = fvc::reconstruct(phi);
-        U.correctBoundaryConditions();
-        UphaseName = U;
-        phiPhaseName = phi;
-
-        if(runTime.outputTime())
+        // --- Pressure-velocity SIMPLE corrector
         {
-            phiPhaseName.write();
-            UphaseName.write();
-            p.write();
+            #include "UEqn.H"
+            #include "pEqn.H"
         }
 
-        Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+        laminarTransport.correct();
+
+        runTime.write();
+
+        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
             << nl << endl;
-
     }
 
     Info<< "End\n" << endl;
 
     return 0;
 }
+
 
 // ************************************************************************* //

@@ -12,12 +12,13 @@ wmake libraries/porousBoundaryConditions
 # Compiling solvers
 wmake solvers/darcyFoam
 wmake solvers/impesFoam
+wmake solvers/dbsSimpleFoam
+wmake solvers/dbsFoam
 #wmake solvers/anisoImpesFoam
 #wmake solvers/threePhaseImpesFoam
 
 
 # Compiling utilities
-#wmake utilities/darcyFoam
 #wmake utilities/setBoundaryHeadPressure
 #wmake utilities/setFieldsFromXY
 #wmake utilities/setFieldsFromMNT
