@@ -40,7 +40,7 @@ Foam::porousModel::porousModel
 )
 :
         mesh_(mesh),
-        porousMediaDict_(dict.subDict("porousMediaModel")),
+        porousMediaDict_(dict.subDict("porousMediaProperties")),
         eps_
         (
             IOobject
@@ -48,11 +48,11 @@ Foam::porousModel::porousModel
                 "eps",
                 mesh.time().timeName(),
                 mesh,
-                IOobject::NO_READ,
+                IOobject::READ_IF_PRESENT,
                 IOobject::AUTO_WRITE
             ),
             mesh,
-            porousMediaDict_.lookupOrDefault("eps",dimensionedScalar("",dimless,0.))
+            porousMediaDict_.lookupOrDefault("eps",dimensionedScalar("",dimless,1.))
         ),
         absolutePermeabilityModelPtr_
         (

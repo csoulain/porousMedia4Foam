@@ -138,8 +138,12 @@ class porousModel
 
     tmp<volScalarField> invK() const
     {
-        dimensionedScalar smallK ("smallK",dimensionSet(0,2,0,0,0,0,0),SMALL);
-        return 1./(absolutePermeabilityModelPtr_->absolutePermeability() + smallK);
+        return absolutePermeabilityModelPtr_->inversePermeability();
+    }
+
+    void updatePermeability()
+    {
+        return absolutePermeabilityModelPtr_->updatePermeability();
     }
 
     surfaceScalarField Kf() const

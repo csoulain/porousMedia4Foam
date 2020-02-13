@@ -62,5 +62,4 @@ const volScalarField & eps = porousMedia.porosity();
 Info << nl << "Reading/generating permeability field eps" << endl;
 const volScalarField& invK = porousMedia.invK();
 
-
 #include "createFvOptions.H"

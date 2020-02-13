@@ -25,107 +25,95 @@ Class
     Foam::twoPhaseMixture
 
 Description
-    absolutePermeabilityModel module
+    PhreeqcRM module
 
 SourceFiles
     phreeqc.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef absolutePermeabilityModel_H
-#define absolutePermeabilityModel_H
+#ifndef KozenyCarman_H
+#define KozenyCarman_H
 
-#include "dictionary.H"
-#include "volFieldsFwd.H"
 #include "volFields.H"
-#include "runTimeSelectionTables.H"
+#include "speciesTable.H"
+//#include "basicMultiComponentMixture.H"
+//#include "runTimeSelectionTables.H"
+
+#include "absolutePermeabilityModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
 {
-
+namespace absolutePermeabilityModels
+{
 /*---------------------------------------------------------------------------*\
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class absolutePermeabilityModel
+class KozenyCarman : public absolutePermeabilityModel
 {
+
+    dictionary KozenyCarmanDict_;
+
+    // Name of the porosity field
+    word epsName_;
+
+    dimensionedScalar K0_;
+
+    volScalarField K_;
+
+    volScalarField invK_;
+
+    const volScalarField & eps_;
 
   protected:
 
     // Protected data
 
-    const fvMesh& mesh_;
-//    const volScalarField &eps_;
-
   // Private Member Functions
 
     //- Disallow copy construct
-    absolutePermeabilityModel(const absolutePermeabilityModel&);
+    KozenyCarman(const KozenyCarman&);
 
 
 public:
 
   //- Runtime type information
-    TypeName("absolutePermeabilityModel");
+    TypeName("KozenyCarman");
 
 
-    // Declare run-time constructor selection table
-
-      declareRunTimeSelectionTable
-      (
-          autoPtr,
-          absolutePermeabilityModel,
-          dictionary,
-          (
-              const fvMesh& mesh,
-              const dictionary& dict
-          ),
-          (mesh, dict)
-      );
+  // Declare run-time constructor selection table
 
 
   // Selectors
 
-      //- Return a reference to the selected viscosity model
-      static autoPtr<absolutePermeabilityModel> New
-      (
-          const fvMesh& mesh,
-          const dictionary& dict
-      );
-
-  // Constructors
-
     //- Construct from components
-
-    absolutePermeabilityModel
+    KozenyCarman
     (
-        const fvMesh& mesh,
-        const dictionary& dict
+      const fvMesh& mesh,
+      const dictionary& dict
     );
 
-//    absolutePermeabilityModel();
 
     //- Destructor
-    virtual ~absolutePermeabilityModel()
+    virtual ~KozenyCarman()
     {}
 
 
     // Member Functions
+    virtual tmp<volScalarField> absolutePermeability() const;
 
+    virtual tmp<volScalarField> inversePermeability() const;
 
-      virtual tmp<volScalarField> absolutePermeability() const =0;
-
-      virtual tmp<volScalarField> inversePermeability() const =0;
-
-      virtual void updatePermeability() = 0;
+    virtual void updatePermeability();
 
 };
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
+} // End namespace absolutePermeabilityModel
 } // End namespace Foam
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -23,11 +23,9 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "heterogeneousScalarConstant.H"
+#include "KozenyCarman.H"
 #include "addToRunTimeSelectionTable.H"
 
-
-//#include "fvCFD.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
@@ -35,27 +33,28 @@ namespace Foam
 {
 namespace absolutePermeabilityModels
 {
-    defineTypeNameAndDebug(heterogeneousScalarConstant, 0);
+    defineTypeNameAndDebug(KozenyCarman, 0);
 
     addToRunTimeSelectionTable
     (
         absolutePermeabilityModel,
-        heterogeneousScalarConstant,
+        KozenyCarman,
         dictionary
     );
 }
 }
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::absolutePermeabilityModels::heterogeneousScalarConstant::heterogeneousScalarConstant
+Foam::absolutePermeabilityModels::KozenyCarman::KozenyCarman
 (
     const fvMesh& mesh,
     const dictionary& dict
 )
 :
     absolutePermeabilityModel(mesh, dict),
-    heterogeneousScalarConstantDict_(dict.subDict(typeName+"Coeffs")),
-    K0_(heterogeneousScalarConstantDict_.lookupOrDefault
+    KozenyCarmanDict_(dict.subDict(typeName+"Coeffs")),
+    epsName_(KozenyCarmanDict_.lookupOrDefault<word>("eps", "eps")),
+    K0_(KozenyCarmanDict_.lookupOrDefault
     (
         "K0",
         dimensionedScalar("K0",dimensionSet(0,2,0,0,0,0,0),SMALL))
@@ -86,26 +85,37 @@ Foam::absolutePermeabilityModels::heterogeneousScalarConstant::heterogeneousScal
         ),
         1/K_,
         "zeroGradient"
-    )
-{}
+    ),
+    eps_(mesh.lookupObject<volScalarField>(epsName_))
+{
+
+    updatePermeability();
+
+}
 
 // * * * * * * * * * * * * * * member functions  * * * * * * * * * * * * * * //
 
 Foam::tmp<Foam::volScalarField>
-Foam::absolutePermeabilityModels::heterogeneousScalarConstant::absolutePermeability() const
+Foam::absolutePermeabilityModels::KozenyCarman::absolutePermeability() const
 {
       return K_;
 }
 
 Foam::tmp<Foam::volScalarField>
-Foam::absolutePermeabilityModels::heterogeneousScalarConstant::inversePermeability() const
+Foam::absolutePermeabilityModels::KozenyCarman::inversePermeability() const
 {
       return invK_;
 }
 
-void Foam::absolutePermeabilityModels::heterogeneousScalarConstant::updatePermeability()
+void Foam::absolutePermeabilityModels::KozenyCarman::updatePermeability()
 {
-    //do nothing
+
+  invK_= Foam::pow((1.-eps_),2)/(Foam::pow(eps_+SMALL,3))/K0_;
+  invK_.max(0.0);
+
+  dimensionedScalar smallInvK_("smallInvK",dimensionSet(0,-2,0,0,0),SMALL);
+
+  K_ = 1./(invK_+smallInvK_);
 
 }
 

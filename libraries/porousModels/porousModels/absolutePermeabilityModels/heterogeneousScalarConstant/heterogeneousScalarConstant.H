@@ -59,9 +59,9 @@ class heterogeneousScalarConstant : public absolutePermeabilityModel
 
     dimensionedScalar K0_;
 
-//    volScalarField invK_;
-
     volScalarField K_;
+
+    volScalarField invK_;
 
 
   protected:
@@ -99,11 +99,11 @@ public:
 
 
     // Member Functions
-//    virtual tmp<volScalarField> inversePermeability() const;
-
     virtual tmp<volScalarField> absolutePermeability() const;
 
-//    virtual void updatePermeability();
+    virtual tmp<volScalarField> inversePermeability() const;
+
+    virtual void updatePermeability();
 
 };
 
