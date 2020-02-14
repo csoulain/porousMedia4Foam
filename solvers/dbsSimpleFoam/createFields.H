@@ -63,3 +63,19 @@ Info << nl << "Reading/generating permeability field eps" << endl;
 const volScalarField& invK = porousMedia.invK();
 
 #include "createFvOptions.H"
+
+
+Switch activateHeleShaw
+(
+    transportProperties.lookupOrDefault<Switch>("activateHeleShaw",false)
+);
+
+
+volScalarField HeleShawCorrection ("HeleShawCorrection", 0.0*invK);
+
+if (activateHeleShaw)
+{
+    Foam::absolutePermeabilityModels::HeleShaw HeleShaw(mesh,transportProperties);
+    HeleShawCorrection = HeleShaw.inversePermeability();
+    Info << "HeleShaw correction is activated" << nl << endl;
+}

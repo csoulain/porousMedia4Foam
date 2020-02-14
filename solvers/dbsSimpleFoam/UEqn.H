@@ -5,6 +5,7 @@
         1./(eps+SMALL)*fvm::div(phi, U)
       - fvm::laplacian(laminarTransport.nu()/(eps+SMALL),U)
       + fvm::Sp(laminarTransport.nu()*invK,U)
+      + fvm::Sp(laminarTransport.nu()*HeleShawCorrection,U)
      ==
         fvOptions(U)
     );

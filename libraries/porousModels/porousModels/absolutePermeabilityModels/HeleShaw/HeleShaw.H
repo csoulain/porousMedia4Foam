@@ -32,11 +32,10 @@ SourceFiles
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef KozenyCarman_H
-#define KozenyCarman_H
+#ifndef HeleShaw_H
+#define HeleShaw_H
 
 #include "volFields.H"
-#include "speciesTable.H"
 
 #include "absolutePermeabilityModel.H"
 
@@ -50,21 +49,17 @@ namespace absolutePermeabilityModels
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class KozenyCarman : public absolutePermeabilityModel
+class HeleShaw : public absolutePermeabilityModel
 {
 
-    dictionary KozenyCarmanDict_;
+    dictionary HeleShawDict_;
 
-    // Name of the porosity field
-    word epsName_;
-
-    dimensionedScalar K0_;
+    dimensionedScalar h_;
 
     volScalarField K_;
 
     volScalarField invK_;
 
-    const volScalarField & eps_;
 
   protected:
 
@@ -73,13 +68,13 @@ class KozenyCarman : public absolutePermeabilityModel
   // Private Member Functions
 
     //- Disallow copy construct
-    KozenyCarman(const KozenyCarman&);
+    HeleShaw(const HeleShaw&);
 
 
 public:
 
   //- Runtime type information
-    TypeName("KozenyCarman");
+    TypeName("HeleShaw");
 
 
   // Declare run-time constructor selection table
@@ -88,7 +83,7 @@ public:
   // Selectors
 
     //- Construct from components
-    KozenyCarman
+    HeleShaw
     (
       const fvMesh& mesh,
       const dictionary& dict
@@ -96,7 +91,7 @@ public:
 
 
     //- Destructor
-    virtual ~KozenyCarman()
+    virtual ~HeleShaw()
     {}
 
 

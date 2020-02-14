@@ -35,6 +35,7 @@ Description
 #include "simpleControl.H"
 #include "fvOptions.H"
 #include "porousModel.H"
+#include "HeleShaw.H"
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
