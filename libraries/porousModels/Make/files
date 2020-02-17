@@ -5,6 +5,13 @@ porousModels/absolutePermeabilityModels/KozenyCarman/KozenyCarman.C
 porousModels/absolutePermeabilityModels/HeleShaw/HeleShaw.C
 
 
+porousModels/surfaceAreaModels/surfaceAreaModel/surfaceAreaModel.C
+porousModels/surfaceAreaModels/surfaceAreaModel/surfaceAreaModelNew.C
+porousModels/surfaceAreaModels/surfaceNone/surfaceNone.C
+porousModels/surfaceAreaModels/constantSurfaceArea/constantSurfaceArea.C
+porousModels/surfaceAreaModels/surfacePowerLaw/surfacePowerLaw.C
+porousModels/surfaceAreaModels/volumeOfSolid/volumeOfSolid.C
+
 
 porousModels/porousModel.C
 

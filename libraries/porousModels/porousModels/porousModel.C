@@ -35,12 +35,25 @@ License
 Foam::porousModel::porousModel
 (
     const fvMesh& mesh,
-//    const volVectorField& U,
     const dictionary& dict
 )
 :
         mesh_(mesh),
         porousMediaDict_(dict.subDict("porousMediaProperties")),
+        Ys_
+        (
+            IOobject
+            (
+                "Ys",
+                mesh.time().timeName(),
+                mesh,
+                IOobject::NO_READ,
+                IOobject::NO_WRITE
+            ),
+            mesh,
+            dimensionedScalar("Ys",dimless,0.0),
+            "zeroGradient"
+        ),
         eps_
         (
             IOobject
@@ -57,8 +70,46 @@ Foam::porousModel::porousModel
         absolutePermeabilityModelPtr_
         (
             absolutePermeabilityModel::New(mesh, porousMediaDict_)
+        ),
+        surfaceAreaModelPtr_
+        (
+            surfaceAreaModel::New(mesh, eps_, porousMediaDict_)
         )
 {}
+
+
+Foam::porousModel::porousModel
+(
+    const fvMesh& mesh,
+    const volScalarField& Ys,
+    const dictionary& dict
+)
+:
+        mesh_(mesh),
+        porousMediaDict_(dict.subDict("porousMediaProperties")),
+        Ys_(Ys),
+        eps_
+        (
+            IOobject
+            (
+                "eps",
+                mesh.time().timeName(),
+                mesh,
+                IOobject::NO_READ,
+                IOobject::NO_WRITE
+            ),
+            1.-Ys-SMALL
+        ),
+        absolutePermeabilityModelPtr_
+        (
+            absolutePermeabilityModel::New(mesh, porousMediaDict_)
+        ),
+        surfaceAreaModelPtr_
+        (
+            surfaceAreaModel::New(mesh, Ys_, porousMediaDict_)
+        )
+{}
+
 
 // -------------------------------------------------------------------------//
 

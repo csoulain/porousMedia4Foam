@@ -28,6 +28,8 @@ Description
     porousModel module for geometric porous media properties including
       - porosity
       - absolute permeability models
+      - surface area models
+
 
 SourceFiles
     porousModel.C
@@ -44,8 +46,8 @@ Authors
 #include "surfaceInterpolate.H"
 //#include "speciesTable.H"
 //#include "runTimeSelectionTables.H"
-//#include "surfaceAreaModel.H"
 #include "absolutePermeabilityModel.H"
+#include "surfaceAreaModel.H"
 //#include "autoPtr.H"
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -68,14 +70,15 @@ class porousModel
 
     dictionary porousMediaDict_;
 
+    volScalarField Ys_;
+
     volScalarField eps_;
 
-//    autoPtr<surfaceAreaModel> surfaceAreaModelPtr_;
-
-//    tmp<volScalarField> Ae_;
-//    volScalarField Ae_;
-
     autoPtr<absolutePermeabilityModel> absolutePermeabilityModelPtr_;
+
+    autoPtr<surfaceAreaModel> surfaceAreaModelPtr_;
+
+
 /*
     tmp<volScalarField> invK_;
 */
@@ -94,7 +97,13 @@ class porousModel
     porousModel
     (
         const fvMesh& mesh,
-//        const volVectorField& U,
+        const dictionary& dict
+    );
+
+    porousModel
+    (
+        const fvMesh& mesh,
+        const volScalarField& Ys,
         const dictionary& dict
     );
 
@@ -111,16 +120,8 @@ class porousModel
     //- Return the composition of the multi-component mixture
 //    virtual const basicMultiComponentMixture& composition() const = 0;
 
-/*
 
-    virtual void updatePorosity();
-
-    virtual void updatePermeability();
-*/
-
-/*
     tmp<volScalarField> surfaceArea() const
-//    volScalarField surfaceArea() const
     {
         return surfaceAreaModelPtr_->surfaceArea();
     }
@@ -129,7 +130,7 @@ class porousModel
     {
         return surfaceAreaModelPtr_->updateSurfaceArea();
     }
-*/
+
 
     tmp<volScalarField> absolutePermeability() const
     {
@@ -160,15 +161,7 @@ class porousModel
 
         return Kf_;
       }
-//    tmp<volScalarField> inversePermeability() const
-//    {
-//        return permeabilityModelPtr_->inversePermeability();
-//    }
 
-//    void updatePermeability()
-//    {
-//        return permeabilityModelPtr_->updatePermeability();
-//    }
 
     const volScalarField & porosity() const
     {
@@ -176,7 +169,10 @@ class porousModel
     }
 
     void update()
-    {}
+    {
+        updatePermeability();
+        updateSurfaceArea();
+    }
 
 };
 
