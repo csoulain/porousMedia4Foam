@@ -175,11 +175,13 @@ public:
     }
 
 
+//    tmp<surfaceScalarField> kraf() const
     tmp<surfaceScalarField> kraf() const
     {
         return kraf_;
     }
 
+//    tmp<surfaceScalarField> krbf() const
     tmp<surfaceScalarField> krbf() const
     {
         return krbf_;

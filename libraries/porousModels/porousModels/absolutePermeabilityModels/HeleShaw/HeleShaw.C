@@ -79,7 +79,8 @@ Foam::absolutePermeabilityModels::HeleShaw::HeleShaw
         ),
         1/K_,
         "zeroGradient"
-    )
+    ),
+    Kf_("Kf", fvc::interpolate(K_,"K"))
 {}
 
 // * * * * * * * * * * * * * * member functions  * * * * * * * * * * * * * * //
@@ -94,6 +95,12 @@ Foam::tmp<Foam::volScalarField>
 Foam::absolutePermeabilityModels::HeleShaw::inversePermeability() const
 {
       return invK_;
+}
+
+Foam::tmp<Foam::surfaceScalarField>
+Foam::absolutePermeabilityModels::HeleShaw::Kf() const
+{
+      return Kf_;
 }
 
 void Foam::absolutePermeabilityModels::HeleShaw::updatePermeability()

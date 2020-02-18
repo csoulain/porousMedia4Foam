@@ -53,7 +53,12 @@ namespace absolutePermeabilityModels
 class KozenyCarman : public absolutePermeabilityModel
 {
 
+
+  protected:
+
     dictionary KozenyCarmanDict_;
+
+    // Protected data
 
     // Name of the porosity field
     word epsName_;
@@ -64,11 +69,9 @@ class KozenyCarman : public absolutePermeabilityModel
 
     volScalarField invK_;
 
+    surfaceScalarField Kf_;
+
     const volScalarField & eps_;
-
-  protected:
-
-    // Protected data
 
   // Private Member Functions
 
@@ -104,6 +107,8 @@ public:
     virtual tmp<volScalarField> absolutePermeability() const;
 
     virtual tmp<volScalarField> inversePermeability() const;
+
+    virtual tmp<surfaceScalarField> Kf() const;
 
     virtual void updatePermeability();
 

@@ -43,7 +43,7 @@ Foam::unsaturatedPorousModel::unsaturatedPorousModel
 :
         porousModel(mesh,dict),
         mesh_(mesh),
-        porousMediaDict_(dict.subDict("porousMediaModel")),
+        porousMediaDict_(dict.subDict("porousMediaProperties")),
         Sb_(Sb),
         phasea_(phasea),
         phaseb_(phaseb),
@@ -71,12 +71,38 @@ Foam::unsaturatedPorousModel::unsaturatedPorousModel
               reducedSaturationModelPtr_
             )
         ),
-        Maf_("Maf",Kf()*kraf()/phasea_.mu()),
-        Mbf_("Mbf",Kf()*krbf()/phaseb_.mu()),
-        Mf_("Mf",Maf_+Mbf_),
-        Laf_("Laf",phasea_.rho()*Maf_),
-        Lbf_("Lbf",phaseb_.rho()*Mbf_),
-        Lf_("Lf",Laf_+Lbf_)/*,
+        Maf_
+        (
+          IOobject
+          (
+              "Faf",
+              Sb_.time().timeName(),
+              Sb_.db(),
+              IOobject::NO_READ,
+              IOobject::NO_WRITE
+          ),
+          Sb.mesh(),
+          dimensionedScalar("Maf",dimensionSet(-1,3,1,0,0),0)
+        ),
+        Mbf_("Mbf",0.0*Maf_),
+        Mf_("Mf",0.0*Maf_),
+        Laf_
+        (
+          IOobject
+          (
+              "Faf",
+              Sb_.time().timeName(),
+              Sb_.db(),
+              IOobject::NO_READ,
+              IOobject::NO_WRITE
+          ),
+          Sb.mesh(),
+          dimensionedScalar("Maf",dimensionSet(0,0,1,0,0),0)
+        ),
+        Lbf_("Lbf",0.0*Laf_),
+        Lf_("Lf",0.0*Laf_)
+      //  Lf_("Lf",Laf_+Lbf_)
+        /*,
         Faf_
         (
           IOobject
@@ -104,7 +130,9 @@ Foam::unsaturatedPorousModel::unsaturatedPorousModel
         dimensionedScalar("Fbf",dimless,0)
     )
     */
-{}
+{
+    this->update();
+}
 
 // -------------------------------------------------------------------------//
 

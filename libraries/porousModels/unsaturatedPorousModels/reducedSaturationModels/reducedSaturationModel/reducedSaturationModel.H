@@ -128,13 +128,15 @@ public:
     // Member Functions
 
     //- Return effective saturation
-    const volScalarField & Se() const
+//    const volScalarField & Se() const
+    tmp<volScalarField> Se() const
     {
         return Se_;
     }
 
     //- Return the derivative of Se
-    const volScalarField & dSedS() const
+//    const volScalarField & dSedS() const
+    tmp<volScalarField> dSedS() const
     {
         return dSedS_;
     }

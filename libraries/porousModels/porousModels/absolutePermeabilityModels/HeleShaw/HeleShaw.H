@@ -52,6 +52,11 @@ namespace absolutePermeabilityModels
 class HeleShaw : public absolutePermeabilityModel
 {
 
+
+  protected:
+
+    // Protected data
+
     dictionary HeleShawDict_;
 
     dimensionedScalar h_;
@@ -60,10 +65,7 @@ class HeleShaw : public absolutePermeabilityModel
 
     volScalarField invK_;
 
-
-  protected:
-
-    // Protected data
+    surfaceScalarField Kf_;
 
   // Private Member Functions
 
@@ -99,6 +101,8 @@ public:
     virtual tmp<volScalarField> absolutePermeability() const;
 
     virtual tmp<volScalarField> inversePermeability() const;
+
+    virtual tmp<surfaceScalarField> Kf() const;
 
     virtual void updatePermeability();
 

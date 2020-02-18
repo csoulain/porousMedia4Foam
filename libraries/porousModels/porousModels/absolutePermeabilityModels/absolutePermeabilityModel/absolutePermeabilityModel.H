@@ -39,6 +39,7 @@ SourceFiles
 #include "volFieldsFwd.H"
 #include "volFields.H"
 #include "runTimeSelectionTables.H"
+#include "surfaceInterpolate.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -118,6 +119,8 @@ public:
       virtual tmp<volScalarField> absolutePermeability() const =0;
 
       virtual tmp<volScalarField> inversePermeability() const =0;
+
+      virtual tmp<surfaceScalarField> Kf() const =0;
 
       virtual void updatePermeability() = 0;
 

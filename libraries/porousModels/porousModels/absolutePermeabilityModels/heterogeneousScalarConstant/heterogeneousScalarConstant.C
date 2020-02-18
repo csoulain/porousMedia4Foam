@@ -86,7 +86,8 @@ Foam::absolutePermeabilityModels::heterogeneousScalarConstant::heterogeneousScal
         ),
         1/K_,
         "zeroGradient"
-    )
+    ),
+    Kf_("Kf", fvc::interpolate(K_,"K"))
 {}
 
 // * * * * * * * * * * * * * * member functions  * * * * * * * * * * * * * * //
@@ -102,6 +103,14 @@ Foam::absolutePermeabilityModels::heterogeneousScalarConstant::inversePermeabili
 {
       return invK_;
 }
+
+Foam::tmp<Foam::surfaceScalarField>
+Foam::absolutePermeabilityModels::heterogeneousScalarConstant::Kf() const
+{
+      return Kf_;
+}
+
+
 
 void Foam::absolutePermeabilityModels::heterogeneousScalarConstant::updatePermeability()
 {

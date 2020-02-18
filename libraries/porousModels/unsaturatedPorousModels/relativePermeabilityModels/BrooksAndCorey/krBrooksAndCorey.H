@@ -90,6 +90,7 @@ public:
     //- Correct the relative permeabilities
     void correct()
     {
+
         kra_ = kramax_* pow((scalar(1)-Se_),n_);
         krb_ = krbmax_ * pow(Se_,n_);
 
@@ -98,6 +99,7 @@ public:
 
         kraf_=(fvc::interpolate(kra_,"kra"));
         krbf_=(fvc::interpolate(krb_,"krb"));
+
     }
 
 };

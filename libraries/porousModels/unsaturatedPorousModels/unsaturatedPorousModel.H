@@ -130,7 +130,6 @@ class unsaturatedPorousModel :  public porousModel
     tmp<surfaceScalarField> kraf() const
     {
         return relativePermeabilityModelPtr_->kraf();
-
     }
 
     tmp<surfaceScalarField> krbf() const
@@ -216,10 +215,9 @@ class unsaturatedPorousModel :  public porousModel
 
     void updateMobilities()
     {
-        Maf_ = Kf()*kraf()/phasea_.mu();
+        Maf_ = this->Kf()*this->kraf()/phasea_.mu();
         Mbf_ = Kf()*krbf()/phaseb_.mu();
         Mf_  = Maf_+Mbf_;
-
         Laf_ = Maf_*phasea_.rho();
         Lbf_ = Mbf_*phaseb_.rho();
         Lf_  = Laf_+Lbf_;
@@ -233,7 +231,7 @@ class unsaturatedPorousModel :  public porousModel
         reducedSaturationModelPtr_->updateReducedSaturation();
         relativePermeabilityModelPtr_->correct();
         capillarityModelPtr_->correct();
-        updateMobilities();
+        this->updateMobilities();
     }
 
 };

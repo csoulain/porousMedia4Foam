@@ -147,20 +147,12 @@ class porousModel
         return absolutePermeabilityModelPtr_->updatePermeability();
     }
 
-    surfaceScalarField Kf() const
+    tmp<surfaceScalarField> Kf() const
     {
-        surfaceScalarField Kf_
-        (
-          "Kf",
-          fvc::interpolate
-          (
-              absolutePermeabilityModelPtr_->absolutePermeability(),
-              "K"
-          )
-        );
+        return absolutePermeabilityModelPtr_->Kf();
+//          return fvc::interpolate(absolutePermeability(),"K");
 
-        return Kf_;
-      }
+    }
 
 
     const volScalarField & porosity() const

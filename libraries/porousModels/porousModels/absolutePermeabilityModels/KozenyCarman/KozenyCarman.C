@@ -86,6 +86,7 @@ Foam::absolutePermeabilityModels::KozenyCarman::KozenyCarman
         1/K_,
         "zeroGradient"
     ),
+    Kf_("Kf", fvc::interpolate(K_,"K")),
     eps_(mesh.lookupObject<volScalarField>(epsName_))
 {
 
@@ -107,6 +108,13 @@ Foam::absolutePermeabilityModels::KozenyCarman::inversePermeability() const
       return invK_;
 }
 
+Foam::tmp<Foam::surfaceScalarField>
+Foam::absolutePermeabilityModels::KozenyCarman::Kf() const
+{
+      return Kf_;
+}
+
+
 void Foam::absolutePermeabilityModels::KozenyCarman::updatePermeability()
 {
 
@@ -117,6 +125,7 @@ void Foam::absolutePermeabilityModels::KozenyCarman::updatePermeability()
 
   K_ = 1./(invK_+smallInvK_);
 
-}
+  Kf_ = fvc::interpolate(K_,"K");
 
+}
 // -------------------------------------------------------------------------//

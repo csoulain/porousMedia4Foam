@@ -55,6 +55,10 @@ namespace absolutePermeabilityModels
 class heterogeneousScalarConstant : public absolutePermeabilityModel
 {
 
+  protected:
+
+    // Protected data
+
     dictionary heterogeneousScalarConstantDict_;
 
     dimensionedScalar K0_;
@@ -63,10 +67,8 @@ class heterogeneousScalarConstant : public absolutePermeabilityModel
 
     volScalarField invK_;
 
+    surfaceScalarField Kf_;
 
-  protected:
-
-    // Protected data
 
   // Private Member Functions
 
@@ -102,6 +104,8 @@ public:
     virtual tmp<volScalarField> absolutePermeability() const;
 
     virtual tmp<volScalarField> inversePermeability() const;
+
+    virtual tmp<surfaceScalarField> Kf() const;
 
     virtual void updatePermeability();
 
