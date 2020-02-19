@@ -1,0 +1,6 @@
+basicGeochemicalModel/basicGeochemicalModel.C
+basicGeochemicalModel/basicGeochemicalModelNew.C
+
+geochemicalModel.C
+
+LIB = $(FOAM_USER_LIBBIN)/libgeochemicalModels

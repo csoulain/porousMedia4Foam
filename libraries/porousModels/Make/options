@@ -5,7 +5,7 @@ EXE_INC = \
     -I$(LIB_SRC)/thermophysicalModels/basic/lnInclude \
     -I$(LIB_SRC)/thermophysicalModels/reactionThermo/lnInclude \
     -I../otherModels/lnInclude \
-	-I../toolsGIS/lnInclude
+	  -I../toolsGIS/lnInclude
 
 
 EXE_LIBS = \
