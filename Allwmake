@@ -8,7 +8,7 @@ wmake libraries/porousModels
 wmake libraries/otherModels
 wmake libraries/toolsGIS
 wmake libraries/porousBoundaryConditions
-wmake libraries/geochemicalModels
+##wmake libraries/geochemicalModels
 
 
 # Compiling solvers
@@ -16,7 +16,7 @@ wmake solvers/darcyFoam
 wmake solvers/impesFoam
 wmake solvers/dbsSimpleFoam
 wmake solvers/dbsFoam
-#wmake solvers/dbsFoamBIS
+wmake solvers/dbsFoamBIS
 #wmake solvers/anisoImpesFoam
 #wmake solvers/threePhaseImpesFoam
 

@@ -39,4 +39,10 @@ unsaturatedPorousModels/capillarityModels/BrooksAndCorey/pcBrooksAndCorey.C
 unsaturatedPorousModels/unsaturatedPorousModel.C
 
 
+geochemicalModels/basicGeochemicalModel/basicGeochemicalModel.C
+geochemicalModels/basicGeochemicalModel/basicGeochemicalModelNew.C
+
+geochemicalModels/geochemicalModel.C
+
+
 LIB = $(FOAM_USER_LIBBIN)/libporousModels
