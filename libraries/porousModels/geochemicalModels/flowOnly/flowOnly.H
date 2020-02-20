@@ -61,26 +61,8 @@ class flowOnly : public basicGeochemicalModel
 
     // Protected data
 
-//    const fvMesh &mesh_;
-
-/*
-    PtrList<volScalarField> Ys_;
-
-    volScalarField inertMineral_;
-
-    volScalarField eps_;
-*/
 
 
-//    autoPtr<surfaceAreaModel> surfaceAreaModelPtr_;
-
-//    tmp<volScalarField> Ae_;
-//    volScalarField Ae_;
-
-//    autoPtr<permeabilityModel> permeabilityModelPtr_;
-/*
-    tmp<volScalarField> invK_;
-*/
   // Private Member Functions
 
     //- Disallow copy construct
@@ -112,70 +94,11 @@ class flowOnly : public basicGeochemicalModel
 
     // Member Functions
 
-    //- Return the composition of the multi-component mixture
-//    virtual basicMultiComponentMixture& composition() = 0;
-
-    //- Return the composition of the multi-component mixture
-//    virtual const basicMultiComponentMixture& composition() const = 0;
-
-/*
-
-    virtual void updatePorosity();
-
-    virtual void updatePermeability();
-*/
-/*
-    tmp<volScalarField> surfaceArea() const
-//    volScalarField surfaceArea() const
-    {
-        return surfaceAreaModelPtr_->surfaceArea();
-    }
-
-    void updateSurfaceArea()
-    {
-        return surfaceAreaModelPtr_->updateSurfaceArea();
-    }
-
-
-    tmp<volScalarField> permeability() const
-    {
-        return permeabilityModelPtr_->permeability();
-    }
-
-    tmp<volScalarField> inversePermeability() const
-    {
-        return permeabilityModelPtr_->inversePermeability();
-    }
-
-    void updatePermeability()
-    {
-        return permeabilityModelPtr_->updatePermeability();
-    }
-*/
-
-/*
-    const PtrList<volScalarField>& mineralsDistribution() const
-    {
-        return Ys_;
-    }
-
-    const volScalarField & porosity() const
-    {
-        return eps_;
-    }
-
-*/
-
-    virtual void updatePorosity()
+    virtual void updateFluidComposition()
     {}
 
-  //  virtual volScalarField dMs()
-  //  {}
-
-    void coucou()
-    {
-        Info << "COUCOU flowOnly" << nl <<endl;
-    }
+    virtual void updateMineralDistribution()
+    {}
 
 };
 

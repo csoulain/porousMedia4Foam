@@ -25,157 +25,106 @@ Class
     Foam::twoPhaseMixture
 
 Description
-    basicGeochemicalModel module
+    simpleFirstOrderKinetic module
 
 SourceFiles
     phreeqc.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef basicGeochemicalModel_H
-#define basicGeochemicalModel_H
+#ifndef simpleFirstOrderKinetic_H
+#define simpleFirstOrderKinetic_H
 
 //#include "dictionary.H"
 //#include "volFieldsFwd.H"
 #include "volFields.H"
 #include "speciesTable.H"
 #include "runTimeSelectionTables.H"
-#include "porousModel.H"
+#include "basicGeochemicalModel.H"
 //#include "autoPtr.H"
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
+{
+namespace geochemicalModels
 {
 
 /*---------------------------------------------------------------------------*\
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class basicGeochemicalModel
+class simpleFirstOrderKinetic : public basicGeochemicalModel
 {
+
+
+  dictionary  simpleFirstOrderKineticDict_;
 
 
   protected:
 
     // Protected data
 
-    const fvMesh &mesh_;
+    word mineral_;
 
-    speciesTable mineralList_;
+    dictionary transportPropertiesDict_;
 
-    PtrList<volScalarField> Ys_;
+    PtrList<dictionary> mineralSubDict_;
 
-    volScalarField inertMineral_;
+    PtrList<dimensionedScalar> Vm_;
 
-    volScalarField eps_;
 
-    PtrList<porousModel> porousMedia_;
+    PtrList<dimensionedScalar> ki_;
+    PtrList<dimensionedScalar> Ceq_;
 
-//    tmp<volScalarField> Ae_;
-//    volScalarField Ae_;
 
-    autoPtr<absolutePermeabilityModel> absolutePermeabilityModelPtr_;
+    dimensionedScalar Di_;
+  //  dimensionedScalar alphaL_;
 
-    word phiName_;
-
-    const surfaceScalarField &phi_;
-
-    // concentration fields
-    PtrList<volScalarField> Y_;
 
 
   // Private Member Functions
 
+    void readMineralProperties();
+
     //- Disallow copy construct
-    basicGeochemicalModel(const basicGeochemicalModel&);
+    simpleFirstOrderKinetic(const simpleFirstOrderKinetic&);
 
 
   public:
 
     //- Runtime type information
-      TypeName("basicGeochemicalModel");
+      TypeName("simpleFirstOrderKinetic");
 
 
     // Declare run-time constructor selection table
-
-      declareRunTimeSelectionTable
-      (
-          autoPtr,
-          basicGeochemicalModel,
-          dictionary,
-          (
-              const fvMesh& mesh,
-              const dictionary& dict
-          ),
-          (mesh, dict)
-      );
-
-    // Selectors
-
-        //- Return a reference to the selected viscosity model
-        static autoPtr<basicGeochemicalModel> New
-        (
-            const fvMesh& mesh,
-            const dictionary& dict
-        );
-
 
   // Constructors
 
     //- Construct from components
 
-    basicGeochemicalModel
+    simpleFirstOrderKinetic
     (
         const fvMesh& mesh,
         const dictionary& dict
     );
 
     //- Destructor
-    virtual ~basicGeochemicalModel()
+    virtual ~simpleFirstOrderKinetic()
     {}
 
 
     // Member Functions
 
-    void updatePorosity();
+    virtual void updateFluidComposition();
 
-  //  virtual volScalarField dMs() const = 0;
+    virtual void updateMineralDistribution();
 
-    tmp<volScalarField> porosity() const
-    {
-        return eps_;
-    }
-
-    tmp<volScalarField> absolutePermeability() const
-    {
-        return absolutePermeabilityModelPtr_->absolutePermeability();
-    }
-
-    tmp<volScalarField> inversePermeability() const
-    {
-        return absolutePermeabilityModelPtr_->inversePermeability();
-    }
-
-    void updatePermeability()
-    {
-        absolutePermeabilityModelPtr_->updatePermeability();
-    }
-
-
-    virtual void updateFluidComposition() = 0;
-
-    virtual void updateMineralDistribution() = 0;
-
-
-    void coucou()
-    {
-        Info << "COUCOU " << nl <<endl;
-    }
 
 };
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+} // End namespace geochemicalModels
 
 } // End namespace Foam
 

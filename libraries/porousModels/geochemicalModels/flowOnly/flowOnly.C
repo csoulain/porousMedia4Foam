@@ -53,10 +53,10 @@ Foam::geochemicalModels::flowOnly::flowOnly
 )
 :
       basicGeochemicalModel(mesh, dict)
-///      rhol_(dict.lookup("rhol"))
 {
-    Info << " flowOnly, no geochemistry " << nl << endl;
+    Y_.resize(0);
 }
+
 
 // -------------------------------------------------------------------------//
 
@@ -74,17 +74,4 @@ Foam::volScalarField Foam::flowOnly::dMl() const
 }
 */
 
-/*
-Foam::volScalarField Foam::flowOnly::rhol() const
-{
-
-    volScalarField rhol_(0.0*Y_[0]);
-    forAll(Y_,s)
-    {
-        rhol_ = rhol_ + Y_[s];
-    }
-
-    return rhol_;
-}
-*/
 // ************************************************************************* //

@@ -76,7 +76,9 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
       absolutePermeabilityModelPtr_
       (
           absolutePermeabilityModel::New(mesh, dict)
-      )
+      ),
+      phiName_(dict.lookupOrDefault<word>("phi","phi")),
+      phi_(mesh.lookupObject<surfaceScalarField>(phiName_))
 ///      rhol_(dict.lookup("rhol"))
 {
 
