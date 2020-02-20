@@ -59,6 +59,10 @@ Foam::absolutePermeabilityModels::KozenyCarman::KozenyCarman
         "K0",
         dimensionedScalar("K0",dimensionSet(0,2,0,0,0,0,0),SMALL))
     ),
+    updateFromInitialValue_
+    (
+        KozenyCarmanDict_.lookupOrDefault<Switch>("updateFromInitialValue",false)
+    ),
     K_
     (
         IOobject
@@ -90,7 +94,7 @@ Foam::absolutePermeabilityModels::KozenyCarman::KozenyCarman
     eps_(mesh.lookupObject<volScalarField>(epsName_))
 {
 
-    updatePermeability();
+//    updatePermeability();
 
 }
 
@@ -118,8 +122,20 @@ Foam::absolutePermeabilityModels::KozenyCarman::Kf() const
 void Foam::absolutePermeabilityModels::KozenyCarman::updatePermeability()
 {
 
-  invK_= Foam::pow((1.-eps_),2)/(Foam::pow(eps_+SMALL,3))/K0_;
+  if(updateFromInitialValue_)
+  {
+      invK_= Foam::pow((1.-eps_),2)/(Foam::pow(eps_+SMALL,3))/K0_;
+  }
+  else
+  {
+    invK_= Foam::pow((1.-eps_),2)/(Foam::pow(eps_+SMALL,3))
+          /(Foam::pow((1.-eps_.oldTime()-SMALL),2)/(Foam::pow(eps_.oldTime()+SMALL,3)))
+          *invK_.oldTime();
+  }
+
   invK_.max(0.0);
+
+
 
   dimensionedScalar smallInvK_("smallInvK",dimensionSet(0,-2,0,0,0),SMALL);
 

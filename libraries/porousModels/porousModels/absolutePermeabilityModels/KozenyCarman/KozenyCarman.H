@@ -65,6 +65,8 @@ class KozenyCarman : public absolutePermeabilityModel
 
     dimensionedScalar K0_;
 
+    Switch updateFromInitialValue_;
+
     volScalarField K_;
 
     volScalarField invK_;
