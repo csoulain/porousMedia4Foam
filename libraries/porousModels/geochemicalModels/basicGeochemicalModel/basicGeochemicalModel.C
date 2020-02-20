@@ -41,11 +41,85 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
     const dictionary& dict
 )
 :
-//      basicGeochemicalModel(mesh, dict.subDict("geochemicalProperties")),
       mesh_(mesh),
-      mineralList_(dict.lookup("mineral"))
+      mineralList_(dict.lookup("mineral")),
+      Ys_(mineralList_.size() ),
+      inertMineral_
+      (
+          IOobject
+          (
+              "inertMineral",
+              mesh.time().timeName(),
+              mesh,
+              IOobject::READ_IF_PRESENT,
+              IOobject::AUTO_WRITE
+          ),
+          mesh,
+          dimensionedScalar("inertMineral",dimless,0.0),
+          "zeroGradient"
+      ),
+      eps_
+      (
+          IOobject
+          (
+              "eps",
+              mesh.time().timeName(),
+              mesh,
+              IOobject::NO_READ,
+              IOobject::AUTO_WRITE
+          ),
+          mesh,
+          dimensionedScalar("eps",dimless,1.0),
+          "zeroGradient"
+      ),
+      porousMedia_(mineralList_.size()),
+      absolutePermeabilityModelPtr_
+      (
+          absolutePermeabilityModel::New(mesh, dict)
+      )
 ///      rhol_(dict.lookup("rhol"))
 {
+
+    forAll(mineralList_,s)
+    {
+      word currentMineral = mineralList_[s];
+      Info << " Doing stuff for mineral: " << currentMineral << endl;
+
+      Ys_.set
+      (
+        s,
+        new volScalarField
+        (
+          IOobject
+          (
+            "Ys."+mineralList_[s],
+            mesh_.time().timeName(),
+            mesh_,
+            IOobject::MUST_READ, //READ_IF_PRESENT,  //MUST_READ ??
+            IOobject::AUTO_WRITE
+          ),
+          mesh_ //,
+          //		dimensionedScalar(currentMineral,dimless,0.0),
+          //		"zeroGradient"
+        )
+      );
+      Ys_[s].write();
+
+      porousMedia_.set
+      (
+        s,
+        new porousModel
+        (
+          mesh,
+          mineralList_[s],
+          Ys_[s],
+          dict
+        )
+      );
+    }
+    updatePorosity();
+
+
 }
 
 // -------------------------------------------------------------------------//
@@ -77,4 +151,17 @@ Foam::volScalarField Foam::basicGeochemicalModel::rhol() const
     return rhol_;
 }
 */
+
+void Foam::basicGeochemicalModel::updatePorosity()
+{
+    eps_ = 0.0*eps_;
+    forAll(mineralList_,s)
+    {
+        eps_+=Ys_[s];
+    }
+    eps_ = 1.-eps_-inertMineral_;
+}
+
+
+
 // ************************************************************************* //

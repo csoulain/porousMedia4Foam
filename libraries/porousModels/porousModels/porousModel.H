@@ -44,8 +44,6 @@ Authors
 
 #include "volFields.H"
 #include "surfaceInterpolate.H"
-//#include "speciesTable.H"
-//#include "runTimeSelectionTables.H"
 #include "absolutePermeabilityModel.H"
 #include "surfaceAreaModel.H"
 //#include "autoPtr.H"
@@ -67,6 +65,8 @@ class porousModel
     // Protected data
 
     const fvMesh &mesh_;
+
+    word porousMediaName_;
 
     dictionary porousMediaDict_;
 
@@ -103,6 +103,7 @@ class porousModel
     porousModel
     (
         const fvMesh& mesh,
+        const word & name,
         const volScalarField& Ys,
         const dictionary& dict
     );

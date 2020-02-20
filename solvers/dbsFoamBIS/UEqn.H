@@ -3,8 +3,9 @@ laminarTransport.correct();
 
 tmp<fvVectorMatrix> tUEqn
 (
-    fvm::ddt(U) + fvm::div(phi, U)
-  - fvm::laplacian(laminarTransport.nu(),U)
+    1./(eps+SMALL)*(fvm::ddt(U) + fvm::div(phi, U))
+  - fvm::laplacian(laminarTransport.nu()/(eps+SMALL),U)
+  + fvm::Sp(laminarTransport.nu()*invK,U)
 );
 fvVectorMatrix& UEqn = tUEqn.ref();
 

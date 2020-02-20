@@ -62,21 +62,19 @@ class basicGeochemicalModel
     const fvMesh &mesh_;
 
     speciesTable mineralList_;
-/*
+
     PtrList<volScalarField> Ys_;
 
     volScalarField inertMineral_;
 
     volScalarField eps_;
-*/
 
-
-//    autoPtr<surfaceAreaModel> surfaceAreaModelPtr_;
+    PtrList<porousModel> porousMedia_;
 
 //    tmp<volScalarField> Ae_;
 //    volScalarField Ae_;
 
-//    autoPtr<permeabilityModel> permeabilityModelPtr_;
+    autoPtr<absolutePermeabilityModel> absolutePermeabilityModelPtr_;
 /*
     tmp<volScalarField> invK_;
 */
@@ -145,7 +143,8 @@ class basicGeochemicalModel
 
     virtual void updatePermeability();
 */
-/*
+/*    rm -f $FOAM_USER_LIBBIN/libgeochemicalModels.so
+
     tmp<volScalarField> surfaceArea() const
 //    volScalarField surfaceArea() const
     {
@@ -187,9 +186,24 @@ class basicGeochemicalModel
 
 */
 
-    virtual void updatePorosity() = 0;
+    void updatePorosity();
 
-    virtual volScalarField dMs() const = 0;
+  //  virtual volScalarField dMs() const = 0;
+
+    tmp<volScalarField> porosity() const
+    {
+        return eps_;
+    }
+
+    tmp<volScalarField> absolutePermeability() const
+    {
+        return absolutePermeabilityModelPtr_->absolutePermeability();
+    }
+
+    tmp<volScalarField> inversePermeability() const
+    {
+        return absolutePermeabilityModelPtr_->inversePermeability();
+    }
 
     void coucou()
     {

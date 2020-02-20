@@ -22,42 +22,38 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::geochemicalModel
+    Foam::twoPhaseMixture
 
 Description
-    geochemicalModel module for geometric porous media properties including
-      - porosity
-      - absolute permeability models
-      - surface area models
-
+    flowOnly module
 
 SourceFiles
-    geochemicalModel.C
-
-Authors
-    - 18/2/2020 C. Soulaine
+    phreeqc.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef geochemicalModel_H
-#define geochemicalModel_H
+#ifndef flowOnly_H
+#define flowOnly_H
 
+//#include "dictionary.H"
+//#include "volFieldsFwd.H"
 #include "volFields.H"
-#include "surfaceInterpolate.H"
-//#include "speciesTable.H"
-//#include "runTimeSelectionTables.H"
+#include "speciesTable.H"
+#include "runTimeSelectionTables.H"
 #include "basicGeochemicalModel.H"
 //#include "autoPtr.H"
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
 {
+namespace geochemicalModels
+{
 
 /*---------------------------------------------------------------------------*\
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class geochemicalModel
+class flowOnly : public basicGeochemicalModel
 {
 
 
@@ -65,47 +61,52 @@ class geochemicalModel
 
     // Protected data
 
-    const fvMesh &mesh_;
+//    const fvMesh &mesh_;
 
-    dictionary geochemicalModelDict_;
+/*
+    PtrList<volScalarField> Ys_;
 
-//    volScalarField Ys_;
+    volScalarField inertMineral_;
 
-//    volScalarField eps_;
+    volScalarField eps_;
+*/
 
-    autoPtr<basicGeochemicalModel> basicGeochemicalModelPtr_;
 
+//    autoPtr<surfaceAreaModel> surfaceAreaModelPtr_;
 
+//    tmp<volScalarField> Ae_;
+//    volScalarField Ae_;
+
+//    autoPtr<permeabilityModel> permeabilityModelPtr_;
 /*
     tmp<volScalarField> invK_;
 */
   // Private Member Functions
 
     //- Disallow copy construct
-    geochemicalModel(const geochemicalModel&);
+    flowOnly(const flowOnly&);
 
 
   public:
+
+    //- Runtime type information
+      TypeName("flowOnly");
+
+
+    // Declare run-time constructor selection table
 
   // Constructors
 
     //- Construct from components
 
-    geochemicalModel
+    flowOnly
     (
         const fvMesh& mesh,
-        const dictionary& dict
-    );
-
-    geochemicalModel
-    (
-        const fvMesh& mesh,
-        const volScalarField& Ys,
         const dictionary& dict
     );
 
     //- Destructor
-    ~geochemicalModel()
+    virtual ~flowOnly()
     {}
 
 
@@ -118,7 +119,14 @@ class geochemicalModel
 //    virtual const basicMultiComponentMixture& composition() const = 0;
 
 /*
+
+    virtual void updatePorosity();
+
+    virtual void updatePermeability();
+*/
+/*
     tmp<volScalarField> surfaceArea() const
+//    volScalarField surfaceArea() const
     {
         return surfaceAreaModelPtr_->surfaceArea();
     }
@@ -129,58 +137,51 @@ class geochemicalModel
     }
 
 
-    tmp<volScalarField> absolutePermeability() const
+    tmp<volScalarField> permeability() const
     {
-        return absolutePermeabilityModelPtr_->absolutePermeability();
-    }
-
-    tmp<volScalarField> invK() const
-    {
-        return absolutePermeabilityModelPtr_->inversePermeability();
-    }
-
-    void updatePermeability()
-    {
-        return absolutePermeabilityModelPtr_->updatePermeability();
-    }
-
-    tmp<surfaceScalarField> Kf() const
-    {
-        return absolutePermeabilityModelPtr_->Kf();
-//          return fvc::interpolate(absolutePermeability(),"K");
-
-    }
-
-
-
-*/
-
-    const volScalarField & absolutePermeability()  const
-    {
-        return basicGeochemicalModelPtr_->absolutePermeability();
+        return permeabilityModelPtr_->permeability();
     }
 
     tmp<volScalarField> inversePermeability() const
     {
-        return basicGeochemicalModelPtr_->inversePermeability();
+        return permeabilityModelPtr_->inversePermeability();
     }
 
-
-    const volScalarField & porosity()  const
+    void updatePermeability()
     {
-        return basicGeochemicalModelPtr_->porosity();
+        return permeabilityModelPtr_->updatePermeability();
+    }
+*/
+
+/*
+    const PtrList<volScalarField>& mineralsDistribution() const
+    {
+        return Ys_;
     }
 
-    void update()
+    const volScalarField & porosity() const
     {
-        Info << "geochemistry update " <<endl;
-        basicGeochemicalModelPtr_->updatePorosity();
+        return eps_;
+    }
+
+*/
+
+    virtual void updatePorosity()
+    {}
+
+  //  virtual volScalarField dMs()
+  //  {}
+
+    void coucou()
+    {
+        Info << "COUCOU flowOnly" << nl <<endl;
     }
 
 };
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+} // End namespace geochemicalModels
 
 } // End namespace Foam
 

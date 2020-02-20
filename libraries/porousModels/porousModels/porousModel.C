@@ -39,7 +39,8 @@ Foam::porousModel::porousModel
 )
 :
         mesh_(mesh),
-        porousMediaDict_(dict.subDict("porousMediaProperties")),
+        porousMediaName_("porousMedia"),
+        porousMediaDict_(dict.subDict(porousMediaName_+"Properties")),
         Ys_
         (
             IOobject
@@ -81,12 +82,14 @@ Foam::porousModel::porousModel
 Foam::porousModel::porousModel
 (
     const fvMesh& mesh,
+    const word & name,
     const volScalarField& Ys,
     const dictionary& dict
 )
 :
         mesh_(mesh),
-        porousMediaDict_(dict.subDict("porousMediaProperties")),
+        porousMediaName_(name),
+        porousMediaDict_(dict.subDict(porousMediaName_+"Properties")),
         Ys_(Ys),
         eps_
         (
@@ -100,10 +103,13 @@ Foam::porousModel::porousModel
             ),
             1.-Ys-SMALL
         ),
+        /*
         absolutePermeabilityModelPtr_
         (
             absolutePermeabilityModel::New(mesh, porousMediaDict_)
         ),
+        */
+        absolutePermeabilityModelPtr_(NULL),
         surfaceAreaModelPtr_
         (
             surfaceAreaModel::New(mesh, Ys_, porousMediaDict_)

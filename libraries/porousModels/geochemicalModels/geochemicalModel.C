@@ -39,7 +39,7 @@ Foam::geochemicalModel::geochemicalModel
 )
 :
         mesh_(mesh),
-        geochemicalModelDict_(dict.subDict("porousMediaProperties")),
+        geochemicalModelDict_(dict.subDict("geochemicalProperties")),
 /*        Ys_
         (
             IOobject

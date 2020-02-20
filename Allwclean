@@ -22,5 +22,4 @@ then
     rm -f $FOAM_USER_LIBBIN/libporousModels.so
     rm -f $FOAM_USER_LIBBIN/libtoolsGIS.so
     rm -f $FOAM_USER_LIBBIN/liboherModelsGIS.so
-    rm -f $FOAM_USER_LIBBIN/libgeochemicalModels.so
 fi

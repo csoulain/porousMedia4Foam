@@ -58,3 +58,10 @@ IOdictionary transportProperties
 //  = geochemicalModel::New(mesh,transportProperties);
 
 geochemicalModel geochemistry(mesh,transportProperties);
+
+
+Info << nl << "Reading/generating porosity field eps" << endl;
+const volScalarField & eps = geochemistry.porosity();
+
+Info << nl << "Reading/generating permeability field invK" << endl;
+const volScalarField & invK = geochemistry.inversePermeability();

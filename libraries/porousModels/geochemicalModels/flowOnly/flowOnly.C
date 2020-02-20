@@ -23,38 +23,68 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "surfaceAreaModel.H"
-#include "volFields.H"
+#include "flowOnly.H"
+#include "addToRunTimeSelectionTable.H"
 
-// ************************************************************************* //
 
-Foam::autoPtr<Foam::surfaceAreaModel> Foam::surfaceAreaModel::New
-(
-    const fvMesh& mesh,
-    const volScalarField& eps,
-    const dictionary& dict
-)
+// * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
+
+namespace Foam
 {
-    const word modelType(dict.lookup("surfaceAreaModel"));
-
-    Info<< "Selecting surface area model " << modelType << endl;
-
-    dictionaryConstructorTable::iterator cstrIter =
-        dictionaryConstructorTablePtr_->find(modelType);
-
-    if (cstrIter == dictionaryConstructorTablePtr_->end())
+    namespace geochemicalModels
     {
-        FatalErrorInFunction
-            << "Unknown surfaceAreaModel type "
-            << modelType << nl << nl
-            << "Valid surfaceAreaModel are : " << endl
-            << dictionaryConstructorTablePtr_->sortedToc()
-            << exit(FatalError);
-    }
+        defineTypeNameAndDebug(flowOnly, 0);
 
-    return autoPtr<surfaceAreaModel>
-        (cstrIter()(mesh, eps, dict));
+        addToRunTimeSelectionTable
+        (
+            basicGeochemicalModel,
+            flowOnly,
+            dictionary
+        );
+    }
 }
 
+// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
+Foam::geochemicalModels::flowOnly::flowOnly
+(
+    const fvMesh& mesh,
+    const dictionary& dict
+)
+:
+      basicGeochemicalModel(mesh, dict)
+///      rhol_(dict.lookup("rhol"))
+{
+    Info << " flowOnly, no geochemistry " << nl << endl;
+}
+
+// -------------------------------------------------------------------------//
+
+/*
+Foam::volScalarField Foam::flowOnly::dMl() const
+{
+
+    volScalarField dMl_(0.0*fvc::ddt(Y_[0])/this->rhol());
+    forAll(Y_,s)
+    {
+        dMl_ = dMl_ + fvc::ddt(Y_[s])/this->rhol();
+    }
+
+    return dMl_;
+}
+*/
+
+/*
+Foam::volScalarField Foam::flowOnly::rhol() const
+{
+
+    volScalarField rhol_(0.0*Y_[0]);
+    forAll(Y_,s)
+    {
+        rhol_ = rhol_ + Y_[s];
+    }
+
+    return rhol_;
+}
+*/
 // ************************************************************************* //
