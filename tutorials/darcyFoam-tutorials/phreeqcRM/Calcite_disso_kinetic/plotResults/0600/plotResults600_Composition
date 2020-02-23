@@ -1,0 +1,33 @@
+set terminal postscript eps enhanced color font 'Verdana,17'
+set output '0600_Composition.eps'
+
+
+##unset key
+set key Left reverse at 0.45,0.006 
+##set yrange [-0.002:1]
+set xrange [0:0.495]
+set xlabel "Distance (m)"
+set ylabel "Concentration (mol/L)"
+set grid
+##set format x "%2.0tx10^{%L}"
+#set xtics 0,2e-4,1e-3
+
+
+#set label 1 '-30 MPa' 	at 2.1e-4, .62 rotate 	by 45 center tc ls 1 font 'Verdana,12'
+
+
+massTot  = 2.46331e-16
+flux_inf = 1.24725e-13
+
+OF_RESULTS="../../postProcessing/singleGraph/600/line_pH_Y.Cl_Y.Ca_Y.C_Ys.Calcite.xy"
+PC_RESULTS="Phreeqc_600.csv"
+
+plot PC_RESULTS 			using 1:3  with lines lw 4 lc 2 		   title 'Cl Phreeqc'	,\
+	 OF_RESULTS			 	using 1:3  with lines lw 4 lc 2 dashtype 3 title 'Cl OpenFoam-Phreeqc' 	,\
+	 PC_RESULTS 			using 1:4  with lines lw 4 lc 3  		   title 'Ca Phreeqc' 	,\
+	 OF_RESULTS			 	using 1:4  with lines lw 4 lc 3 dashtype 3 title 'Ca OpenFoam-Phreeqc' 	,\
+	 PC_RESULTS 			using 1:5  with lines lw 4 lc 4 		   title 'C(4) Phreeqc' 	,\
+	 OF_RESULTS			 	using 1:5  with lines lw 4 lc 4 dashtype 3 title 'C(4) OpenFoam-Phreeqc'
+
+
+##reread

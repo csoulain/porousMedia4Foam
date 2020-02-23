@@ -1,0 +1,27 @@
+set terminal postscript eps enhanced color font 'Verdana,17'
+set output '2400_Mineral.eps'
+
+
+##unset key
+set key Left reverse at 0.256,0.0275 
+set yrange [0:0.0305]
+set xrange [0:0.495]
+set xlabel "Distance (m)"
+set ylabel "Mineral volume fraction"
+set grid
+##set format x "%2.0tx10^{%L}"
+#set xtics 0,2e-4,1e-3
+
+
+#set label 1 '-30 MPa' 	at 2.1e-4, .62 rotate 	by 45 center tc ls 1 font 'Verdana,12'
+
+
+OF_RESULTS="../../postProcessing/singleGraph/2400/line_pH_Y.Cl_Y.Ca_Y.C_Ys.Calcite.xy"
+PC_RESULTS="Phreeqc_2400.csv"
+
+
+plot PC_RESULTS 	using 1:6  with lines lw 4 lc 6 		   title 'Calcite Phreeqc'	,\
+	 OF_RESULTS 	using 1:6 with lines  lw 4 lc 6 dashtype 3 title 'Calcite OpenFoam-Phreeqc'
+
+
+##reread

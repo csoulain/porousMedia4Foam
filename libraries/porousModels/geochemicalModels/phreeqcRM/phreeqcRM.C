@@ -385,7 +385,7 @@ void Foam::geochemicalModels::phreeqcRM::initializeMineralDistribution()
         s,
         new dictionary
         (
-              transportPropertiesDict_.subDict(currentMineral)
+              transportPropertiesDict_.subDict(currentMineral+"Properties")
         )
     );
 
@@ -446,7 +446,12 @@ void Foam::geochemicalModels::phreeqcRM::updatePorosityPhreeqc()
 {
     if(activateUpdatePorosity_)
     {
-        updatePorosity();
+        eps_ = 0.0*eps_;
+        forAll(mineralList_,s)
+        {
+            eps_+=Ys_[s];
+        }
+        eps_ = 1.-eps_-inertMineral_;
 
         std::vector<double> por;
         por.resize(nxyz_, 0);
@@ -458,6 +463,11 @@ void Foam::geochemicalModels::phreeqcRM::updatePorosityPhreeqc()
         // Set initial porosity
         status = phreeqc_.SetPorosity(por);
     }
+}
+
+void Foam::geochemicalModels::phreeqcRM::updatePorosity()
+{
+      updatePorosityPhreeqc();
 }
 
 // -------------------------------------------------------------------------//
