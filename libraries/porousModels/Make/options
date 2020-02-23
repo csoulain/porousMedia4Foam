@@ -10,4 +10,5 @@ EXE_LIBS = \
     -lfiniteVolume \
     -lspecie \
     -lotherModels \
-    -ltoolsGIS
+    -ltoolsGIS \
+    -/usr/local/lib/ -lphreeqcrm

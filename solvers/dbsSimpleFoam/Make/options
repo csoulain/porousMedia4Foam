@@ -14,4 +14,5 @@ EXE_LIBS = \
     -lfvOptions \
     -lsampling \
     -L$(FOAM_USER_LIBBIN) \
-    -lporousModels
+    -lporousModels \
+    -I/usr/local/lib/ -lphreeqcrm

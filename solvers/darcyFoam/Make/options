@@ -13,4 +13,5 @@ EXE_LIBS = \
     -lporousBoundaryConditions \
     -lporousModels \
     -lotherModels \
-    -ltoolsGIS
+    -ltoolsGIS \
+    -I/usr/local/lib/ -lphreeqcrm

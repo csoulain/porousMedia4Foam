@@ -22,164 +22,151 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::basicGeochemicalModel
+    Foam::twoPhaseMixture
 
 Description
-    basicGeochemicalModel module
+    phreeqcRM module
 
 SourceFiles
-    basicGeochemicalModel.C
-
-Authors
-    17/02/2020 : C. Soulaine
-
+    phreeqc.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef basicGeochemicalModel_H
-#define basicGeochemicalModel_H
+#ifndef phreeqcRM_H
+#define phreeqcRM_H
 
 //#include "dictionary.H"
 //#include "volFieldsFwd.H"
 #include "volFields.H"
 #include "speciesTable.H"
 #include "runTimeSelectionTables.H"
-#include "porousModel.H"
+#include "basicGeochemicalModel.H"
 //#include "autoPtr.H"
+#include "PhreeqcRM.h"
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
+{
+namespace geochemicalModels
 {
 
 /*---------------------------------------------------------------------------*\
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class basicGeochemicalModel
+class phreeqcRM : public basicGeochemicalModel
 {
 
+
+  dictionary  phreeqcDict_;
 
   protected:
 
     // Protected data
+    dictionary transportPropertiesDict_;
 
-    const fvMesh &mesh_;
+    Switch activateUpdatePorosity_ ;
 
-    speciesTable mineralList_;
+    Switch setComponentH2O_ ;
 
-    PtrList<volScalarField> Ys_;
+    label nthread_;
+    int nxyz_;
 
-    volScalarField inertMineral_;
+    word phreeqcInputFile_;
+    word phreeqcDataBase_;
 
-    volScalarField eps_;
+  //  speciesTable mineralList_;
 
-    PtrList<porousModel> porousMedia_;
+    PtrList<dictionary> mineralSubDict_;
 
-//    tmp<volScalarField> Ae_;
-//    volScalarField Ae_;
+    PtrList<Switch> activatePhaseEquilibrium_ ;
 
-    autoPtr<absolutePermeabilityModel> absolutePermeabilityModelPtr_;
+    PtrList<dimensionedScalar> Vm_;
 
-    word phiName_;
 
-    const surfaceScalarField &phi_;
+    dimensionedScalar Di_;
+    dimensionedScalar alphaL_;
 
-    // concentration fields
-    PtrList<volScalarField> Y_;
+    word UName_;
+    const volVectorField & U_;
 
+
+    volScalarField pH_;
+
+//    volScalarField Aee_;
+
+    PhreeqcRM  phreeqc_;
+
+    IRM_RESULT status;
+
+  // Private Member Functions
+
+    std::string generateEqPhasesInputString();
+
+    std::string generateKineticsInputString();
+
+    void updateKineticsParameters();
+
+    void initializeMineralDistribution();
+
+    void initializeFluidComposition();
+
+    void activateSelectedOutput();
+
+    void updatepH();
+
+    void updatePorosityPhreeqc();
 
   // Private Member Functions
 
     //- Disallow copy construct
-    basicGeochemicalModel(const basicGeochemicalModel&);
+    phreeqcRM(const phreeqcRM&);
 
 
   public:
 
     //- Runtime type information
-      TypeName("basicGeochemicalModel");
+      TypeName("phreeqcRM");
 
 
     // Declare run-time constructor selection table
-
-      declareRunTimeSelectionTable
-      (
-          autoPtr,
-          basicGeochemicalModel,
-          dictionary,
-          (
-              const fvMesh& mesh,
-              const dictionary& dict
-          ),
-          (mesh, dict)
-      );
-
-    // Selectors
-
-        //- Return a reference to the selected viscosity model
-        static autoPtr<basicGeochemicalModel> New
-        (
-            const fvMesh& mesh,
-            const dictionary& dict
-        );
-
 
   // Constructors
 
     //- Construct from components
 
-    basicGeochemicalModel
+    phreeqcRM
     (
         const fvMesh& mesh,
         const dictionary& dict
     );
 
     //- Destructor
-    virtual ~basicGeochemicalModel()
+    virtual ~phreeqcRM()
     {}
 
 
     // Member Functions
 
-    void updatePorosity();
+    virtual void updateFluidComposition();
 
-  //  virtual volScalarField dMs() const = 0;
+    virtual void updateMineralDistribution();
 
-    tmp<volScalarField> porosity() const
+    void update()
     {
-        return eps_;
-    }
-
-    tmp<volScalarField> absolutePermeability() const
-    {
-        return absolutePermeabilityModelPtr_->absolutePermeability();
-    }
-
-    tmp<volScalarField> inversePermeability() const
-    {
-        return absolutePermeabilityModelPtr_->inversePermeability();
-    }
-
-    void updatePermeability()
-    {
-        absolutePermeabilityModelPtr_->updatePermeability();
-    }
-
-
-    virtual void updateFluidComposition() = 0;
-
-    virtual void updateMineralDistribution() = 0;
-
-
-    void coucou()
-    {
-        Info << "COUCOU " << nl <<endl;
+        Info << "phreeqc update" << nl << endl;
+        updateFluidComposition();
+        updateMineralDistribution();
+        updatePorosityPhreeqc();
+        updatePermeability();
     }
 
 };
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+} // End namespace geochemicalModels
 
 } // End namespace Foam
 

@@ -43,6 +43,8 @@ geochemicalModels/basicGeochemicalModel/basicGeochemicalModel.C
 geochemicalModels/basicGeochemicalModel/basicGeochemicalModelNew.C
 geochemicalModels/flowOnly/flowOnly.C
 geochemicalModels/simpleFirstOrderKinetic/simpleFirstOrderKinetic.C
+geochemicalModels/phreeqcRM/phreeqcRM.C
+
 
 
 geochemicalModels/geochemicalModel.C

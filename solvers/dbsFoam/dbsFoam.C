@@ -39,6 +39,9 @@ Description
 #include "CorrectPhi.H"
 #include "localEulerDdtScheme.H"
 #include "fvcSmooth.H"
+#include "geochemicalModel.H"
+#include "HeleShaw.H"
+
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -81,6 +84,9 @@ int main(int argc, char *argv[])
         runTime++;
 
         Info<< "Time = " << runTime.timeName() << nl << endl;
+
+
+        geochemistry.update();
 
         // --- Pressure-velocity PIMPLE corrector loop
         while (pimple.loop())

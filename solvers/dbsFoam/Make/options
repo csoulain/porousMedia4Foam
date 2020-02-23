@@ -2,16 +2,22 @@ EXE_INC = \
     -I$(LIB_SRC)/transportModels \
     -I$(LIB_SRC)/transportModels/incompressible/singlePhaseTransportModel \
     -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/specie/lnInclude \
     -I$(LIB_SRC)/sampling/lnInclude \
     -I$(LIB_SRC)/dynamicFvMesh/lnInclude \
     -I$(LIB_SRC)/dynamicMesh/lnInclude \
     -I$(LIB_SRC)/meshTools/lnInclude \
+    -I../../libraries/porousModels/lnInclude
 
 EXE_LIBS = \
     -lincompressibleTransportModels \
     -lfiniteVolume \
+    -lspecie \
     -lsampling \
     -ldynamicFvMesh \
     -ltopoChangerFvMesh \
     -ldynamicMesh \
-    -lmeshTools
+    -lmeshTools \
+    -L$(FOAM_USER_LIBBIN) \
+    -lporousModels \
+    -I/usr/local/lib/ -lphreeqcrm
