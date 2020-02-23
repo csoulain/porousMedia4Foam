@@ -34,7 +34,7 @@ Developers
 
 #include "fvCFD.H"
 #include "incompressiblePhase.H"
-#include "porousModel.H"
+#include "geochemicalModel.H"
 #include "sourceEventFile.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -42,9 +42,9 @@ Developers
 int main(int argc, char *argv[])
 {
 
-    argList::addOption("phase","a","specify the phase name");
-    Foam::argList args(argc,argv);
-
+//    argList::addOption("phase","a","specify the phase name");
+//    Foam::argList args(argc,argv);
+    #include "setRootCaseLists.H"
     #include "createTime.H"
     #include "createMesh.H"
     #include "readGravitationalAcceleration.H"
@@ -62,6 +62,8 @@ int main(int argc, char *argv[])
 
         #include "CourantNo.H"
 
+        porousMedia.update();
+
         fvScalarMatrix pEqn
         (
             fvm::laplacian(-Mf,p) + fvc::div(phiG) - sourceTerm
@@ -73,15 +75,9 @@ int main(int argc, char *argv[])
 
         U = fvc::reconstruct(phi);
         U.correctBoundaryConditions();
-        UphaseName = U;
-        phiPhaseName = phi;
 
-        if(runTime.outputTime())
-        {
-            phiPhaseName.write();
-            UphaseName.write();
-            p.write();
-        }
+
+        runTime.write();
 
         Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"

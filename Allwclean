@@ -14,7 +14,6 @@ then
     # clean solver executables
     rm -f $FOAM_USER_APPBIN/darcyFoam
     rm -f $FOAM_USER_APPBIN/dbsFoam
-    rm -f $FOAM_USER_APPBIN/dbsFoamBIS
     rm -f $FOAM_USER_APPBIN/dbsSimpleFoam
     rm -f $FOAM_USER_APPBIN/impesFoam
     # clean dynamic libraries

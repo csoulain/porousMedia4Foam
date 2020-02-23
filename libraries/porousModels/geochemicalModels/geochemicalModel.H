@@ -165,6 +165,10 @@ class geochemicalModel
         return basicGeochemicalModelPtr_->inversePermeability();
     }
 
+    const surfaceScalarField & Kf() const
+    {
+        return basicGeochemicalModelPtr_->Kf();
+    }
 
     const volScalarField & porosity()  const
     {

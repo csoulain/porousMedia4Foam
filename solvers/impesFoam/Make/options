@@ -4,7 +4,9 @@ EXE_INC = \
     -I../../libraries/porousBoundaryConditions/lnInclude \
     -I../../libraries/porousModels/lnInclude \
     -I../../libraries/otherModels/lnInclude \
-    -I../../libraries/toolsGIS/lnInclude
+    -I../../libraries/toolsGIS/lnInclude \
+    -I$(WM_PROJECT_USER_DIR)/ThirdParty/phreeqcrm/include
+
 
 EXE_LIBS = \
     -lfiniteVolume \
@@ -12,5 +14,5 @@ EXE_LIBS = \
     -lporousBoundaryConditions \
     -lporousModels \
     -lotherModels \
-    -ltoolsGIS \
-    -I/usr/local/lib/ -lphreeqcrm
+    -ltoolsGIS  \
+    -I$(WM_PROJECT_USER_DIR)/ThirdParty/phreeqcrm/lib/ -lphreeqcrm

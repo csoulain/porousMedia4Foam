@@ -1,5 +1,5 @@
-word phaseName("");
-if (args.optionFound("phase")) phaseName = args.option("phase");
+//word phaseName("");
+//if (args.optionFound("phase")) phaseName = args.option("phase");
 
 Info << nl << "Reading field p\n" << endl;
 volScalarField p
@@ -15,6 +15,23 @@ volScalarField p
     mesh
 );
 
+
+Info << nl << "Reading field U\n" << endl;
+volVectorField U
+(
+    IOobject
+    (
+        "U",
+        runTime.timeName(),
+        mesh,
+        IOobject::READ_IF_PRESENT,
+        IOobject::AUTO_WRITE
+    ),
+    mesh,
+    dimensionedVector("U",dimensionSet(0,2,-1,0,0,0,0),vector::zero)
+);
+
+
 Info << "Reading transportProperties\n" << endl;
 IOdictionary transportProperties
 (
@@ -28,27 +45,22 @@ IOdictionary transportProperties
     )
 );
 
-autoPtr<incompressiblePhase> phase = incompressiblePhase::New(mesh,transportProperties,phaseName);
-volVectorField& UphaseName = phase->U();
-const dimensionedScalar& rho = phase->rho();
-const dimensionedScalar& mu = phase->mu();
-volVectorField U("U",UphaseName);
+
+dimensionedScalar rho (transportProperties.lookup("rho"));
+
+dimensionedScalar mu (transportProperties.lookup("mu"));
+
+
+//autoPtr<incompressiblePhase> phase = incompressiblePhase::New(mesh,transportProperties,phaseName);
+//volVectorField& UphaseName = phase->U();
+//const dimensionedScalar& rho = phase->rho();
+//const dimensionedScalar& mu = phase->mu();
+//volVectorField U("U",UphaseName);
 
 #include "createPhi.H"
-surfaceScalarField phiPhaseName
-(
-    IOobject
-    (
-        "phi"+phaseName,
-        runTime.timeName(),
-        mesh,
-        IOobject::NO_READ,
-        IOobject::AUTO_WRITE
-    ),
-    phi
-);
 
-porousModel porousMedia(mesh,transportProperties);
+
+geochemicalModel porousMedia(mesh,transportProperties);
 
 
 Info << "Reading field K\n" << endl;

@@ -4,7 +4,9 @@ EXE_INC = \
     -I$(LIB_SRC)/finiteVolume/lnInclude \
     -I$(LIB_SRC)/meshTools/lnInclude \
     -I$(LIB_SRC)/sampling/lnInclude \
-    -I../../libraries/porousModels/lnInclude
+    -I../../libraries/porousModels/lnInclude \
+    -I$(WM_PROJECT_USER_DIR)/ThirdParty/phreeqcrm/include
+
 
 
 EXE_LIBS = \
@@ -14,5 +16,5 @@ EXE_LIBS = \
     -lfvOptions \
     -lsampling \
     -L$(FOAM_USER_LIBBIN) \
-    -lporousModels \
-    -I/usr/local/lib/ -lphreeqcrm
+    -lporousModels  \
+    -L$(WM_PROJECT_USER_DIR)/ThirdParty/phreeqcrm/lib/ -lphreeqcrm

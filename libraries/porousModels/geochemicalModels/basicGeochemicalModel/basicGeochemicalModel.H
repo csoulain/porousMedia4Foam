@@ -160,6 +160,11 @@ class basicGeochemicalModel
         return absolutePermeabilityModelPtr_->inversePermeability();
     }
 
+    tmp<surfaceScalarField> Kf() const
+    {
+        return absolutePermeabilityModelPtr_->Kf();
+    }
+
     void updatePermeability()
     {
         absolutePermeabilityModelPtr_->updatePermeability();
