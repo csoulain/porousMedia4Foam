@@ -141,7 +141,7 @@ class basicGeochemicalModel
 
     // Member Functions
 
-    void updatePorosity();
+    virtual void updatePorosity();
 
   //  virtual volScalarField dMs() const = 0;
 

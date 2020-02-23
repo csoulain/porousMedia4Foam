@@ -153,8 +153,7 @@ class phreeqcRM : public basicGeochemicalModel
 
     virtual void updateMineralDistribution();
 
-    void updatePorosity();
-
+    virtual void updatePorosity();
 };
 
 

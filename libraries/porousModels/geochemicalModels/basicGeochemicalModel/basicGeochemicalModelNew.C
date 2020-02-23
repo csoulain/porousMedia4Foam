@@ -33,7 +33,7 @@ Foam::autoPtr<Foam::basicGeochemicalModel> Foam::basicGeochemicalModel::New
     const dictionary& dict
 )
 {
-    const word modelType(dict.lookup("basicGeochemicalModel"));
+    const word modelType(dict.lookup("geochemicalModel"));
 
     Info<< "Selecting Geochemical package " << modelType << endl;
 
