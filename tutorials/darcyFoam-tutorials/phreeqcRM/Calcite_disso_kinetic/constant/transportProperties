@@ -52,7 +52,7 @@ geochemicalProperties
 	phreeqcRM
 	{
 		PhreeqcInputFile "phreeqcInput";
-		PhreeqcDataBase  "phreeqc.dat"; //"phreeqc.dat";
+		PhreeqcDataBase  "phreeqc.dat";
 
 		activateUpdatePorosity false;
 
