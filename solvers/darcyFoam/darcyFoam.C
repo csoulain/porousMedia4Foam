@@ -64,6 +64,8 @@ int main(int argc, char *argv[])
 
         porousMedia.update();
 
+        Mf = Kf / mu;
+
         fvScalarMatrix pEqn
         (
             fvm::laplacian(-Mf,p) + fvc::div(phiG) - sourceTerm
