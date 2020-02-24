@@ -68,7 +68,6 @@ Foam::geochemicalModels::phreeqcRM::phreeqcRM
       nxyz_(mesh_.cells().size()),
       phreeqcInputFile_( phreeqcDict_.lookup("PhreeqcInputFile") ),
       phreeqcDataBase_( phreeqcDict_.lookup("PhreeqcDataBase") ),
-  //    mineralList_( phreeqcDict_.lookup("mineral") ),
       mineralSubDict_( mineralList_.size() ),
       activatePhaseEquilibrium_( mineralList_.size() ),
       Vm_( mineralList_.size() ),
@@ -90,7 +89,6 @@ Foam::geochemicalModels::phreeqcRM::phreeqcRM
           dimensionedScalar("pH",dimless,0.0),
           "zeroGradient"
       ),
-  //    // Aee_("Aee",this->surfaceArea()),
       phreeqc_(mesh_.cells().size(), nthread_)
 
 
@@ -266,9 +264,6 @@ std::string Foam::geochemicalModels::phreeqcRM::generateKineticsInputString()
 {
     std::string input;
 
-  //  this->updateSurfaceArea();
-  //  volScalarField Aee_("Aee",this->surfaceArea());
-
     forAll(mesh_.C(),i)
   	{
 
@@ -292,7 +287,6 @@ std::string Foam::geochemicalModels::phreeqcRM::generateKineticsInputString()
 
           double AeMi
     					= Ae_[i]*Vm_[s].value()/(Ys_[s][i]+SMALL)*100;
-//              = Aee_[i]*Vm_[s].value()/(Ys_[s][i]+SMALL)*100;
 
 
     			std::ostringstream strs_AeMi;
@@ -326,9 +320,6 @@ std::string Foam::geochemicalModels::phreeqcRM::generateKineticsInputString()
 void Foam::geochemicalModels::phreeqcRM::updateKineticsParameters()
 {
 
-//  this->updateSurfaceArea();
-//  volScalarField Aee_("Aee",this->surfaceArea());
-
   std::string input;
 
   forAll(mesh_.C(),i)
@@ -349,8 +340,7 @@ void Foam::geochemicalModels::phreeqcRM::updateKineticsParameters()
               //attention au 100 pour Calcite mais pas pour le reste
               double AeMi
                   = Ae_[i]*Vm_[s].value()/(Ys_[s][i]+SMALL)*100;
-//                  = Aee_[i]*Vm_[s].value()/(Ys_[s][i]+SMALL)*100;
-//                  = Aee_[i]*Vm_[s].value()/(0.03)*100;
+
 
           		std::ostringstream strs_AeMi;
           		strs_AeMi << AeMi;
