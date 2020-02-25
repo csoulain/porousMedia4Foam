@@ -1,10 +1,20 @@
 volScalarField rAU(1.0/UEqn.A());
 volVectorField HbyA(constrainHbyA(rAU*UEqn.H(), U, p));
+
+/*
+surfaceScalarField phiDragU
+(
+    fvc::interpolate(laminarTransport.nu()*invK,"invK")*phi
+);
+*/
+
 surfaceScalarField phiHbyA
 (
     "phiHbyA",
     fvc::flux(HbyA)
 );
+
+//phiHbyA += phiDragU;
 
 if (p.needReference())
 {
@@ -52,5 +62,6 @@ while (pimple.correctNonOrthogonal())
 // Explicitly relax pressure for momentum corrector
 p.relax();
 
-U = HbyA - rAtU*fvc::grad(p);
+U = fvc::reconstruct(phi);
+//U = HbyA - rAtU*fvc::grad(p);
 U.correctBoundaryConditions();
