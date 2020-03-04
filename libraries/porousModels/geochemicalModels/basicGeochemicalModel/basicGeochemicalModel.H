@@ -69,6 +69,8 @@ class basicGeochemicalModel
 
     PtrList<volScalarField> Ys_;
 
+    PtrList<volScalarField> dMs_;
+
     volScalarField inertMineral_;
 
     volScalarField eps_;
@@ -170,6 +172,20 @@ class basicGeochemicalModel
         absolutePermeabilityModelPtr_->updatePermeability();
     }
 
+    void updateSurfaceArea()
+    {
+        forAll(porousMedia_,s)
+        {
+            porousMedia_[s].updateSurfaceArea();
+        }
+    }
+
+
+
+    const PtrList<volScalarField> dMs()
+    {
+        return dMs_;
+    }
 
     virtual void updateFluidComposition() = 0;
 

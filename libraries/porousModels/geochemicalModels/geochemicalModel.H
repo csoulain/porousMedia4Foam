@@ -177,11 +177,12 @@ class geochemicalModel
 
     void update()
     {
-        Info << "geochemistry update " <<endl;
         basicGeochemicalModelPtr_->updateFluidComposition();
         basicGeochemicalModelPtr_->updateMineralDistribution();
         basicGeochemicalModelPtr_->updatePorosity();
+        basicGeochemicalModelPtr_->updateSurfaceArea();
         basicGeochemicalModelPtr_->updatePermeability();
+        Info << "geochemistry updated" <<nl <<endl;
     }
 
 };

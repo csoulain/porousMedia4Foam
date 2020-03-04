@@ -85,8 +85,7 @@ int main(int argc, char *argv[])
 
         Info<< "Time = " << runTime.timeName() << nl << endl;
 
-
-        geochemistry.update();
+  //      geochemistry.update();
 
         // --- Pressure-velocity PIMPLE corrector loop
         while (pimple.loop())
@@ -105,6 +104,7 @@ int main(int argc, char *argv[])
             if (pimple.turbCorr())
             {
 //                laminarTransport.correct();
+                  geochemistry.update();
             }
 
 

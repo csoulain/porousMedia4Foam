@@ -44,6 +44,7 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
       mesh_(mesh),
       mineralList_(dict.lookup("mineral")),
       Ys_(mineralList_.size() ),
+      dMs_(mineralList_.size() ),
       inertMineral_
       (
           IOobject
@@ -106,6 +107,25 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
         )
       );
       Ys_[s].write();
+
+      dMs_.set
+      (
+        s,
+        new volScalarField
+        (
+          IOobject
+          (
+            "dMs."+mineralList_[s],
+            mesh_.time().timeName(),
+            mesh_,
+            IOobject::NO_READ, //READ_IF_PRESENT,  //MUST_READ ??
+            IOobject::NO_WRITE
+          ),
+          mesh_,
+          dimensionedScalar(currentMineral,dimless,0.0),
+          "zeroGradient"
+        )
+      );
 
       porousMedia_.set
       (
