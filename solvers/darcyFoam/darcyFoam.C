@@ -35,6 +35,7 @@ Developers
 #include "fvCFD.H"
 #include "incompressiblePhase.H"
 #include "geochemicalModel.H"
+//#include "porousModel.H"
 #include "sourceEventFile.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -64,6 +65,7 @@ int main(int argc, char *argv[])
 
         porousMedia.update();
 
+
         Mf = Kf / mu;
 
         fvScalarMatrix pEqn
@@ -77,7 +79,6 @@ int main(int argc, char *argv[])
 
         U = fvc::reconstruct(phi);
         U.correctBoundaryConditions();
-
 
         runTime.write();
 

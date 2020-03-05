@@ -23,72 +23,55 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "surfacePowerLaw.H"
+#include "test4Surface.H"
 #include "addToRunTimeSelectionTable.H"
+
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
 namespace Foam
 {
-namespace surfaceAreaModels
-{
-    defineTypeNameAndDebug(surfacePowerLaw, 0);
+    namespace geochemicalModels
+    {
+        defineTypeNameAndDebug(test4Surface, 0);
 
-    addToRunTimeSelectionTable
-    (
-        surfaceAreaModel,
-        surfacePowerLaw,
-        dictionary
-    );
+        addToRunTimeSelectionTable
+        (
+            basicGeochemicalModel,
+            test4Surface,
+            dictionary
+        );
+    }
 }
-}
+
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::surfaceAreaModels::surfacePowerLaw::surfacePowerLaw
+Foam::geochemicalModels::test4Surface::test4Surface
 (
     const fvMesh& mesh,
-    const volScalarField& Ys,
     const dictionary& dict
 )
 :
-    surfaceAreaModel(mesh, Ys, dict),
-    surfacePowerLawDict_(dict.subDict(typeName+"Coeffs")),
-    A0_(surfacePowerLawDict_.lookupOrDefault
-    (
-        "A0",
-        dimensionedScalar("A0",dimensionSet(0,-1,0,0,0,0,0),0.0))
-    ),
-    n_(readScalar(surfacePowerLawDict_.lookup("n"))),
-    Ae_
-    (
-        IOobject
-        (
-          "Ae",
-          mesh_.time().timeName(),
-          mesh_,
-          IOobject::READ_IF_PRESENT,
-          IOobject::NO_WRITE
-        ),
-        mesh_,
-        A0_,
-        "zeroGradient"
-    ),
-    Ys_(Ys)
-{}
-
-// * * * * * * * * * * * * * * member functions  * * * * * * * * * * * * * * //
-
-Foam::tmp<Foam::volScalarField>
-Foam::surfaceAreaModels::surfacePowerLaw::surfaceArea() const
+      basicGeochemicalModel(mesh, dict)
 {
-      return Ae_;
+    Y_.resize(0);
 }
 
-void Foam::surfaceAreaModels::surfacePowerLaw::updateSurfaceArea()
-{
-    Info << Ys_ << nl <<endl;
-
-    Ae_ = Ae_.oldTime()*pow(Ys_/(Ys_.oldTime()+SMALL),n_);
-}
 
 // -------------------------------------------------------------------------//
+
+/*
+Foam::volScalarField Foam::test4Surface::dMl() const
+{
+
+    volScalarField dMl_(0.0*fvc::ddt(Y_[0])/this->rhol());
+    forAll(Y_,s)
+    {
+        dMl_ = dMl_ + fvc::ddt(Y_[s])/this->rhol();
+    }
+
+    return dMl_;
+}
+*/
+
+// ************************************************************************* //

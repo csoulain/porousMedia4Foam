@@ -175,6 +175,7 @@ void Foam::geochemicalModels::simpleFirstOrderKineticMole::updateFluidCompositio
         Ak_ += porousMedia_[s].surfaceArea()*ki_[s]/Ceq_[s];
     }
 
+    Ak_ = 2*(1.-eps_)*Ak_;
 
     forAll(Y_,i)
     {

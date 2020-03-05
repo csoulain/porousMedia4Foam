@@ -55,6 +55,7 @@ Foam::porousModel::porousModel
             dimensionedScalar("Ys",dimless,0.0),
             "zeroGradient"
         ),
+        Yss_(Ys_),
         eps_
         (
             IOobject
@@ -78,7 +79,6 @@ Foam::porousModel::porousModel
         )
 {}
 
-
 Foam::porousModel::porousModel
 (
     const fvMesh& mesh,
@@ -91,6 +91,7 @@ Foam::porousModel::porousModel
         porousMediaName_(name),
         porousMediaDict_(dict.subDict(porousMediaName_+"Properties")),
         Ys_(Ys),
+        Yss_(Ys),
         eps_
         (
             IOobject
@@ -103,16 +104,10 @@ Foam::porousModel::porousModel
             ),
             1.-Ys-SMALL
         ),
-        /*
-        absolutePermeabilityModelPtr_
-        (
-            absolutePermeabilityModel::New(mesh, porousMediaDict_)
-        ),
-        */
         absolutePermeabilityModelPtr_(NULL),
         surfaceAreaModelPtr_
         (
-            surfaceAreaModel::New(mesh, Ys_, porousMediaDict_)
+            surfaceAreaModel::New(mesh, Yss_, porousMediaDict_)
         )
 {}
 

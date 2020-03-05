@@ -45,6 +45,7 @@ geochemicalModels/flowOnly/flowOnly.C
 geochemicalModels/simpleFirstOrderKinetic/simpleFirstOrderKinetic.C
 geochemicalModels/simpleFirstOrderKineticMole/simpleFirstOrderKineticMole.C
 geochemicalModels/phreeqcRM/phreeqcRM.C
+geochemicalModels/test4Surface/test4Surface.C
 
 
 

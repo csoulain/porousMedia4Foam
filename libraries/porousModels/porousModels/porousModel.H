@@ -72,6 +72,8 @@ class porousModel
 
     volScalarField Ys_;
 
+    const volScalarField &Yss_;
+
     volScalarField eps_;
 
     autoPtr<absolutePermeabilityModel> absolutePermeabilityModelPtr_;
@@ -129,7 +131,8 @@ class porousModel
 
     void updateSurfaceArea()
     {
-        return surfaceAreaModelPtr_->updateSurfaceArea();
+        surfaceAreaModelPtr_->updateSurfaceArea();
+//        return surfaceAreaModelPtr_->updateSurfaceArea();
     }
 
 
@@ -145,7 +148,8 @@ class porousModel
 
     void updatePermeability()
     {
-        return absolutePermeabilityModelPtr_->updatePermeability();
+          absolutePermeabilityModelPtr_->updatePermeability();
+//        return absolutePermeabilityModelPtr_->updatePermeability();
     }
 
     tmp<surfaceScalarField> Kf() const

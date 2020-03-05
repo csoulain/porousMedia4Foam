@@ -70,6 +70,7 @@ surfaceScalarField Mf ("Mf",Kf/mu);
 surfaceScalarField phiG("phiG",(rho * Mf * g) & mesh.Sf());
 surfaceScalarField phiPc("phiPc", 0 * phiG); //- required for porousBoundaryConditions
 
+
 //- For constant or event source injection/extraction
 volScalarField sourceTerm
 (
