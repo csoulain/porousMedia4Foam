@@ -86,8 +86,6 @@ Foam::surfaceAreaModels::surfacePowerLaw::surfaceArea() const
 
 void Foam::surfaceAreaModels::surfacePowerLaw::updateSurfaceArea()
 {
-    Info << Ys_ << nl <<endl;
-
     Ae_ = Ae_.oldTime()*pow(Ys_/(Ys_.oldTime()+SMALL),n_);
 }
 
