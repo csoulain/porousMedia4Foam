@@ -4,6 +4,17 @@ porousModels/absolutePermeabilityModels/HeleShaw/HeleShaw.C
 porousModels/absolutePermeabilityModels/KozenyCarman/KozenyCarman.C
 porousModels/absolutePermeabilityModels/heterogeneousScalarConstant/heterogeneousScalarConstant.C
 
+
+
+porousModels/dispersionModels/dispersionModel/dispersionModel.C
+porousModels/dispersionModels/dispersionModel/dispersionModelNew.C
+porousModels/dispersionModels/generalDispersionModel/generalDispersionModel.C
+porousModels/dispersionModels/archiesDispersionModel/archiesDispersionModel.C
+porousModels/dispersionModels/taylorArisDispersionModel/taylorArisDispersionModel.C
+
+
+
+
 porousModels/surfaceAreaModels/surfaceAreaModel/surfaceAreaModel.C
 porousModels/surfaceAreaModels/surfaceAreaModel/surfaceAreaModelNew.C
 porousModels/surfaceAreaModels/surfaceNone/surfaceNone.C
