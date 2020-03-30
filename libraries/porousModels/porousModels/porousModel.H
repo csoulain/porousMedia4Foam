@@ -73,11 +73,14 @@ class porousModel
 
     volScalarField Ys_;
 
-    const volScalarField &Yss_;
+    const volScalarField &Yss_; //Cyp temp addition for Ys update
+                                //correctly in geochemicalModel
 
     volScalarField eps_;
 
     autoPtr<absolutePermeabilityModel> absolutePermeabilityModelPtr_;
+
+    autoPtr<dispersionModel> dispersionModelPtr_;
 
     autoPtr<surfaceAreaModel> surfaceAreaModelPtr_;
 
@@ -160,6 +163,16 @@ class porousModel
 
     }
 
+    tmp<volScalarField> effectiveDispersion() const
+    {
+        return dispersionModelPtr_->effectiveDispersion();
+    }
+
+    void updateDispersion()
+    {
+        dispersionModelPtr_->updateDispersion();
+    }
+
 
     const volScalarField & porosity() const
     {
@@ -170,6 +183,7 @@ class porousModel
     {
         updatePermeability();
         updateSurfaceArea();
+        updateDispersion();
     }
 
 };
