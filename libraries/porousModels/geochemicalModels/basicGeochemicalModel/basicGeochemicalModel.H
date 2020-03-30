@@ -82,6 +82,9 @@ class basicGeochemicalModel
 
     autoPtr<absolutePermeabilityModel> absolutePermeabilityModelPtr_;
 
+    autoPtr<dispersionModel> dispersionModelPtr_;
+
+
     word phiName_;
 
     const surfaceScalarField &phi_;
@@ -178,6 +181,17 @@ class basicGeochemicalModel
         {
             porousMedia_[s].updateSurfaceArea();
         }
+    }
+
+
+    tmp<volScalarField> effectiveDispersion() const
+    {
+        return dispersionModelPtr_->effectiveDispersion();
+    }
+
+    void updateDispersion()
+    {
+        dispersionModelPtr_->updateDispersion();
     }
 
 

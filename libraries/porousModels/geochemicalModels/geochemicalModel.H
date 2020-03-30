@@ -175,6 +175,12 @@ class geochemicalModel
         return basicGeochemicalModelPtr_->porosity();
     }
 
+    const volScalarField & effectiveDispersion()  const
+    {
+        return basicGeochemicalModelPtr_->effectiveDispersion();
+    }
+
+
     void update()
     {
         basicGeochemicalModelPtr_->updateFluidComposition();
@@ -182,6 +188,7 @@ class geochemicalModel
         basicGeochemicalModelPtr_->updatePorosity();
         basicGeochemicalModelPtr_->updateSurfaceArea();
         basicGeochemicalModelPtr_->updatePermeability();
+        basicGeochemicalModelPtr_->updateDispersion();
         Info << "geochemistry updated" <<nl <<endl;
     }
 
