@@ -45,6 +45,7 @@ Authors
 #include "volFields.H"
 #include "surfaceInterpolate.H"
 #include "absolutePermeabilityModel.H"
+#include "dispersionModel.H"
 #include "surfaceAreaModel.H"
 //#include "autoPtr.H"
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
