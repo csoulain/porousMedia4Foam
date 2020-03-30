@@ -73,6 +73,8 @@ class phreeqcRM : public basicGeochemicalModel
     label nthread_;
     int nxyz_;
 
+    scalar strangSteps_;
+
     word phreeqcInputFile_;
     word phreeqcDataBase_;
 
@@ -85,8 +87,13 @@ class phreeqcRM : public basicGeochemicalModel
     PtrList<dimensionedScalar> Vm_;
 
 
-    dimensionedScalar Di_;
-    dimensionedScalar alphaL_;
+//    dimensionedScalar Di_;
+//    dimensionedScalar alphaL_;
+
+    volScalarField Deff;
+    scalar cvODE_ONOFF;
+
+
 
     word UName_;
     const volVectorField & U_;

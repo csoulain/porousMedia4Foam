@@ -31,6 +31,9 @@ License
 #include "fvmDiv.H"
 #include "fvmLaplacian.H"
 
+#include "subCycleTime.H"
+#include "subCycle.H"
+
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
 namespace Foam
@@ -66,13 +69,29 @@ Foam::geochemicalModels::phreeqcRM::phreeqcRM
       ),
       nthread_(1),
       nxyz_(mesh_.cells().size()),
+      strangSteps_ (readScalar(transportPropertiesDict_.lookup("StrangSteps"))),
       phreeqcInputFile_( phreeqcDict_.lookup("PhreeqcInputFile") ),
       phreeqcDataBase_( phreeqcDict_.lookup("PhreeqcDataBase") ),
       mineralSubDict_( mineralList_.size() ),
       activatePhaseEquilibrium_( mineralList_.size() ),
       Vm_( mineralList_.size() ),
-      Di_( phreeqcDict_.lookup("Di") ),
-      alphaL_( phreeqcDict_.lookup("alphaL") ),
+//      Di_( phreeqcDict_.lookup("Di") ),
+//      alphaL_( phreeqcDict_.lookup("alphaL") ),
+      Deff
+      (
+          IOobject
+          (
+              "Deff",
+              mesh_.time().timeName(),
+              mesh_,
+              IOobject::READ_IF_PRESENT,
+              IOobject::NO_WRITE
+          ),
+          mesh_,
+          dimensionedScalar("Deff",dimensionSet(0, 2, -1, 0, 0),0.0),
+          "zeroGradient"
+      ),
+      cvODE_ONOFF (readScalar(phreeqcDict_.lookup("cvODE_ONOFF"))),
       UName_(phreeqcDict_.lookupOrDefault<word>("U", "U")),
       U_(mesh.lookupObject<volVectorField>(UName_)),
       pH_
@@ -236,7 +255,7 @@ std::string Foam::geochemicalModels::phreeqcRM::generateEqPhasesInputString()
           if(activatePhaseEquilibrium_[s] == true)
           {
             double mineralMoleI
-      					= Ys_[s][i]/Vm_[s].value()*1e-3/eps_[i];
+      					= Ys_[s][i]/Vm_[s].value()*1e-3/(eps_[i]+VSMALL);
 
       			std::ostringstream strs;
       			strs << mineralMoleI;
@@ -276,7 +295,7 @@ std::string Foam::geochemicalModels::phreeqcRM::generateKineticsInputString()
         if(activatePhaseEquilibrium_[s] == false)
         {
           double mineralMoleI
-              = Ys_[s][i]/Vm_[s].value()*1e-3/eps_[i];
+              = Ys_[s][i]/Vm_[s].value()*1e-3/(eps_[i]+VSMALL);
 
           std::ostringstream strs_Mi;
           strs_Mi << mineralMoleI;
@@ -292,14 +311,30 @@ std::string Foam::geochemicalModels::phreeqcRM::generateKineticsInputString()
     			std::ostringstream strs_AeMi;
     			strs_AeMi << AeMi;
 
-          input +=
-            mineralList_[s]	+ ";\n"
-      			+" -m "  + strs_Mi.str() + ";\n"
-      			+" -m0 " + strs_Mi.str() + ";\n"
-      			+" -parms " + strs_AeMi.str() + " 0.0 " + ";\n"
-      //			+" -parms " + "5e4" + " 0.3" + ";\n"
-      //			+" -cvode " + "true" + ";\n"
-          ;
+
+          if (scalar(cvODE_ONOFF) == 0)
+    			{
+    		 	    Info << "Using RK to solve chemistry" << nl;
+    		      input +=
+    			         mineralList_[s]     + ";\n"
+    			         +" -m "  + strs_Mi.str() + ";\n"
+    				       +" -m0 " + strs_Mi.str() + ";\n"
+    				       +" -parms " + strs_AeMi.str() + " 0.0 " + ";\n"
+    				  ;
+    			}
+    			else
+    			{
+    			     Info << "Using cv ode for chemistry " << nl;
+               input +=
+    		              mineralList_[s]     + ";\n"
+                      +" -m "  + strs_Mi.str() + ";\n"
+                      +" -m0 " + strs_Mi.str() + ";\n"
+                      +" -parms " + strs_AeMi.str() + " 0.0 " + ";\n"
+                      +" -cvode " + "true" + ";\n"
+                      +" -cvode_steps " + "500" + ";\n"
+                      +" -tol " + "1e-6" + "; \n"
+    			      ;
+    			}
         }
       }
 
@@ -443,6 +478,12 @@ void Foam::geochemicalModels::phreeqcRM::updatePorosityPhreeqc()
         }
         eps_ = 1.-eps_-inertMineral_;
 
+        forAll(eps_,cellI)
+      	{
+      		  eps_[cellI] = (eps_[cellI]>=scalar(1.e-3) ? eps_[cellI] : scalar(1.e-3));
+      	}
+
+
         std::vector<double> por;
         por.resize(nxyz_, 0);
 
@@ -462,189 +503,33 @@ void Foam::geochemicalModels::phreeqcRM::updatePorosity()
 
 // -------------------------------------------------------------------------//
 
-
-void Foam::geochemicalModels::phreeqcRM::initializeFluidComposition()
-{
-
-//  int nxyz = returnReduce(mesh_.cells().size(), sumOp<label>());
-
-  const std::vector<std::string> &components = phreeqc_.GetComponents();
-
-
-  //  const std::vector < double > & gfw = phreeqc_.GetGfw();
-
-  // Determine species information
-	const std::vector<std::string> &species = phreeqc_.GetSpeciesNames();
-	const std::vector < double > & species_z = phreeqc_.GetSpeciesZ();
-////// ATTENTION ! POUR LES SPECIES et pas les COMPONENTS....
-	const std::vector < double > & species_d = phreeqc_.GetSpeciesD25();
-	bool species_on = phreeqc_.GetSpeciesSaveOn();
-  if (species_on == true) { Info << "Species Save On " << nl <<endl; }
-	int nspecies = phreeqc_.GetSpeciesCount();
-
-	Info << "nspecies = " << nspecies <<nl <<endl;
-	for (int i = 0; i < nspecies; i++)
-	{
-		Info << species[i] << "\n";
-		Info << "    Charge: " << species_z[i] << endl;
-		Info << "    Dw:     " << species_d[i] << endl;
-	}
-	Info << endl;
-
-	// Set array of initial conditions
-	std::vector<int> ic1;
-	ic1.resize(nxyz_*7, -1);
-	for (int i = 0; i < nxyz_; i++)
-	{
-		ic1[0*nxyz_ + i] =  1;      			 // SOLUTION 1
-		ic1[1*nxyz_ + i] =  i;     //-1; 	 // EQUILIBRIUM_PHASES
-		ic1[2*nxyz_ + i] = -1; 						 // EXCHANGE
-		ic1[3*nxyz_ + i] = -1; 		 //-1; 	 // SURFACE
-		ic1[4*nxyz_ + i] = -1; 		 //-1; 	 // GAS_PHASE
-		ic1[5*nxyz_ + i] = -1; 		 //-1; 	 // SOLID_SOLUTIONS
-		ic1[6*nxyz_ + i] =  i;     //-1;   // KINETICS none=-1
-	}
-	status = phreeqc_.InitialPhreeqc2Module(ic1);
-
-	// Initial equilibration of cells
-	double time = 0.0;
-	double time_step = 0.0;
-	std::vector<double> c;
-	c.resize(nxyz_ * components.size());
-	status = phreeqc_.SetTime(time);
-	status = phreeqc_.SetTimeStep(time_step);
-	status = phreeqc_.RunCells();
-	status = phreeqc_.GetConcentrations(c);
-
-
-	Info << "Get boundary conditions... ";
-	//Get boundary conditions
-	std::vector<double> bc_conc;
-	std::vector<int> bc1;
-	int nbound = 1;
-	// bc1 is solution 0
-	bc1.resize(nbound,0);
-	phreeqc_.InitialPhreeqc2Concentrations(bc_conc,bc1);
-	Info << "OK"<<nl<<endl;
-
-  // -------------------------------------------------------------------------//
-	// Transfer to OpenFOAM
-
-	// Est ce que je dois faire component ou species???
-	Info << "Set concentrations fields and transport properties with OpenFOAM... " << endl;
-
-  int ncomps = phreeqc_.FindComponents();
-
-  wordList componentNames(ncomps);
-
-  forAll(componentNames,i)
-	{
-		componentNames[i] = components[i];
-	}
-
-  Y_.resize(componentNames.size());
-
-  // ----- Define boundary condition type
-  label patchInlet = mesh_.boundaryMesh().findPatchID("inlet");
-  if(patchInlet < 0)
-  {
-    Info << "ERROR: \"inlet\" is not defined as a boundary condition "
-         <<  nl << endl;
-  }
-  wordList YiBoundaryType (mesh_.boundaryMesh().size(),"zeroGradient");
-  forAll(YiBoundaryType,typeID)
-  {
-    if(mesh_.boundaryMesh().types()[typeID]=="empty")
-    {
-      YiBoundaryType[typeID]="empty";
-    }
-  }
-  YiBoundaryType[patchInlet]="fixedValue";
-
-  // ----- Create and initialize mixture
-  forAll(componentNames,s)
-  {
-      word currentSpecies = componentNames[s];
-      Info << " Doing stuff for components: " << currentSpecies << endl;
-
-      Y_.set
-      (
-        s,
-        new volScalarField
-        (
-          IOobject
-          (
-            "Y."+componentNames[s],
-            mesh_.time().timeName(),
-            mesh_,
-            IOobject::READ_IF_PRESENT,
-            IOobject::AUTO_WRITE
-          ),
-          mesh_,
-          dimensionedScalar(currentSpecies,dimless,0.0),
-          YiBoundaryType
-        )
-      );
-
-      //BC
-      Y_[s].boundaryFieldRef()[patchInlet] == bc_conc[s];
-
-      forAll(Y_[s],cellI)
-      {
-          Y_[s][cellI]=c[nxyz_*s+cellI];
-      }
-
-      Y_[s].write();
-
-  }
-  updatepH();
-  pH_.write();
-
-  Info << "OK"<< nl <<endl;
-
-}
-
-// -------------------------------------------------------------------------//
-
-
-void Foam::geochemicalModels::phreeqcRM::updateFluidComposition()
+/*
+void Foam::geochemicalModels::phreeqcRM::updateFluidCompositionCyp()
 {
 //    Info << " Update fluid composition with Phreeqc" << endl;
-
     word divPhiYiScheme = "div(phi,Yi)";
-
-    volScalarField Deff ("Deff", Foam::pow(eps_,1)*Di_*(1.+alphaL_/Di_*mag(U_)));
-
+    Deff = Foam::pow(eps_,1)*Di_*(1.+alphaL_/Di_*mag(U_));
     std::vector<double> c;
   	c.resize(Y_.size()*nxyz_);
-
     forAll(Y_,i)
     {
-
       //	if(Y[i].name() != inertSpecies)
       	volScalarField& Yi = Y_[i];
       //	dimensionedScalar& Di = D[i];
-
-
       	fvScalarMatrix YiEqn
       	(
       		  fvm::ddt(eps_,Yi) + fvm::div(phi_,Yi,divPhiYiScheme)
       		- fvm::laplacian(Deff,Yi,"laplacian(Di,Yi)")
       	);
-
       	YiEqn.solve();
-
       //	Yi.max(0.0);
       //	Yi.min(1.0);
-
       	forAll(Y_[i],cellI)
       	{
       		c[i*nxyz_+cellI]=Y_[i][cellI];
       	}
     }
-
     updateKineticsParameters();
-
     Info<<"run phreeqc ...";
     status = phreeqc_.SetConcentrations(c);         // Transported concentrations
     status = phreeqc_.SetTimeStep(mesh_.time().deltaT().value());		  // Time step for kinetic reactions
@@ -662,10 +547,131 @@ void Foam::geochemicalModels::phreeqcRM::updateFluidComposition()
     		}
     }
     Info<<"Ok" << endl;
-
     updatepH();
-
 }
+*/
+// -------------------------------------------------------------------------//
+/* Commented orig to check splitting of chemistry - Sapa
+void Foam::geochemicalModels::phreeqcRM::updateFluidComposition()
+{
+	int strangCounter_ = 0;
+	word divPhiYiScheme = "div(phi,Yi)";
+	if (updateDeff == 0)
+	{
+	Deff = Foam::pow(eps_,1)*Di_*(1.+alphaL_/Di_*mag(U_));
+	}
+	else{ Info << "Updating Deff " << nl;
+	Deff = Foam::pow(eps_,1)*Foam::pow(eps_,0.333)*Di_*(1.+alphaL_/Di_*mag(U_));}
+        std::vector<double> c;
+        c.resize(Y_.size()*nxyz_);
+        const Time& runTime = mesh_.time();
+	  for
+	  (
+	    subCycleTime subCycle(const_cast<Time&>(runTime),6); !(++subCycle).end();
+	  )
+	  {
+	     strangCounter_++;
+     	     Info << "Num sub cycles = " << subCycle.nSubCycles() << endl; //report numSubCycles
+	     Info << "Delta t = " << runTime.deltaT() << endl;             //subCycle time = dt/nSubCycles
+          forAll (Y_, i)
+          {
+             volScalarField& Yi = Y_[i];
+             fvScalarMatrix YiEqn (
+                                   fvm::ddt(eps_,Yi) + fvm::div(phi_,Yi,divPhiYiScheme)
+                                  -fvm::laplacian(Deff,Yi,"laplacian(Di,Yi)")
+                                   );
+                                                                                                                     YiEqn.solve();
+														     forAll(Y_[i],cellI)
+             {
+              c[i*nxyz_+cellI]=Y_[i][cellI];
+             } //copy flow information to phreeqc concentration
+          } //solve transport for the species
+          for (; (strangCounter_==3); strangCounter_++)
+	  {
+	   Info<<"run phreeqc ..." << strangCounter_ << endl;
+	   status = phreeqc_.SetConcentrations(c);         // Transported concentrations
+	   status = phreeqc_.SetTimeStep(runTime.deltaT().value()*6);    // Time step for kinetic reactions
+	   Info << "Time stamp = " << mesh_.time().timeName() << endl;
+	   status = phreeqc_.RunCells();
+	   // Transfer data from PhreeqcRM for transport
+	   status = phreeqc_.GetConcentrations(c);
+	   forAll (Y_,s)
+	   {
+	    forAll(Y_[s],cellI)
+	    {
+	     Y_[s][cellI]=c[nxyz_*s+cellI];
+	    }
+	   } phreeqc_.CloseFiles();
+	   updateKineticsParameters();
+   } //solve for chemistry
+	 } //for subCycle
+	}
+*/
+// -------------------------------------------------------------------------//
+
+//Split chemistry in steps along with transport - Sapa
+void Foam::geochemicalModels::phreeqcRM::updateFluidComposition()
+{
+    int strangCounter_ = 0;
+    volScalarField Deff_ = effectiveDispersion();
+    word divPhiYiScheme = "div(phi,Yi)";
+    Deff = Deff_;
+
+    std::vector<double> c;
+    c.resize(Y_.size()*nxyz_);
+    const Time& runTime = mesh_.time();
+
+    for
+    (
+        subCycleTime subCycle(const_cast<Time&>(runTime),strangSteps_); !(++subCycle).end();
+    )
+    {
+        strangCounter_++;
+        Info << "Num sub cycles = " << subCycle.nSubCycles() << endl; //report numSubCycles
+        Info << "Delta t = " << runTime.deltaT() << endl;             //subCycle time = dt/nSubCycles
+
+        forAll (Y_, i)
+        {
+            volScalarField& Yi = Y_[i];
+            fvScalarMatrix YiEqn
+            (
+                fvm::ddt(eps_,Yi) + fvm::div(phi_,Yi,divPhiYiScheme)
+                -fvm::laplacian(Deff,Yi,"laplacian(Di,Yi)")
+            );
+            YiEqn.solve();
+
+            forAll(Y_[i],cellI)
+            {
+                c[i*nxyz_+cellI]=Y_[i][cellI];
+            } //copy flow information to phreeqc concentration
+        } //solve transport for the species
+
+        for (; (strangCounter_==strangSteps_/2 /*|| strangCounter_==7*/); strangCounter_++)
+        {
+            Info<<"run phreeqc ..." << strangCounter_ << endl;
+            status = phreeqc_.SetConcentrations(c);         // Transported concentrations
+
+            status = phreeqc_.SetTimeStep(runTime.deltaT().value()*strangSteps_);    // Time step for kinetic reactions
+            Info << "Time stamp = " << mesh_.time().timeName() << endl;
+            status = phreeqc_.RunCells();
+            // Transfer data from PhreeqcRM for transport
+            status = phreeqc_.GetConcentrations(c);
+            forAll (Y_,s)
+            {
+                forAll(Y_[s],cellI)
+                {
+                    Y_[s][cellI]=c[nxyz_*s+cellI];
+                }
+            }
+            phreeqc_.CloseFiles();
+            //if (strangCounter_==3){
+            //updateMineralDistribution();
+            //updatePorosity();
+            updateKineticsParameters();//}
+        } //solve for chemistry
+    } //for subCycle
+}
+
 
 // -------------------------------------------------------------------------//
 
