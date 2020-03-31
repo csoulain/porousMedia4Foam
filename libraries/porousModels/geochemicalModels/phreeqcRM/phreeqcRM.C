@@ -503,6 +503,153 @@ void Foam::geochemicalModels::phreeqcRM::updatePorosity()
 
 // -------------------------------------------------------------------------//
 
+// -------------------------------------------------------------------------//
+
+
+void Foam::geochemicalModels::phreeqcRM::initializeFluidComposition()
+{
+
+//  int nxyz = returnReduce(mesh_.cells().size(), sumOp<label>());
+
+  const std::vector<std::string> &components = phreeqc_.GetComponents();
+
+
+  //  const std::vector < double > & gfw = phreeqc_.GetGfw();
+
+  // Determine species information
+	const std::vector<std::string> &species = phreeqc_.GetSpeciesNames();
+	const std::vector < double > & species_z = phreeqc_.GetSpeciesZ();
+////// ATTENTION ! POUR LES SPECIES et pas les COMPONENTS....
+	const std::vector < double > & species_d = phreeqc_.GetSpeciesD25();
+	bool species_on = phreeqc_.GetSpeciesSaveOn();
+  if (species_on == true) { Info << "Species Save On " << nl <<endl; }
+	int nspecies = phreeqc_.GetSpeciesCount();
+
+	Info << "nspecies = " << nspecies <<nl <<endl;
+	for (int i = 0; i < nspecies; i++)
+	{
+		Info << species[i] << "\n";
+		Info << "    Charge: " << species_z[i] << endl;
+		Info << "    Dw:     " << species_d[i] << endl;
+	}
+	Info << endl;
+
+	// Set array of initial conditions
+	std::vector<int> ic1;
+	ic1.resize(nxyz_*7, -1);
+	for (int i = 0; i < nxyz_; i++)
+	{
+		ic1[0*nxyz_ + i] =  1;      			 // SOLUTION 1
+		ic1[1*nxyz_ + i] =  i;     //-1; 	 // EQUILIBRIUM_PHASES
+		ic1[2*nxyz_ + i] = -1; 						 // EXCHANGE
+		ic1[3*nxyz_ + i] = -1; 		 //-1; 	 // SURFACE
+		ic1[4*nxyz_ + i] = -1; 		 //-1; 	 // GAS_PHASE
+		ic1[5*nxyz_ + i] = -1; 		 //-1; 	 // SOLID_SOLUTIONS
+		ic1[6*nxyz_ + i] =  i;     //-1;   // KINETICS none=-1
+	}
+	status = phreeqc_.InitialPhreeqc2Module(ic1);
+
+	// Initial equilibration of cells
+	double time = 0.0;
+	double time_step = 0.0;
+	std::vector<double> c;
+	c.resize(nxyz_ * components.size());
+	status = phreeqc_.SetTime(time);
+	status = phreeqc_.SetTimeStep(time_step);
+	status = phreeqc_.RunCells();
+	status = phreeqc_.GetConcentrations(c);
+
+
+	Info << "Get boundary conditions... ";
+	//Get boundary conditions
+	std::vector<double> bc_conc;
+	std::vector<int> bc1;
+	int nbound = 1;
+	// bc1 is solution 0
+	bc1.resize(nbound,0);
+	phreeqc_.InitialPhreeqc2Concentrations(bc_conc,bc1);
+	Info << "OK"<<nl<<endl;
+
+  // -------------------------------------------------------------------------//
+	// Transfer to OpenFOAM
+
+	// Est ce que je dois faire component ou species???
+	Info << "Set concentrations fields and transport properties with OpenFOAM... " << endl;
+
+  int ncomps = phreeqc_.FindComponents();
+
+  wordList componentNames(ncomps);
+
+  forAll(componentNames,i)
+	{
+		componentNames[i] = components[i];
+	}
+
+  Y_.resize(componentNames.size());
+
+  // ----- Define boundary condition type
+  label patchInlet = mesh_.boundaryMesh().findPatchID("inlet");
+  if(patchInlet < 0)
+  {
+    Info << "ERROR: \"inlet\" is not defined as a boundary condition "
+         <<  nl << endl;
+  }
+  wordList YiBoundaryType (mesh_.boundaryMesh().size(),"zeroGradient");
+  forAll(YiBoundaryType,typeID)
+  {
+    if(mesh_.boundaryMesh().types()[typeID]=="empty")
+    {
+      YiBoundaryType[typeID]="empty";
+    }
+  }
+  YiBoundaryType[patchInlet]="fixedValue";
+
+  // ----- Create and initialize mixture
+  forAll(componentNames,s)
+  {
+      word currentSpecies = componentNames[s];
+      Info << " Doing stuff for components: " << currentSpecies << endl;
+
+      Y_.set
+      (
+        s,
+        new volScalarField
+        (
+          IOobject
+          (
+            "Y."+componentNames[s],
+            mesh_.time().timeName(),
+            mesh_,
+            IOobject::READ_IF_PRESENT,
+            IOobject::AUTO_WRITE
+          ),
+          mesh_,
+          dimensionedScalar(currentSpecies,dimless,0.0),
+          YiBoundaryType
+        )
+      );
+
+      //BC
+      Y_[s].boundaryFieldRef()[patchInlet] == bc_conc[s];
+
+      forAll(Y_[s],cellI)
+      {
+          Y_[s][cellI]=c[nxyz_*s+cellI];
+      }
+
+      Y_[s].write();
+
+  }
+  updatepH();
+  pH_.write();
+
+  Info << "OK"<< nl <<endl;
+
+}
+
+// -------------------------------------------------------------------------//
+
+
 /*
 void Foam::geochemicalModels::phreeqcRM::updateFluidCompositionCyp()
 {
