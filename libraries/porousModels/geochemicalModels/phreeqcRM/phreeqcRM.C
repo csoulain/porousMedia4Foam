@@ -478,11 +478,7 @@ void Foam::geochemicalModels::phreeqcRM::updatePorosityPhreeqc()
         }
         eps_ = 1.-eps_-inertMineral_;
 
-        forAll(eps_,cellI)
-      	{
-      		  eps_[cellI] = (eps_[cellI]>=scalar(1.e-3) ? eps_[cellI] : scalar(1.e-3));
-      	}
-
+        eps_.max(1e-3);
 
         std::vector<double> por;
         por.resize(nxyz_, 0);
