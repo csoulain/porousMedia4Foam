@@ -77,7 +77,7 @@ Foam::geochemicalModels::phreeqcRM::phreeqcRM
       Vm_( mineralList_.size() ),
 //      Di_( phreeqcDict_.lookup("Di") ),
 //      alphaL_( phreeqcDict_.lookup("alphaL") ),
-      Deff
+/*      Deff
       (
           IOobject
           (
@@ -90,7 +90,7 @@ Foam::geochemicalModels::phreeqcRM::phreeqcRM
           mesh_,
           dimensionedScalar("Deff",dimensionSet(0, 2, -1, 0, 0),0.0),
           "zeroGradient"
-      ),
+      ),*/
       cvODE_ONOFF (readScalar(phreeqcDict_.lookup("cvODE_ONOFF"))),
       UName_(phreeqcDict_.lookupOrDefault<word>("U", "U")),
       U_(mesh.lookupObject<volVectorField>(UName_)),
@@ -305,7 +305,8 @@ std::string Foam::geochemicalModels::phreeqcRM::generateKineticsInputString()
           const volScalarField Ae_ ("Ae",porousMedia_[s].surfaceArea());
 
           double AeMi
-    					= Ae_[i]*Vm_[s].value()/(Ys_[s][i]+SMALL)*100;
+    					= Ae_[i];
+//              = Ae_[i]*Vm_[s].value()/(Ys_[s][i]+SMALL)*100;
 
 
     			std::ostringstream strs_AeMi;
@@ -374,7 +375,8 @@ void Foam::geochemicalModels::phreeqcRM::updateKineticsParameters()
 
               //attention au 100 pour Calcite mais pas pour le reste
               double AeMi
-                  = Ae_[i]*Vm_[s].value()/(Ys_[s][i]+SMALL)*100;
+                  = Ae_[i];
+//                  = Ae_[i]*Vm_[s].value()/(Ys_[s][i]+SMALL)*100;
 
 
           		std::ostringstream strs_AeMi;
@@ -756,9 +758,8 @@ void Foam::geochemicalModels::phreeqcRM::updateFluidComposition()
 void Foam::geochemicalModels::phreeqcRM::updateFluidComposition()
 {
     int strangCounter_ = 0;
-    volScalarField Deff_ = effectiveDispersion();
+    const volScalarField &Deff = effectiveDispersion();
     word divPhiYiScheme = "div(phi,Yi)";
-    Deff = Deff_;
 
     std::vector<double> c;
     c.resize(Y_.size()*nxyz_);
