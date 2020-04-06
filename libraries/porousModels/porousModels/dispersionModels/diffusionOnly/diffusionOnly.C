@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "generalDispersionModel.H"
+#include "diffusionOnly.H"
 #include "addToRunTimeSelectionTable.H"
 
 
@@ -33,31 +33,28 @@ namespace Foam
 {
 namespace dispersionModels
 {
-    defineTypeNameAndDebug(generalDispersionModel, 0);
+    defineTypeNameAndDebug(diffusionOnly, 0);
 
     addToRunTimeSelectionTable
     (
         dispersionModel,
-        generalDispersionModel,
+        diffusionOnly,
         dictionary
     );
 }
 }
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::dispersionModels::generalDispersionModel::generalDispersionModel
+Foam::dispersionModels::diffusionOnly::diffusionOnly
 (
     const fvMesh& mesh,
     const dictionary& dict
 )
 :
     dispersionModel(mesh, dict),
-    generalDispersionModelDict_(dict.subDict(typeName+"Coeffs")),
-    epsName_(generalDispersionModelDict_.lookupOrDefault<word>("eps", "eps")),
-    UName_(generalDispersionModelDict_.lookupOrDefault<word>("U", "U")),
-    Di_( generalDispersionModelDict_.lookup("Di") ),
-    alphaL_( generalDispersionModelDict_.lookup("alphaL") ),
-    Deff
+    diffusionOnlyDict_(dict.subDict(typeName+"Coeffs")),
+    Di_( diffusionOnlyDict_.lookup("Di") ),
+    Deff_
      (
       IOobject
       (
@@ -70,9 +67,7 @@ Foam::dispersionModels::generalDispersionModel::generalDispersionModel
       mesh_,
       dimensionedScalar("Deff",dimensionSet(0, 2, -1, 0, 0),0.0),
       "zeroGradient"
-    ),
-    eps_(mesh.lookupObject<volScalarField>(epsName_)),
-    U_(mesh.lookupObject<volVectorField>(UName_))
+    )
 {
 
 }
@@ -80,13 +75,13 @@ Foam::dispersionModels::generalDispersionModel::generalDispersionModel
 // * * * * * * * * * * * * * * member functions  * * * * * * * * * * * * * * //
 
 Foam::tmp<Foam::volScalarField>
-Foam::dispersionModels::generalDispersionModel::effectiveDispersion() const
+Foam::dispersionModels::diffusionOnly::effectiveDispersion() const
 {
-      return Deff;
+      return Deff_;
 }
 
-void Foam::dispersionModels::generalDispersionModel::updateDispersion()
+void Foam::dispersionModels::diffusionOnly::updateDispersion()
 {
-      Deff= Foam::pow(eps_,1)*Di_*(1.+alphaL_/Di_*mag(U_));
+      Deff_= Di_;
 }
 // -------------------------------------------------------------------------//

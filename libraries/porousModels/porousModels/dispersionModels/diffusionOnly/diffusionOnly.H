@@ -25,18 +25,22 @@ Class
     Foam::twoPhaseMixture
 
 Description
-    Archies model for tortuosity. Feed to update molecular diffusion and consequently effectiveDispersion.
+    A dispersion model that considers diffusion only. There are no tortuosity
+    nor hydrodynamic dispersion effects.
 
-    General dispersion model:
-    Deff = porosity^{n}*molecularDiffusionCoeff*(1+hydrodynamicDispersionCoeff/molecularDiffusionCoeff*|velocity|)
+    diffusionOnly model:
+    Deff = Di
 
 SourceFiles
-    archiesDispersionModel.C
+    diffusionOnly.C
+
+Authors
+    C. Soulaine 6/4/2020 : creation
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef archiesDispersionModel_H
-#define archiesDispersionModel_H
+#ifndef diffusionOnly_H
+#define diffusionOnly_H
 
 #include "volFields.H"
 #include "speciesTable.H"
@@ -53,44 +57,36 @@ namespace dispersionModels
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class archiesDispersionModel : public dispersionModel
+class diffusionOnly : public dispersionModel
 {
   protected:
 
-    dictionary archiesDispersionModelDict_;
+    dictionary diffusionOnlyDict_;
 
     // Protected data
 
-    // Name of the porosity field
-    word epsName_;
-
-    // Name of the velocity field
-    word UName_;
 
     dimensionedScalar Di_;              //molecular diffusion coefficient - m2/s
-    dimensionedScalar alphaL_;          //hydrodynamic dispersion coeff - m/s
-    volScalarField Deff;                //effectiveDispersion
-    const volScalarField & eps_;        //porosity
-    const volVectorField & U_;          //velocity
-    scalar n_;                          //for porosity
+    volScalarField Deff_;                //effectiveDispersion
+
 
   // Private Member Functions
 
     //- Disallow copy construct
-    archiesDispersionModel(const archiesDispersionModel&);
+    diffusionOnly(const diffusionOnly&);
 
 
 public:
 
   //- Runtime type information
-    TypeName("archiesDispersionModel");
+    TypeName("diffusionOnly");
 
   // Declare run-time constructor selection table
 
   // Selectors
 
     //- Construct from components
-    archiesDispersionModel
+    diffusionOnly
     (
       const fvMesh& mesh,
       const dictionary& dict
@@ -98,7 +94,7 @@ public:
 
 
     //- Destructor
-    virtual ~archiesDispersionModel()
+    virtual ~diffusionOnly()
     {}
 
 
@@ -110,7 +106,7 @@ public:
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-} // End namespace dispersionModel
+} // End namespace diffusionOnly
 } // End namespace Foam
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

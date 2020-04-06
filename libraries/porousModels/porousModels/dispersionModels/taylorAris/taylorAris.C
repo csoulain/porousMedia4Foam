@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "taylorArisDispersionModel.H"
+#include "taylorAris.H"
 #include "addToRunTimeSelectionTable.H"
 
 
@@ -33,29 +33,29 @@ namespace Foam
 {
 namespace dispersionModels
 {
-    defineTypeNameAndDebug(taylorArisDispersionModel, 0);
+    defineTypeNameAndDebug(taylorAris, 0);
 
     addToRunTimeSelectionTable
     (
         dispersionModel,
-        taylorArisDispersionModel,
+        taylorAris,
         dictionary
     );
 }
 }
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::dispersionModels::taylorArisDispersionModel::taylorArisDispersionModel
+Foam::dispersionModels::taylorAris::taylorAris
 (
     const fvMesh& mesh,
     const dictionary& dict
 )
 :
     dispersionModel(mesh, dict),
-    taylorArisDispersionModelDict_(dict.subDict(typeName+"Coeffs")),
-    UName_(taylorArisDispersionModelDict_.lookupOrDefault<word>("U", "U")),
-    Di_( taylorArisDispersionModelDict_.lookup("Di") ),
-    Deff
+    taylorArisDict_(dict.subDict(typeName+"Coeffs")),
+    UName_(taylorArisDict_.lookupOrDefault<word>("U", "U")),
+    Di_( taylorArisDict_.lookup("Di") ),
+    Deff_
      (
       IOobject
       (
@@ -70,7 +70,7 @@ Foam::dispersionModels::taylorArisDispersionModel::taylorArisDispersionModel
       "zeroGradient"
     ),
     U_(mesh.lookupObject<volVectorField>(UName_)),
-    d_( taylorArisDispersionModelDict_.lookup("channelDia") )
+    d_( taylorArisDict_.lookup("channelDiameter") )
 
 {
 
@@ -79,13 +79,13 @@ Foam::dispersionModels::taylorArisDispersionModel::taylorArisDispersionModel
 // * * * * * * * * * * * * * * member functions  * * * * * * * * * * * * * * //
 
 Foam::tmp<Foam::volScalarField>
-Foam::dispersionModels::taylorArisDispersionModel::effectiveDispersion() const
+Foam::dispersionModels::taylorAris::effectiveDispersion() const
 {
-      return Deff;
+      return Deff_;
 }
 
-void Foam::dispersionModels::taylorArisDispersionModel::updateDispersion()
+void Foam::dispersionModels::taylorAris::updateDispersion()
 {
-      Deff= Di_*(1 + Foam::pow(d_*0.5,2)*Foam::pow(mag(U_),2)/(48*Foam::pow(Di_,2)));
+      Deff_= Di_*(1 + Foam::pow(d_*0.5,2)*Foam::pow(mag(U_),2)/(48*Foam::pow(Di_,2)));
 }
 // -------------------------------------------------------------------------//

@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "archiesDispersionModel.H"
+#include "archiesLaw.H"
 #include "addToRunTimeSelectionTable.H"
 
 
@@ -33,31 +33,31 @@ namespace Foam
 {
 namespace dispersionModels
 {
-    defineTypeNameAndDebug(archiesDispersionModel, 0);
+    defineTypeNameAndDebug(archiesLaw, 0);
 
     addToRunTimeSelectionTable
     (
         dispersionModel,
-        archiesDispersionModel,
+        archiesLaw,
         dictionary
     );
 }
 }
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::dispersionModels::archiesDispersionModel::archiesDispersionModel
+Foam::dispersionModels::archiesLaw::archiesLaw
 (
     const fvMesh& mesh,
     const dictionary& dict
 )
 :
     dispersionModel(mesh, dict),
-    archiesDispersionModelDict_(dict.subDict(typeName+"Coeffs")),
-    epsName_(archiesDispersionModelDict_.lookupOrDefault<word>("eps", "eps")),
-    UName_(archiesDispersionModelDict_.lookupOrDefault<word>("U", "U")),
-    Di_( archiesDispersionModelDict_.lookup("Di") ),
-    alphaL_( archiesDispersionModelDict_.lookup("alphaL") ),
-    Deff
+    archiesLawDict_(dict.subDict(typeName+"Coeffs")),
+    epsName_(archiesLawDict_.lookupOrDefault<word>("eps", "eps")),
+    UName_(archiesLawDict_.lookupOrDefault<word>("U", "U")),
+    Di_( archiesLawDict_.lookup("Di") ),
+    alphaL_( archiesLawDict_.lookup("alphaL") ),
+    Deff_
      (
       IOobject
       (
@@ -73,7 +73,7 @@ Foam::dispersionModels::archiesDispersionModel::archiesDispersionModel
     ),
     eps_(mesh.lookupObject<volScalarField>(epsName_)),
     U_(mesh.lookupObject<volVectorField>(UName_)),
-    n_(readScalar(archiesDispersionModelDict_.lookup("n")))
+    n_(readScalar(archiesLawDict_.lookup("n")))
 {
 
 }
@@ -81,13 +81,13 @@ Foam::dispersionModels::archiesDispersionModel::archiesDispersionModel
 // * * * * * * * * * * * * * * member functions  * * * * * * * * * * * * * * //
 
 Foam::tmp<Foam::volScalarField>
-Foam::dispersionModels::archiesDispersionModel::effectiveDispersion() const
+Foam::dispersionModels::archiesLaw::effectiveDispersion() const
 {
-      return Deff;
+      return Deff_;
 }
 
-void Foam::dispersionModels::archiesDispersionModel::updateDispersion()
+void Foam::dispersionModels::archiesLaw::updateDispersion()
 {
-      Deff= Foam::pow(eps_,n_)*Di_*(1.+alphaL_/Di_*mag(U_));
+      Deff_= Foam::pow(eps_,n_)*Di_*(1.+alphaL_/Di_*mag(U_));
 }
 // -------------------------------------------------------------------------//

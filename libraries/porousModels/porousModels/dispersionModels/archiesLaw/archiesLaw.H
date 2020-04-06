@@ -25,104 +25,96 @@ Class
     Foam::twoPhaseMixture
 
 Description
-    absolutePermeabilityModel module
+    Archies model for tortuosity. Feed to update molecular diffusion
+    and consequently effectiveDispersion.
+
+    General dispersion model:
+    Deff = porosity^{n}*molecularDiffusionCoeff*(1+hydrodynamicDispersionCoeff/molecularDiffusionCoeff*|velocity|)
 
 SourceFiles
-    phreeqc.C
+    archiesLaw.C
+
+Authors
+    - Saideep Pavuluri
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef dispersionModel_H
-#define dispersionModel_H
+#ifndef archiesLaw_H
+#define archiesLaw_H
 
-#include "dictionary.H"
-#include "volFieldsFwd.H"
 #include "volFields.H"
-#include "runTimeSelectionTables.H"
-#include "surfaceInterpolate.H"
+#include "speciesTable.H"
+
+#include "dispersionModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
 {
-
+namespace dispersionModels
+{
 /*---------------------------------------------------------------------------*\
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class dispersionModel
+class archiesLaw : public dispersionModel
 {
-
   protected:
+
+    dictionary archiesLawDict_;
 
     // Protected data
 
-    const fvMesh& mesh_;
-//    const volScalarField &eps_;
+    // Name of the porosity field
+    word epsName_;
+
+    // Name of the velocity field
+    word UName_;
+
+    dimensionedScalar Di_;              //molecular diffusion coefficient - m2/s
+    dimensionedScalar alphaL_;          //hydrodynamic dispersion coeff - m/s
+    volScalarField Deff_;                //effectiveDispersion
+    const volScalarField & eps_;        //porosity
+    const volVectorField & U_;          //velocity
+    scalar n_;                          //for porosity
 
   // Private Member Functions
 
     //- Disallow copy construct
-    dispersionModel(const dispersionModel&);
+    archiesLaw(const archiesLaw&);
 
 
 public:
 
   //- Runtime type information
-    TypeName("dispersionModel");
+    TypeName("archiesLaw");
 
-
-    // Declare run-time constructor selection table
-
-      declareRunTimeSelectionTable
-      (
-          autoPtr,
-          dispersionModel,
-          dictionary,
-          (
-              const fvMesh& mesh,
-              const dictionary& dict
-          ),
-          (mesh, dict)
-      );
-
+  // Declare run-time constructor selection table
 
   // Selectors
 
-      //- Return a reference to the selected viscosity model
-      static autoPtr<dispersionModel> New
-      (
-          const fvMesh& mesh,
-          const dictionary& dict
-      );
-
-  // Constructors
-
     //- Construct from components
-
-    dispersionModel
+    archiesLaw
     (
-        const fvMesh& mesh,
-        const dictionary& dict
+      const fvMesh& mesh,
+      const dictionary& dict
     );
 
+
     //- Destructor
-    virtual ~dispersionModel()
+    virtual ~archiesLaw()
     {}
 
 
     // Member Functions
+    virtual tmp<volScalarField> effectiveDispersion() const;
 
-
-      virtual tmp<volScalarField> effectiveDispersion() const =0;
-
-      virtual void updateDispersion() = 0;
-
+    virtual void updateDispersion();
 };
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
+} // End namespace dispersionModel
 } // End namespace Foam
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

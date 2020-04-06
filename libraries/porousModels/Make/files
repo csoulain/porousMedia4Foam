@@ -8,9 +8,10 @@ porousModels/absolutePermeabilityModels/heterogeneousScalarConstant/heterogeneou
 
 porousModels/dispersionModels/dispersionModel/dispersionModel.C
 porousModels/dispersionModels/dispersionModel/dispersionModelNew.C
-porousModels/dispersionModels/generalDispersionModel/generalDispersionModel.C
-porousModels/dispersionModels/archiesDispersionModel/archiesDispersionModel.C
-porousModels/dispersionModels/taylorArisDispersionModel/taylorArisDispersionModel.C
+porousModels/dispersionModels/linearDispersion/linearDispersion.C
+porousModels/dispersionModels/archiesLaw/archiesLaw.C
+porousModels/dispersionModels/taylorAris/taylorAris.C
+porousModels/dispersionModels/diffusionOnly/diffusionOnly.C
 
 
 

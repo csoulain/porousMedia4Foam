@@ -25,18 +25,19 @@ Class
     Foam::twoPhaseMixture
 
 Description
-    Taylor-Aris dispersion model. Note that this model is specific for pipe flows. Therefore the porosity is equal to 1.
+    A general model to account for effectiveDispersion. This class includes
+    both molecular diffusion and hydrodynamic dispersion.
 
-    Dispersion model:
-    Deff = molecularDiffusionCoeff*(1+channelradius^2*|velocity|^2/(48*molecularDiffusionCoeff^2))
+    General dispersion model:
+    Deff = porosity*molecularDiffusionCoeff*(1+hydrodynamicDispersionCoeff/molecularDiffusionCoeff*|velocity|)
 
 SourceFiles
-    taylorArisDispersionModel.C
+    linearDispersion.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef taylorArisDispersionModel_H
-#define taylorArisDispersionModel_H
+#ifndef linearDispersion_H
+#define linearDispersion_H
 
 #include "volFields.H"
 #include "speciesTable.H"
@@ -53,38 +54,43 @@ namespace dispersionModels
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class taylorArisDispersionModel : public dispersionModel
+class linearDispersion : public dispersionModel
 {
   protected:
 
-    dictionary taylorArisDispersionModelDict_;
+    dictionary linearDispersionDict_;
 
     // Protected data
+
+    // Name of the porosity field
+    word epsName_;
 
     // Name of the velocity field
     word UName_;
 
     dimensionedScalar Di_;              //molecular diffusion coefficient - m2/s
-    volScalarField Deff;                //effectiveDispersion
+    dimensionedScalar alphaL_;          //hydrodynamic dispersion coeff - m/s
+    volScalarField Deff_;                //effectiveDispersion
+    const volScalarField & eps_;        //porosity
     const volVectorField & U_;          //velocity
-    dimensionedScalar d_;              //diameter of the channel - m
 
   // Private Member Functions
 
     //- Disallow copy construct
-    taylorArisDispersionModel(const taylorArisDispersionModel&);
+    linearDispersion(const linearDispersion&);
+
 
 public:
 
   //- Runtime type information
-    TypeName("taylorArisDispersionModel");
+    TypeName("linearDispersion");
 
   // Declare run-time constructor selection table
 
   // Selectors
 
     //- Construct from components
-    taylorArisDispersionModel
+    linearDispersion
     (
       const fvMesh& mesh,
       const dictionary& dict
@@ -92,7 +98,7 @@ public:
 
 
     //- Destructor
-    virtual ~taylorArisDispersionModel()
+    virtual ~linearDispersion()
     {}
 
 
@@ -104,7 +110,7 @@ public:
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-} // End namespace dispersionModel
+} // End namespace linearDispersion
 } // End namespace Foam
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

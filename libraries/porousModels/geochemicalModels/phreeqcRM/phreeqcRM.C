@@ -780,7 +780,7 @@ void Foam::geochemicalModels::phreeqcRM::updateFluidComposition()
             fvScalarMatrix YiEqn
             (
                 fvm::ddt(eps_,Yi) + fvm::div(phi_,Yi,divPhiYiScheme)
-                -fvm::laplacian(Deff,Yi,"laplacian(Di,Yi)")
+                -fvm::laplacian(eps_*Deff,Yi,"laplacian(Di,Yi)")
             );
             YiEqn.solve();
 
