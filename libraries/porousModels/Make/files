@@ -12,7 +12,7 @@ porousModels/dispersionModels/linearDispersion/linearDispersion.C
 porousModels/dispersionModels/archiesLaw/archiesLaw.C
 porousModels/dispersionModels/taylorAris/taylorAris.C
 porousModels/dispersionModels/diffusionOnly/diffusionOnly.C
-
+porousModels/dispersionModels/none/none.C
 
 
 
