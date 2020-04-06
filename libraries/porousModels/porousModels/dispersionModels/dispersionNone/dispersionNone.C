@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "none.H"
+#include "dispersionNone.H"
 #include "addToRunTimeSelectionTable.H"
 
 
@@ -33,19 +33,19 @@ namespace Foam
 {
 namespace dispersionModels
 {
-    defineTypeNameAndDebug(none, 0);
+    defineTypeNameAndDebug(dispersionNone, 0);
 
     addToRunTimeSelectionTable
     (
         dispersionModel,
-        none,
+        dispersionNone,
         dictionary
     );
 }
 }
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::dispersionModels::none::none
+Foam::dispersionModels::dispersionNone::dispersionNone
 (
     const fvMesh& mesh,
     const dictionary& dict
@@ -73,11 +73,11 @@ Foam::dispersionModels::none::none
 // * * * * * * * * * * * * * * member functions  * * * * * * * * * * * * * * //
 
 Foam::tmp<Foam::volScalarField>
-Foam::dispersionModels::none::effectiveDispersion() const
+Foam::dispersionModels::dispersionNone::effectiveDispersion() const
 {
       return Deff_;
 }
 
-void Foam::dispersionModels::none::updateDispersion()
+void Foam::dispersionModels::dispersionNone::updateDispersion()
 {}
 // -------------------------------------------------------------------------//

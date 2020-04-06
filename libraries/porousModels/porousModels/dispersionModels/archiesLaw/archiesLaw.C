@@ -54,9 +54,7 @@ Foam::dispersionModels::archiesLaw::archiesLaw
     dispersionModel(mesh, dict),
     archiesLawDict_(dict.subDict(typeName+"Coeffs")),
     epsName_(archiesLawDict_.lookupOrDefault<word>("eps", "eps")),
-    UName_(archiesLawDict_.lookupOrDefault<word>("U", "U")),
     Di_( archiesLawDict_.lookup("Di") ),
-    alphaL_( archiesLawDict_.lookup("alphaL") ),
     Deff_
      (
       IOobject
@@ -72,7 +70,6 @@ Foam::dispersionModels::archiesLaw::archiesLaw
       "zeroGradient"
     ),
     eps_(mesh.lookupObject<volScalarField>(epsName_)),
-    U_(mesh.lookupObject<volVectorField>(UName_)),
     n_(readScalar(archiesLawDict_.lookup("n")))
 {
 
@@ -88,6 +85,6 @@ Foam::dispersionModels::archiesLaw::effectiveDispersion() const
 
 void Foam::dispersionModels::archiesLaw::updateDispersion()
 {
-      Deff_= Foam::pow(eps_,n_)*Di_*(1.+alphaL_/Di_*mag(U_));
+      Deff_= Foam::pow(eps_,n_)*Di_;
 }
 // -------------------------------------------------------------------------//

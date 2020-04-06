@@ -72,7 +72,8 @@ Foam::dispersionModels::linearDispersion::linearDispersion
       "zeroGradient"
     ),
     eps_(mesh.lookupObject<volScalarField>(epsName_)),
-    U_(mesh.lookupObject<volVectorField>(UName_))
+    U_(mesh.lookupObject<volVectorField>(UName_)),
+    n_(readScalar(archiesLawDict_.lookup("n")))
 {
 
 }
@@ -87,6 +88,6 @@ Foam::dispersionModels::linearDispersion::effectiveDispersion() const
 
 void Foam::dispersionModels::linearDispersion::updateDispersion()
 {
-      Deff_= Foam::pow(eps_,1)*Di_*(1.+alphaL_/Di_*mag(U_));
+      Deff_= Foam::pow(eps_,n)*Di_*(1.+alphaL_/Di_*mag(U_));
 }
 // -------------------------------------------------------------------------//

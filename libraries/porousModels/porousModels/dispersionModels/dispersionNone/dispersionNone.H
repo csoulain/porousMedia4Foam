@@ -28,19 +28,19 @@ Description
     A dispersion model that considers diffusion only. There are no tortuosity
     nor hydrodynamic dispersion effects.
 
-    none model:
+    dispersionNone model:
     Deff = Di
 
 SourceFiles
-    none.C
+    dispersionNone.C
 
 Authors
     C. Soulaine 6/4/2020 : creation
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef none_H
-#define none_H
+#ifndef dispersionNone_H
+#define dispersionNone_H
 
 #include "volFields.H"
 #include "speciesTable.H"
@@ -57,11 +57,11 @@ namespace dispersionModels
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class none : public dispersionModel
+class dispersionNone : public dispersionModel
 {
   protected:
 
-//    dictionary noneDict_;
+//    dictionary dispersionNoneDict_;
 
     // Protected data
 
@@ -72,7 +72,7 @@ class none : public dispersionModel
   // Private Member Functions
 
     //- Disallow copy construct
-    none(const none&);
+    dispersionNone(const dispersionNone&);
 
 
 public:
@@ -85,7 +85,7 @@ public:
   // Selectors
 
     //- Construct from components
-    none
+    dispersionNone
     (
       const fvMesh& mesh,
       const dictionary& dict
@@ -93,7 +93,7 @@ public:
 
 
     //- Destructor
-    virtual ~none()
+    virtual ~dispersionNone()
     {}
 
 
@@ -105,7 +105,7 @@ public:
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-} // End namespace none
+} // End namespace dispersionNone
 } // End namespace Foam
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -73,6 +73,8 @@ class linearDispersion : public dispersionModel
     volScalarField Deff_;                //effectiveDispersion
     const volScalarField & eps_;        //porosity
     const volVectorField & U_;          //velocity
+    scalar n_;                          //for porosity
+
 
   // Private Member Functions
 

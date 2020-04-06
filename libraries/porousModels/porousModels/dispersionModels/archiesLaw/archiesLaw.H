@@ -29,7 +29,7 @@ Description
     and consequently effectiveDispersion.
 
     General dispersion model:
-    Deff = porosity^{n}*molecularDiffusionCoeff*(1+hydrodynamicDispersionCoeff/molecularDiffusionCoeff*|velocity|)
+    Deff = porosity^{n}*molecularDiffusionCoeff
 
 SourceFiles
     archiesLaw.C
@@ -68,14 +68,10 @@ class archiesLaw : public dispersionModel
     // Name of the porosity field
     word epsName_;
 
-    // Name of the velocity field
-    word UName_;
 
     dimensionedScalar Di_;              //molecular diffusion coefficient - m2/s
-    dimensionedScalar alphaL_;          //hydrodynamic dispersion coeff - m/s
     volScalarField Deff_;                //effectiveDispersion
     const volScalarField & eps_;        //porosity
-    const volVectorField & U_;          //velocity
     scalar n_;                          //for porosity
 
   // Private Member Functions
