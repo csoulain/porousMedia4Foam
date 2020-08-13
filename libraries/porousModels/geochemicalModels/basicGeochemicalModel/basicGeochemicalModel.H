@@ -71,11 +71,19 @@ class basicGeochemicalModel
 
   //  PtrList<dimensionedScalar> rhos_;
 
-    PtrList<volScalarField> dMs_;
-
     volScalarField inertMineral_;
 
     volScalarField eps_;
+
+
+    dimensionedScalar rhol_;
+
+    PtrList<dimensionedScalar> rhos_;
+
+
+    volScalarField dMinvdRho_;
+
+
 
     PtrList<porousModel> porousMedia_;
 
@@ -198,20 +206,19 @@ class basicGeochemicalModel
 
 
 
-    const PtrList<volScalarField> dMs()
+    tmp<volScalarField> dMinvdRho() const
     {
-        return dMs_;
+        return dMinvdRho_;
     }
+
+    virtual void updatedMinvdRho();
+
+
 
     virtual void updateFluidComposition() = 0;
 
     virtual void updateMineralDistribution() = 0;
 
-
-    void coucou()
-    {
-        Info << "COUCOU " << nl <<endl;
-    }
 
 };
 

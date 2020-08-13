@@ -175,6 +175,13 @@ class geochemicalModel
         return basicGeochemicalModelPtr_->porosity();
     }
 
+
+    const volScalarField & dMinvdRho()  const
+    {
+        return basicGeochemicalModelPtr_->dMinvdRho();
+    }
+
+
     const volScalarField & effectiveDispersion()  const
     {
         return basicGeochemicalModelPtr_->effectiveDispersion();
@@ -189,6 +196,7 @@ class geochemicalModel
         basicGeochemicalModelPtr_->updateSurfaceArea();
         basicGeochemicalModelPtr_->updatePermeability();
         basicGeochemicalModelPtr_->updateDispersion();
+        basicGeochemicalModelPtr_->updatedMinvdRho();
         Info << "geochemistry updated" <<nl <<endl;
     }
 

@@ -59,14 +59,12 @@ Foam::geochemicalModels::simpleFirstOrderKineticMole::simpleFirstOrderKineticMol
 )
 :
     basicGeochemicalModel(mesh, dict),
-    simpleFirstOrderKineticMoleDict_(dict.subDict(typeName)),
+//    simpleFirstOrderKineticMoleDict_(dict.subDict(typeName)),
     transportPropertiesDict_(dict),
     mineralSubDict_( mineralList_.size() ),
     Vm_( mineralList_.size() ),
     ki_( mineralList_.size() ),
-    Acti_( mineralList_.size() ),
-    Di_( simpleFirstOrderKineticMoleDict_.lookup("Di") ) //,
-//    alphaL_( simpleFirstOrderKineticMoleDict_.lookup("alphaL") )
+    Acti_( mineralList_.size() )
 {
     Info << "initialization of the simpleFirstOrderKineticMole calculation ....";
     Y_.resize(1);
@@ -150,8 +148,8 @@ void Foam::geochemicalModels::simpleFirstOrderKineticMole::updateFluidCompositio
 
     word divPhiYiScheme = "div(phi,Yi)";
 
-//    volScalarField Deff("Deff", Foam::pow(eps_,1)*Di_*(1.+alphaL_/Di_*mag(U_)));
-    volScalarField Deff("Deff", Foam::pow(eps_,2)*Di_);
+    const volScalarField &Deff = effectiveDispersion();
+
 
   //  tmp<volScalarField> Aee_ (this->surfaceArea());
     volScalarField Ak_

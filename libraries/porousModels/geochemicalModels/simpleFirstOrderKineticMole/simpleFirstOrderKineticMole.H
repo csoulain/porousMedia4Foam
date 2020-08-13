@@ -57,7 +57,7 @@ class simpleFirstOrderKineticMole : public basicGeochemicalModel
 {
 
 
-  dictionary  simpleFirstOrderKineticMoleDict_;
+//  dictionary  simpleFirstOrderKineticMoleDict_;
 
 
   protected:
@@ -74,9 +74,6 @@ class simpleFirstOrderKineticMole : public basicGeochemicalModel
 
     PtrList<dimensionedScalar> ki_;
     PtrList<dimensionedScalar> Acti_;
-
-    dimensionedScalar Di_;
-  //  dimensionedScalar alphaL_;
 
 
 

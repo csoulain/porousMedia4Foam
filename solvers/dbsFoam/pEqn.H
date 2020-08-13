@@ -39,12 +39,16 @@ if (pimple.nCorrPiso() <= 1)
 // Update the pressure BCs to ensure flux consistency
 constrainPressure(p, U, phiHbyA, rAtU());
 
+// Source term in the continuity equation due to phase change
+tmp<volScalarField> source(geochemistry.dMinvdRho());
+
+
 // Non-orthogonal pressure corrector loop
 while (pimple.correctNonOrthogonal())
 {
     fvScalarMatrix pEqn
     (
-        fvm::laplacian(rAtU(), p) == fvc::div(phiHbyA)
+        fvm::laplacian(rAtU(), p) == fvc::div(phiHbyA) - source
     );
 
     pEqn.setReference(pRefCell, pRefValue);
