@@ -72,12 +72,8 @@ class simpleFirstOrderKineticMole : public basicGeochemicalModel
 
     PtrList<dimensionedScalar> Vm_;
 
-    PtrList<dimensionedScalar> M_;
-
-
     PtrList<dimensionedScalar> ki_;
-    PtrList<dimensionedScalar> Ceq_;
-
+    PtrList<dimensionedScalar> Acti_;
 
     dimensionedScalar Di_;
   //  dimensionedScalar alphaL_;

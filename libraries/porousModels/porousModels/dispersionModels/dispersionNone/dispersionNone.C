@@ -60,7 +60,7 @@ Foam::dispersionModels::dispersionNone::dispersionNone
        mesh_.time().timeName(),
        mesh_,
        IOobject::READ_IF_PRESENT,
-       IOobject::AUTO_WRITE
+       IOobject::NO_WRITE
       ),
       mesh_,
       dimensionedScalar("Deff",dimensionSet(0, 2, -1, 0, 0),0.0),

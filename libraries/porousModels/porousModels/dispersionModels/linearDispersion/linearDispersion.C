@@ -65,7 +65,7 @@ Foam::dispersionModels::linearDispersion::linearDispersion
        mesh_.time().timeName(),
        mesh_,
        IOobject::READ_IF_PRESENT,
-       IOobject::AUTO_WRITE
+       IOobject::NO_WRITE
       ),
       mesh_,
       dimensionedScalar("Deff",dimensionSet(0, 2, -1, 0, 0),0.0),
@@ -73,7 +73,7 @@ Foam::dispersionModels::linearDispersion::linearDispersion
     ),
     eps_(mesh.lookupObject<volScalarField>(epsName_)),
     U_(mesh.lookupObject<volVectorField>(UName_)),
-    n_(readScalar(archiesLawDict_.lookup("n")))
+    n_(readScalar(linearDispersionDict_.lookup("n")))
 {
 
 }
@@ -88,6 +88,6 @@ Foam::dispersionModels::linearDispersion::effectiveDispersion() const
 
 void Foam::dispersionModels::linearDispersion::updateDispersion()
 {
-      Deff_= Foam::pow(eps_,n)*Di_*(1.+alphaL_/Di_*mag(U_));
+      Deff_= Foam::pow(eps_,n_)*Di_*(1.+alphaL_/Di_*mag(U_));
 }
 // -------------------------------------------------------------------------//

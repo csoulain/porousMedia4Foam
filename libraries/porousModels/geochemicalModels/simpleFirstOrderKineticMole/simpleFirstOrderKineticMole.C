@@ -63,9 +63,8 @@ Foam::geochemicalModels::simpleFirstOrderKineticMole::simpleFirstOrderKineticMol
     transportPropertiesDict_(dict),
     mineralSubDict_( mineralList_.size() ),
     Vm_( mineralList_.size() ),
-    M_( mineralList_.size() ),
     ki_( mineralList_.size() ),
-    Ceq_( mineralList_.size() ),
+    Acti_( mineralList_.size() ),
     Di_( simpleFirstOrderKineticMoleDict_.lookup("Di") ) //,
 //    alphaL_( simpleFirstOrderKineticMoleDict_.lookup("alphaL") )
 {
@@ -122,15 +121,6 @@ void Foam::geochemicalModels::simpleFirstOrderKineticMole::readMineralProperties
   			)
 		);
 
-    M_.set
-		(
-  			s,
-  			new dimensionedScalar
-  			(
-  					   mineralSubDict_[s].lookup("M")
-  			)
-		);
-
     ki_.set
     (
         s,
@@ -140,12 +130,12 @@ void Foam::geochemicalModels::simpleFirstOrderKineticMole::readMineralProperties
         )
     );
 
-    Ceq_.set
+    Acti_.set
     (
         s,
         new dimensionedScalar
         (
-               mineralSubDict_[s].lookup("Ceq")
+               mineralSubDict_[s].lookup("Acti")
         )
     );
 
@@ -167,15 +157,15 @@ void Foam::geochemicalModels::simpleFirstOrderKineticMole::updateFluidCompositio
     volScalarField Ak_
     (
         "Ak",
-        0.0*porousMedia_[0].surfaceArea()*ki_[0]/Ceq_[0]
+        0.0*porousMedia_[0].surfaceArea()*ki_[0]*Acti_[0]
     );
 
     forAll(mineralList_,s)
   	{
-        Ak_ += porousMedia_[s].surfaceArea()*ki_[s]/Ceq_[s];
+        Ak_ += porousMedia_[s].surfaceArea()*ki_[s]*Acti_[s];
     }
 
-    Ak_ = 2*(1.-eps_)*Ak_;
+//    Ak_ = 2*(1.-eps_)*Ak_;
 
     forAll(Y_,i)
     {
@@ -216,7 +206,7 @@ void Foam::geochemicalModels::simpleFirstOrderKineticMole::updateMineralDistribu
         volScalarField dMs_
         (
             "dMs",
-            porousMedia_[s].surfaceArea()*ki_[s]*Vm_[s]/Ceq_[s]*Y_[s]/(Ys_[s]+SMALL)
+            porousMedia_[s].surfaceArea()*ki_[s]*Vm_[s]*Acti_[s]*Y_[s]/(Ys_[s]+SMALL)
         );
 
         solve

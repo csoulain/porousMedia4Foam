@@ -69,6 +69,8 @@ class basicGeochemicalModel
 
     PtrList<volScalarField> Ys_;
 
+  //  PtrList<dimensionedScalar> rhos_;
+
     PtrList<volScalarField> dMs_;
 
     volScalarField inertMineral_;
