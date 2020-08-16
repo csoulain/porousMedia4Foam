@@ -16,6 +16,7 @@ wmake solvers/darcyFoam
 wmake solvers/impesFoam
 wmake solvers/dbsSimpleFoam
 wmake solvers/dbsFoam
+wmake solvers/constantVelocityFoam
 #wmake solvers/anisoImpesFoam
 #wmake solvers/threePhaseImpesFoam
 

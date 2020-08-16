@@ -69,29 +69,16 @@ Foam::geochemicalModels::phreeqcRM::phreeqcRM
       ),
       nthread_(1),
       nxyz_(mesh_.cells().size()),
-      strangSteps_ (readScalar(transportPropertiesDict_.lookup("StrangSteps"))),
+      strangSteps_ (readScalar(phreeqcDict_.lookup("StrangSteps"))),
       phreeqcInputFile_( phreeqcDict_.lookup("PhreeqcInputFile") ),
       phreeqcDataBase_( phreeqcDict_.lookup("PhreeqcDataBase") ),
       mineralSubDict_( mineralList_.size() ),
       activatePhaseEquilibrium_( mineralList_.size() ),
       Vm_( mineralList_.size() ),
-//      Di_( phreeqcDict_.lookup("Di") ),
-//      alphaL_( phreeqcDict_.lookup("alphaL") ),
-/*      Deff
+      cvODE
       (
-          IOobject
-          (
-              "Deff",
-              mesh_.time().timeName(),
-              mesh_,
-              IOobject::READ_IF_PRESENT,
-              IOobject::NO_WRITE
-          ),
-          mesh_,
-          dimensionedScalar("Deff",dimensionSet(0, 2, -1, 0, 0),0.0),
-          "zeroGradient"
-      ),*/
-      cvODE_ONOFF (readScalar(phreeqcDict_.lookup("cvODE_ONOFF"))),
+        phreeqcDict_.lookupOrDefault<Switch>("cvODE", false)
+      ),
       UName_(phreeqcDict_.lookupOrDefault<word>("U", "U")),
       U_(mesh.lookupObject<volVectorField>(UName_)),
       pH_
@@ -313,7 +300,7 @@ std::string Foam::geochemicalModels::phreeqcRM::generateKineticsInputString()
     			strs_AeMi << AeMi;
 
 
-          if (scalar(cvODE_ONOFF) == 0)
+          if ( cvODE == false)
     			{
     		 	    Info << "Using RK to solve chemistry" << nl;
     		      input +=

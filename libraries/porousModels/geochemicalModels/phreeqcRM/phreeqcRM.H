@@ -91,7 +91,7 @@ class phreeqcRM : public basicGeochemicalModel
 //    dimensionedScalar alphaL_;
 
 //    volScalarField Deff;
-    scalar cvODE_ONOFF;
+    Switch cvODE;
 
 
 

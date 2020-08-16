@@ -1,0 +1,20 @@
+EXE_INC = \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/meshTools/lnInclude  \
+    -I$(LIB_SRC)/thermophysicalModels/specie/lnInclude \
+    -I../../libraries/porousBoundaryConditions/lnInclude \
+    -I../../libraries/porousModels/lnInclude \
+    -I../../libraries/otherModels/lnInclude \
+    -I../../libraries/toolsGIS/lnInclude
+
+
+
+EXE_LIBS = \
+    -lfiniteVolume \
+    -lspecie \
+    -L$(FOAM_USER_LIBBIN) \
+    -lporousBoundaryConditions \
+    -lporousModels \
+    -lotherModels \
+    -ltoolsGIS \
+    -L$(WM_PROJECT_USER_DIR)/ThirdParty/phreeqcrm/lib/ -lphreeqcrm
