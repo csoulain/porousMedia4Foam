@@ -48,7 +48,7 @@ while (pimple.correctNonOrthogonal())
 {
     fvScalarMatrix pEqn
     (
-        fvm::laplacian(rAtU(), p) == fvc::div(phiHbyA) - source
+        fvm::laplacian(rAtU(), p) == fvc::div(phiHbyA) //- source
     );
 
     pEqn.setReference(pRefCell, pRefValue);

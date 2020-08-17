@@ -80,7 +80,7 @@ void Foam::surfaceAreaModels::volumeOfSolid::updateSurfaceArea()
 {
       Ae_= mag(fvc::grad(Ys_));
 //      Ae_=Ae_*2.*Ys_;  //(Diffuse interface function)
-      Ae_=Ae_*2.*Foam::pow(Ys_,0.5);  //(Diffuse interface function)
+      Ae_=Ae_*2.*Foam::pow(Ys_,1);  //(Diffuse interface function)
 
 //      Ae_ = 2.0*fvc::average( fvc::interpolate(Ae_, "Ae") );
 

@@ -799,6 +799,7 @@ void Foam::geochemicalModels::phreeqcRM::updateFluidComposition()
             //updateMineralDistribution();
             //updatePorosity();
             updateKineticsParameters();//}
+            updatepH();
         } //solve for chemistry
     } //for subCycle
 }
