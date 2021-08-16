@@ -17,4 +17,4 @@ EXE_LIBS = \
     -lporousModels \
     -lotherModels \
     -ltoolsGIS \
-    -L$(WM_PROJECT_USER_DIR)/ThirdParty/phreeqcrm/lib/ -lphreeqcrm
+    -L../../ThirdParty/phreeqcrm/lib/ -lphreeqcrm

@@ -195,7 +195,8 @@ class geochemicalModel
         basicGeochemicalModelPtr_->updatePorosity();
         basicGeochemicalModelPtr_->updateSurfaceArea();
         basicGeochemicalModelPtr_->updatePermeability();
-        basicGeochemicalModelPtr_->updateDispersion();
+      //  basicGeochemicalModelPtr_->updateDispersion();
+        basicGeochemicalModelPtr_->updateDispersionTensor();
         basicGeochemicalModelPtr_->updatedMinvdRho();
         Info << "geochemistry updated" <<nl <<endl;
     }

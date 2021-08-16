@@ -25,7 +25,7 @@ License
 
 #include "taylorAris.H"
 #include "addToRunTimeSelectionTable.H"
-
+#include "fvc.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
@@ -73,7 +73,6 @@ Foam::dispersionModels::taylorAris::taylorAris
     d_( taylorArisDict_.lookup("channelDiameter") )
 
 {
-
 }
 
 // * * * * * * * * * * * * * * member functions  * * * * * * * * * * * * * * //
@@ -86,6 +85,45 @@ Foam::dispersionModels::taylorAris::effectiveDispersion() const
 
 void Foam::dispersionModels::taylorAris::updateDispersion()
 {
-      Deff_= Di_*(1 + Foam::pow(d_*0.5,2)*Foam::pow(mag(U_),2)/(48*Foam::pow(Di_,2)));
+//      Deff_= Di_*(1 + Foam::pow(d_*0.5,2)*Foam::pow(mag(U_),2)/(48*Foam::pow(Di_,2)));
+
+
+//      Info << "max U_ = " << max(U_) << nl << endl;
+
+
+//      Info << "Mean U_ = " << fvc::domainIntegrate(U_)/sum(mesh_.V()) << nl << endl;
+
+//      Info << "channelDiameter = " << d_.value() << nl << endl;
+
+//      Info << "Di = " <<  Di_.value() << nl << endl;
+
+
+//      volScalarField Pe  ("Pe", 0.5*d_*mag(U_)/Di_);
+
+      volScalarField Pe  ("Pe", 0.5*d_*mag(U_.component(vector::X))/Di_);
+
+
+      Info << "Mean Pe = " << (fvc::domainIntegrate(Pe)/sum(mesh_.V())).value() << nl << endl;
+
+      dimensionedScalar time = U_.mesh().time();
+
+      volScalarField dispCorr ("dispCorr", Pe*0.0);
+      scalar pi = 3.141592653589793;
+
+
+      for(int i=1 ; i <= 3 ; i++)
+      {
+          dispCorr += 18./pow(i*pi,6)*Foam::exp(-Foam::pow(i*pi/(0.5*d_),2)*Di_*time);
+      }
+
+      Info << "Mean dispCorr = " << (fvc::domainIntegrate(dispCorr)/sum(mesh_.V())).value() << nl << endl;
+
+      Info << "Mean 2/105-dispCorr = " << 2./105-(fvc::domainIntegrate(dispCorr)/sum(mesh_.V())).value() << nl << endl;
+
+
+      Info << "2/105 = "<< 2/105 << "   2./105 = " <<2./105 << nl << endl;
+
+
+      Deff_= Di_*(1. + Foam::pow(Pe,2)*mag(2./105-dispCorr));
 }
 // -------------------------------------------------------------------------//

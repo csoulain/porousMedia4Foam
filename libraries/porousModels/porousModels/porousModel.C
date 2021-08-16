@@ -77,6 +77,10 @@ Foam::porousModel::porousModel
         (
             dispersionModel::New(mesh, porousMediaDict_)
         ),
+        dispersionTensorModelPtr_
+        (
+            dispersionTensorModel::New(mesh, porousMediaDict_)
+        ),
         surfaceAreaModelPtr_
         (
             surfaceAreaModel::New(mesh, eps_, porousMediaDict_)
@@ -110,6 +114,7 @@ Foam::porousModel::porousModel
         ),
         absolutePermeabilityModelPtr_(NULL),
         dispersionModelPtr_(NULL),
+        dispersionTensorModelPtr_(NULL),
         surfaceAreaModelPtr_
         (
             surfaceAreaModel::New(mesh, Yss_, porousMediaDict_)

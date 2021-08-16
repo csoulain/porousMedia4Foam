@@ -101,6 +101,10 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
       (
           dispersionModel::New(mesh, dict)
       ),
+      dispersionTensorModelPtr_
+      (
+          dispersionTensorModel::New(mesh, dict)
+      ),
       phiName_(dict.lookupOrDefault<word>("phi","phi")),
       phi_(mesh.lookupObject<surfaceScalarField>(phiName_))
 ///      rhol_(dict.lookup("rhol"))

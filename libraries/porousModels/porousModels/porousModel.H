@@ -46,6 +46,7 @@ Authors
 #include "surfaceInterpolate.H"
 #include "absolutePermeabilityModel.H"
 #include "dispersionModel.H"
+#include "dispersionTensorModel.H"
 #include "surfaceAreaModel.H"
 //#include "autoPtr.H"
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -81,6 +82,9 @@ class porousModel
     autoPtr<absolutePermeabilityModel> absolutePermeabilityModelPtr_;
 
     autoPtr<dispersionModel> dispersionModelPtr_;
+
+    autoPtr<dispersionTensorModel> dispersionTensorModelPtr_;
+
 
     autoPtr<surfaceAreaModel> surfaceAreaModelPtr_;
 
@@ -173,6 +177,16 @@ class porousModel
         dispersionModelPtr_->updateDispersion();
     }
 
+    tmp<volTensorField> effectiveDispersionTensor() const
+    {
+        return dispersionTensorModelPtr_->effectiveDispersionTensor();
+    }
+
+    void updateDispersionTensor()
+    {
+        dispersionTensorModelPtr_->updateDispersionTensor();
+    }
+
 
     const volScalarField & porosity() const
     {
@@ -183,7 +197,8 @@ class porousModel
     {
         updatePermeability();
         updateSurfaceArea();
-        updateDispersion();
+    //    updateDispersion();
+        updateDispersionTensor();
     }
 
 };

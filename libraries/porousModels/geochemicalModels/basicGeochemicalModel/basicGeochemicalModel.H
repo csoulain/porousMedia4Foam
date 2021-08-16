@@ -94,6 +94,7 @@ class basicGeochemicalModel
 
     autoPtr<dispersionModel> dispersionModelPtr_;
 
+    autoPtr<dispersionTensorModel> dispersionTensorModelPtr_;
 
     word phiName_;
 
@@ -204,6 +205,15 @@ class basicGeochemicalModel
         dispersionModelPtr_->updateDispersion();
     }
 
+    tmp<volTensorField> effectiveDispersionTensor() const
+    {
+        return dispersionTensorModelPtr_->effectiveDispersionTensor();
+    }
+
+    void updateDispersionTensor()
+    {
+        dispersionTensorModelPtr_->updateDispersionTensor();
+    }
 
 
     tmp<volScalarField> dMinvdRho() const

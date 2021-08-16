@@ -15,6 +15,11 @@ porousModels/dispersionModels/diffusionOnly/diffusionOnly.C
 porousModels/dispersionModels/dispersionNone/dispersionNone.C
 
 
+porousModels/dispersionTensorModels/dispersionTensorModel/dispersionTensorModel.C
+porousModels/dispersionTensorModels/dispersionTensorModel/dispersionTensorModelNew.C
+porousModels/dispersionTensorModels/taylorArisTensor/taylorArisTensor.C
+
+
 
 porousModels/surfaceAreaModels/surfaceAreaModel/surfaceAreaModel.C
 porousModels/surfaceAreaModels/surfaceAreaModel/surfaceAreaModelNew.C
@@ -57,6 +62,7 @@ geochemicalModels/basicGeochemicalModel/basicGeochemicalModelNew.C
 geochemicalModels/flowOnly/flowOnly.C
 geochemicalModels/simpleFirstOrderKinetic/simpleFirstOrderKinetic.C
 geochemicalModels/simpleFirstOrderKineticMole/simpleFirstOrderKineticMole.C
+geochemicalModels/transportOnly/transportOnly.C
 geochemicalModels/phreeqcRM/phreeqcRM.C
 
 

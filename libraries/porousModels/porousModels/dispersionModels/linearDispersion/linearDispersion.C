@@ -90,4 +90,7 @@ void Foam::dispersionModels::linearDispersion::updateDispersion()
 {
       Deff_= Foam::pow(eps_,n_)*Di_*(1.+alphaL_/Di_*mag(U_));
 }
+
+// alphaL should be zero if eps=1.
+
 // -------------------------------------------------------------------------//
