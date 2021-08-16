@@ -1,0 +1,28 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       IOobject;
+    location    "constant";
+    object      phreeqcInput;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+SOLUTION 0
+	pH 2
+	Cl 30 charge
+	Mg 10
+END
+# CELLS WITH CALCITE
+SOLUTION 1-400
+	pH 8.2 charge
+	Ca 1 Calcite 0
+	C(4) 1 CO2(g) -3.45
+	Cl 1e-12
+END

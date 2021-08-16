@@ -1,0 +1,3488 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%Title: B3_porosity.eps
+%%Creator: matplotlib version 2.1.0, http://matplotlib.org/
+%%CreationDate: Mon Dec  7 13:44:54 2020
+%%Orientation: portrait
+%%BoundingBox: 75 223 536 568
+%%EndComments
+%%BeginProlog
+/mpldict 8 dict def
+mpldict begin
+/m { moveto } bind def
+/l { lineto } bind def
+/r { rlineto } bind def
+/c { curveto } bind def
+/cl { closepath } bind def
+/box {
+m
+1 index 0 r
+0 exch r
+neg 0 r
+cl
+} bind def
+/clipbox {
+box
+clip
+newpath
+} bind def
+%!PS-Adobe-3.0 Resource-Font
+%%Title: DejaVu Sans
+%%Copyright: Copyright (c) 2003 by Bitstream, Inc. All Rights Reserved. Copyright (c) 2006 by Tavmjong Bah. All Rights Reserved. DejaVu changes are in public domain 
+%%Creator: Converted from TrueType to type 3 by PPR
+25 dict begin
+/_d{bind def}bind def
+/_m{moveto}_d
+/_l{lineto}_d
+/_cl{closepath eofill}_d
+/_c{curveto}_d
+/_sc{7 -1 roll{setcachedevice}{pop pop pop pop pop pop}ifelse}_d
+/_e{exec}_d
+/FontName /DejaVuSans def
+/PaintType 0 def
+/FontMatrix[.001 0 0 .001 0 0]def
+/FontBBox[-1021 -463 1793 1232]def
+/FontType 3 def
+/Encoding [ /space /hyphen /period /zero /one /two /three /four /six /eight /D /P /bracketleft /bracketright /a /c /e /i /m /n /o /r /s /t /y /minus ] def
+/FontInfo 10 dict dup begin
+/FamilyName (DejaVu Sans) def
+/FullName (DejaVu Sans) def
+/Notice (Copyright (c) 2003 by Bitstream, Inc. All Rights Reserved. Copyright (c) 2006 by Tavmjong Bah. All Rights Reserved. DejaVu changes are in public domain ) def
+/Weight (Book) def
+/Version (Version 2.35) def
+/ItalicAngle 0.0 def
+/isFixedPitch false def
+/UnderlinePosition -130 def
+/UnderlineThickness 90 def
+end readonly def
+/CharStrings 27 dict dup begin
+/.notdef 0 def
+/space{318 0 0 0 0 0 _sc
+}_d
+/hyphen{361 0 49 234 312 314 _sc
+49 314 _m
+312 314 _l
+312 234 _l
+49 234 _l
+49 314 _l
+_cl}_d
+/period{318 0 107 0 210 124 _sc
+107 124 _m
+210 124 _l
+210 0 _l
+107 0 _l
+107 124 _l
+_cl}_d
+/zero{636 0 66 -13 570 742 _sc
+318 664 _m
+267 664 229 639 203 589 _c
+177 539 165 464 165 364 _c
+165 264 177 189 203 139 _c
+229 89 267 64 318 64 _c
+369 64 407 89 433 139 _c
+458 189 471 264 471 364 _c
+471 464 458 539 433 589 _c
+407 639 369 664 318 664 _c
+318 742 _m
+399 742 461 709 505 645 _c
+548 580 570 486 570 364 _c
+570 241 548 147 505 83 _c
+461 19 399 -13 318 -13 _c
+236 -13 173 19 130 83 _c
+87 147 66 241 66 364 _c
+66 486 87 580 130 645 _c
+173 709 236 742 318 742 _c
+_cl}_d
+/one{636 0 110 0 544 729 _sc
+124 83 _m
+285 83 _l
+285 639 _l
+110 604 _l
+110 694 _l
+284 729 _l
+383 729 _l
+383 83 _l
+544 83 _l
+544 0 _l
+124 0 _l
+124 83 _l
+_cl}_d
+/two{{636 0 73 0 536 742 _sc
+192 83 _m
+536 83 _l
+536 0 _l
+73 0 _l
+73 83 _l
+110 121 161 173 226 239 _c
+290 304 331 346 348 365 _c
+380 400 402 430 414 455 _c
+426 479 433 504 433 528 _c
+433 566 419 598 392 622 _c
+365 646 330 659 286 659 _c
+255 659 222 653 188 643 _c
+154 632 117 616 78 594 _c
+78 694 _l
+118 710 155 722 189 730 _c
+223 738 255 742 284 742 _c
+}_e{359 742 419 723 464 685 _c
+509 647 532 597 532 534 _c
+532 504 526 475 515 449 _c
+504 422 484 390 454 354 _c
+446 344 420 317 376 272 _c
+332 227 271 164 192 83 _c
+_cl}_e}_d
+/three{{636 0 76 -13 556 742 _sc
+406 393 _m
+453 383 490 362 516 330 _c
+542 298 556 258 556 212 _c
+556 140 531 84 482 45 _c
+432 6 362 -13 271 -13 _c
+240 -13 208 -10 176 -4 _c
+144 1 110 10 76 22 _c
+76 117 _l
+103 101 133 89 166 81 _c
+198 73 232 69 268 69 _c
+330 69 377 81 409 105 _c
+441 129 458 165 458 212 _c
+458 254 443 288 413 312 _c
+383 336 341 349 287 349 _c
+}_e{202 349 _l
+202 430 _l
+291 430 _l
+339 430 376 439 402 459 _c
+428 478 441 506 441 543 _c
+441 580 427 609 401 629 _c
+374 649 336 659 287 659 _c
+260 659 231 656 200 650 _c
+169 644 135 635 98 623 _c
+98 711 _l
+135 721 170 729 203 734 _c
+235 739 266 742 296 742 _c
+370 742 429 725 473 691 _c
+517 657 539 611 539 553 _c
+539 513 527 479 504 451 _c
+481 423 448 403 406 393 _c
+_cl}_e}_d
+/four{636 0 49 0 580 729 _sc
+378 643 _m
+129 254 _l
+378 254 _l
+378 643 _l
+352 729 _m
+476 729 _l
+476 254 _l
+580 254 _l
+580 172 _l
+476 172 _l
+476 0 _l
+378 0 _l
+378 172 _l
+49 172 _l
+49 267 _l
+352 729 _l
+_cl}_d
+/six{{636 0 70 -13 573 742 _sc
+330 404 _m
+286 404 251 388 225 358 _c
+199 328 186 286 186 234 _c
+186 181 199 139 225 109 _c
+251 79 286 64 330 64 _c
+374 64 409 79 435 109 _c
+461 139 474 181 474 234 _c
+474 286 461 328 435 358 _c
+409 388 374 404 330 404 _c
+526 713 _m
+526 623 _l
+501 635 476 644 451 650 _c
+425 656 400 659 376 659 _c
+310 659 260 637 226 593 _c
+}_e{192 549 172 482 168 394 _c
+187 422 211 444 240 459 _c
+269 474 301 482 336 482 _c
+409 482 467 459 509 415 _c
+551 371 573 310 573 234 _c
+573 159 550 99 506 54 _c
+462 9 403 -13 330 -13 _c
+246 -13 181 19 137 83 _c
+92 147 70 241 70 364 _c
+70 479 97 571 152 639 _c
+206 707 280 742 372 742 _c
+396 742 421 739 447 735 _c
+472 730 498 723 526 713 _c
+_cl}_e}_d
+/eight{{636 0 68 -13 568 742 _sc
+318 346 _m
+271 346 234 333 207 308 _c
+180 283 167 249 167 205 _c
+167 161 180 126 207 101 _c
+234 76 271 64 318 64 _c
+364 64 401 76 428 102 _c
+455 127 469 161 469 205 _c
+469 249 455 283 429 308 _c
+402 333 365 346 318 346 _c
+219 388 _m
+177 398 144 418 120 447 _c
+96 476 85 511 85 553 _c
+85 611 105 657 147 691 _c
+188 725 245 742 318 742 _c
+}_e{390 742 447 725 489 691 _c
+530 657 551 611 551 553 _c
+551 511 539 476 515 447 _c
+491 418 459 398 417 388 _c
+464 377 501 355 528 323 _c
+554 291 568 251 568 205 _c
+568 134 546 80 503 43 _c
+459 5 398 -13 318 -13 _c
+237 -13 175 5 132 43 _c
+89 80 68 134 68 205 _c
+68 251 81 291 108 323 _c
+134 355 171 377 219 388 _c
+183 544 _m
+183 506 194 476 218 455 _c
+}_e{242 434 275 424 318 424 _c
+360 424 393 434 417 455 _c
+441 476 453 506 453 544 _c
+453 582 441 611 417 632 _c
+393 653 360 664 318 664 _c
+275 664 242 653 218 632 _c
+194 611 183 582 183 544 _c
+_cl}_e}_d
+/D{770 0 98 0 711 729 _sc
+197 648 _m
+197 81 _l
+316 81 _l
+416 81 490 103 537 149 _c
+583 195 607 267 607 365 _c
+607 463 583 534 537 580 _c
+490 625 416 648 316 648 _c
+197 648 _l
+98 729 _m
+301 729 _l
+442 729 546 699 612 641 _c
+678 582 711 490 711 365 _c
+711 239 677 147 611 88 _c
+545 29 441 0 301 0 _c
+98 0 _l
+98 729 _l
+_cl}_d
+/P{603 0 98 0 569 729 _sc
+197 648 _m
+197 374 _l
+321 374 _l
+367 374 402 385 427 409 _c
+452 433 465 467 465 511 _c
+465 555 452 588 427 612 _c
+402 636 367 648 321 648 _c
+197 648 _l
+98 729 _m
+321 729 _l
+402 729 464 710 506 673 _c
+548 636 569 582 569 511 _c
+569 439 548 384 506 348 _c
+464 311 402 293 321 293 _c
+197 293 _l
+197 0 _l
+98 0 _l
+98 729 _l
+_cl}_d
+/bracketleft{390 0 86 -131 293 760 _sc
+86 760 _m
+293 760 _l
+293 690 _l
+176 690 _l
+176 -61 _l
+293 -61 _l
+293 -131 _l
+86 -131 _l
+86 760 _l
+_cl}_d
+/bracketright{390 0 97 -131 304 760 _sc
+304 760 _m
+304 -131 _l
+97 -131 _l
+97 -61 _l
+214 -61 _l
+214 690 _l
+97 690 _l
+97 760 _l
+304 760 _l
+_cl}_d
+/a{{613 0 60 -13 522 560 _sc
+343 275 _m
+270 275 220 266 192 250 _c
+164 233 150 205 150 165 _c
+150 133 160 107 181 89 _c
+202 70 231 61 267 61 _c
+317 61 357 78 387 114 _c
+417 149 432 196 432 255 _c
+432 275 _l
+343 275 _l
+522 312 _m
+522 0 _l
+432 0 _l
+432 83 _l
+411 49 385 25 355 10 _c
+325 -5 287 -13 243 -13 _c
+187 -13 142 2 109 33 _c
+76 64 60 106 60 159 _c
+}_e{60 220 80 266 122 298 _c
+163 329 224 345 306 345 _c
+432 345 _l
+432 354 _l
+432 395 418 427 391 450 _c
+364 472 326 484 277 484 _c
+245 484 215 480 185 472 _c
+155 464 127 453 100 439 _c
+100 522 _l
+132 534 164 544 195 550 _c
+226 556 256 560 286 560 _c
+365 560 424 539 463 498 _c
+502 457 522 395 522 312 _c
+_cl}_e}_d
+/c{{550 0 55 -13 488 560 _sc
+488 526 _m
+488 442 _l
+462 456 437 466 411 473 _c
+385 480 360 484 334 484 _c
+276 484 230 465 198 428 _c
+166 391 150 339 150 273 _c
+150 206 166 154 198 117 _c
+230 80 276 62 334 62 _c
+360 62 385 65 411 72 _c
+437 79 462 90 488 104 _c
+488 21 _l
+462 9 436 0 410 -5 _c
+383 -10 354 -13 324 -13 _c
+242 -13 176 12 128 64 _c
+}_e{79 115 55 185 55 273 _c
+55 362 79 432 128 483 _c
+177 534 244 560 330 560 _c
+358 560 385 557 411 551 _c
+437 545 463 537 488 526 _c
+_cl}_e}_d
+/e{{615 0 55 -13 562 560 _sc
+562 296 _m
+562 252 _l
+149 252 _l
+153 190 171 142 205 110 _c
+238 78 284 62 344 62 _c
+378 62 412 66 444 74 _c
+476 82 509 95 541 113 _c
+541 28 _l
+509 14 476 3 442 -3 _c
+408 -9 373 -13 339 -13 _c
+251 -13 182 12 131 62 _c
+80 112 55 181 55 268 _c
+55 357 79 428 127 481 _c
+175 533 241 560 323 560 _c
+397 560 455 536 498 489 _c
+}_e{540 441 562 377 562 296 _c
+472 322 _m
+471 371 457 410 431 440 _c
+404 469 368 484 324 484 _c
+274 484 234 469 204 441 _c
+174 413 156 373 152 322 _c
+472 322 _l
+_cl}_e}_d
+/i{278 0 94 0 184 760 _sc
+94 547 _m
+184 547 _l
+184 0 _l
+94 0 _l
+94 547 _l
+94 760 _m
+184 760 _l
+184 646 _l
+94 646 _l
+94 760 _l
+_cl}_d
+/m{{974 0 91 0 889 560 _sc
+520 442 _m
+542 482 569 511 600 531 _c
+631 550 668 560 711 560 _c
+767 560 811 540 842 500 _c
+873 460 889 403 889 330 _c
+889 0 _l
+799 0 _l
+799 327 _l
+799 379 789 418 771 444 _c
+752 469 724 482 686 482 _c
+639 482 602 466 575 435 _c
+548 404 535 362 535 309 _c
+535 0 _l
+445 0 _l
+445 327 _l
+445 379 435 418 417 444 _c
+398 469 369 482 331 482 _c
+}_e{285 482 248 466 221 435 _c
+194 404 181 362 181 309 _c
+181 0 _l
+91 0 _l
+91 547 _l
+181 547 _l
+181 462 _l
+201 495 226 520 255 536 _c
+283 552 317 560 357 560 _c
+397 560 430 550 458 530 _c
+486 510 506 480 520 442 _c
+_cl}_e}_d
+/n{634 0 91 0 549 560 _sc
+549 330 _m
+549 0 _l
+459 0 _l
+459 327 _l
+459 379 448 417 428 443 _c
+408 469 378 482 338 482 _c
+289 482 251 466 223 435 _c
+195 404 181 362 181 309 _c
+181 0 _l
+91 0 _l
+91 547 _l
+181 547 _l
+181 462 _l
+202 494 227 519 257 535 _c
+286 551 320 560 358 560 _c
+420 560 468 540 500 501 _c
+532 462 549 405 549 330 _c
+_cl}_d
+/o{612 0 55 -13 557 560 _sc
+306 484 _m
+258 484 220 465 192 427 _c
+164 389 150 338 150 273 _c
+150 207 163 156 191 118 _c
+219 80 257 62 306 62 _c
+354 62 392 80 420 118 _c
+448 156 462 207 462 273 _c
+462 337 448 389 420 427 _c
+392 465 354 484 306 484 _c
+306 560 _m
+384 560 445 534 490 484 _c
+534 433 557 363 557 273 _c
+557 183 534 113 490 63 _c
+445 12 384 -13 306 -13 _c
+227 -13 165 12 121 63 _c
+77 113 55 183 55 273 _c
+55 363 77 433 121 484 _c
+165 534 227 560 306 560 _c
+_cl}_d
+/r{411 0 91 0 411 560 _sc
+411 463 _m
+401 469 390 473 378 476 _c
+366 478 353 480 339 480 _c
+288 480 249 463 222 430 _c
+194 397 181 350 181 288 _c
+181 0 _l
+91 0 _l
+91 547 _l
+181 547 _l
+181 462 _l
+199 495 224 520 254 536 _c
+284 552 321 560 365 560 _c
+371 560 378 559 386 559 _c
+393 558 401 557 411 555 _c
+411 463 _l
+_cl}_d
+/s{{521 0 54 -13 472 560 _sc
+443 531 _m
+443 446 _l
+417 458 391 468 364 475 _c
+336 481 308 485 279 485 _c
+234 485 200 478 178 464 _c
+156 450 145 430 145 403 _c
+145 382 153 366 169 354 _c
+185 342 217 330 265 320 _c
+296 313 _l
+360 299 405 279 432 255 _c
+458 230 472 195 472 151 _c
+472 100 452 60 412 31 _c
+372 1 316 -13 246 -13 _c
+216 -13 186 -10 154 -5 _c
+}_e{122 0 89 8 54 20 _c
+54 113 _l
+87 95 120 82 152 74 _c
+184 65 216 61 248 61 _c
+290 61 323 68 346 82 _c
+368 96 380 117 380 144 _c
+380 168 371 187 355 200 _c
+339 213 303 226 247 238 _c
+216 245 _l
+160 257 119 275 95 299 _c
+70 323 58 356 58 399 _c
+58 450 76 490 112 518 _c
+148 546 200 560 268 560 _c
+301 560 332 557 362 552 _c
+391 547 418 540 443 531 _c
+}_e{_cl}_e}_d
+/t{392 0 27 0 368 702 _sc
+183 702 _m
+183 547 _l
+368 547 _l
+368 477 _l
+183 477 _l
+183 180 _l
+183 135 189 106 201 94 _c
+213 81 238 75 276 75 _c
+368 75 _l
+368 0 _l
+276 0 _l
+206 0 158 13 132 39 _c
+106 65 93 112 93 180 _c
+93 477 _l
+27 477 _l
+27 547 _l
+93 547 _l
+93 702 _l
+183 702 _l
+_cl}_d
+/y{592 0 30 -207 562 547 _sc
+322 -50 _m
+296 -114 271 -157 247 -177 _c
+223 -197 191 -207 151 -207 _c
+79 -207 _l
+79 -132 _l
+132 -132 _l
+156 -132 175 -126 189 -114 _c
+203 -102 218 -75 235 -31 _c
+251 9 _l
+30 547 _l
+125 547 _l
+296 119 _l
+467 547 _l
+562 547 _l
+322 -50 _l
+_cl}_d
+/minus{838 0 106 272 732 355 _sc
+106 355 _m
+732 355 _l
+732 272 _l
+106 272 _l
+106 355 _l
+_cl}_d
+end readonly def
+
+/BuildGlyph
+ {exch begin
+ CharStrings exch
+ 2 copy known not{pop /.notdef}if
+ true 3 1 roll get exec
+ end}_d
+
+/BuildChar {
+ 1 index /Encoding get exch get
+ 1 index /BuildGlyph get exec
+}_d
+
+FontName currentdict end definefont pop
+end
+%%EndProlog
+mpldict begin
+75.6 223.2 translate
+460.8 345.6 0 0 clipbox
+gsave
+0 0 m
+460.8 0 l
+460.8 345.6 l
+0 345.6 l
+cl
+1.000 setgray
+fill
+grestore
+gsave
+57.6 38.016 m
+414.72 38.016 l
+414.72 304.128 l
+57.6 304.128 l
+cl
+1.000 setgray
+fill
+grestore
+gsave
+357.12 266.112 57.6 38.016 clipbox
+271.872 100.01743526462218 translate
+[1 0 0 1 0 0] concat
+124.56 41.76 scale
+/DataString 173 string def
+173 58 8 [ 173 0 0 -58 0 58 ]
+{
+currentfile DataString readhexstring pop
+} bind false 3 colorimage
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffff000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffff000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffff000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000ffffffffffffffffff000000000000ffffff00
+0000ffffffffffff000000000000ffffffffffff000000ffffffffffff000000000000000000ffffffffffff000000000000000000000000ffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffff000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffff0000
+00000000000000ffffffffffffffffff000000ffffff000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffffffffffff0000ff0000ff0000ff00
+00ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ffffffffffffffffff000000000000000000ffffffffffff000000
+000000ffffff000000ffffffffffff000000000000ffffffffffff000000ffffffffffffffffffffffff000000ffffffffffff000000ffffffffffff000000ff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffff
+ffffffffffffffff000000000000ffffffffffff000000000000ffffffffffff000000ffffffffffffffffffffffffffffff000000ffffffffffff000000ffff
+ffffffff000000000000000000ffffffffffff000000000000000000000000ffffffffffff000000000000000000ffffff000000000000000000ffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffffffffffff0000ff
+0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ffffffffffffffffff000000000000000000ffff
+ff000000ffffff000000ffffff000000ffffffffffff000000ffffff000000ffffff000000ffffffffffff000000000000000000ffffffffffff000000ffffff
+ffffff000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000000000000000000000ffffffffffff
+ffffffffffffffffffffffffffffff000000000000ffffffffffff000000000000ffffffffffff000000ffffffffffffffffffffffffffffff000000ffffff00
+0000000000ffffff000000ffffffffffff000000000000ffffffffffffffffff000000000000ffffffffffff000000ffffffffffff000000000000ffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffff
+ffffffff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ff0000ffffffffffffffffff00000000
+0000ffffffffffff000000ffffff000000ffffff000000ffffffffffff000000ffffff000000000000000000ffffffffffffffffffffffff000000ffffffffff
+ff000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000000000ffff
+ffffffffffffffffffffffffffffffffffffffffffff000000000000ffffffffffff000000000000ffffffffffff000000ffffffffffffffffffffffffffffff
+000000ffffff000000ffffffffffff000000000000000000000000000000ffffff000000000000000000000000ffffffffffff000000ffffffffffffffffff00
+0000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000
+00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffff000000000000ffffff000000ffffffffffff000000ffffff000000ffffffffffff000000ffffffffffff000000000000ffffff000000ffffffffffff00
+0000ffffffffffff000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000000000000000000000000000
+0000ffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000ffffffffffffffffff000000ffffff000000000000ffffffffffffffff
+ffffffffffffff000000000000000000ffffffffffff000000000000ffffffffffffffffff000000000000ffffff000000000000ffffffffffff000000ffffff
+ffffff000000ffffffffffff000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000000000
+0000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffff000000000000ffffffffffffffffffffffff000000ffffff000000ffffffffffff000000ffffffffffffffffff000000ffffffffffff
+000000000000ffffffffffffffffff000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000
+000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000ffffffffffff000000000000000000ffffffff
+ffffffffffffffffffffffffffffffffff000000000000ffffffffffffffffff000000000000000000ffffffffffff000000000000000000000000ffffffffff
+ff000000ffffffffffffffffff000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ff000000ffffff000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffff000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffff000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffff000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000
+000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000ffffff0000000000
+00000000ffffffffffffffffffffffffffffffffffffffffff000000000000000000ffffffffffffffffff000000000000000000ffffffffffffffffff000000
+000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000
+00000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffff000000000000000000000000000000ffffffffffff000000000000000000000000ffffffffffff000000ffffffffffffffffff000000ff
+ffffffffff000000000000000000000000ffffffffffff000000ffffffffffffffffff000000ffffff000000000000000000000000ffffffffffff0000000000
+00000000000000ffffffffffffffffff000000ffffffffffffffffffffffff000000000000000000000000000000000000000000000000000000ffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000ff
+ffff000000000000ffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000ffffffffffffffffff000000ffffff000000000000ffff
+ffffffff000000ffffff000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00
+0000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffff000000ffffffffffffffffff000000000000ffffffffffff000000ffffffffffff000000ffffffffffff
+ffffff000000ffffff000000000000ffffffffffffffffffffffffffffff000000ffffffffffffffffff000000ffffff000000ffffffffffff000000ffffffff
+ffff000000ffffffffffffffffffffffffffffff000000ffffff000000ffffffffffff000000000000ffffffffffffffffffffffffffffff000000ffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000ffffffffffff000000000000ffffffff
+ffff000000ffffff000000000000ffffffffffff000000ffffffffffffffffffffffff000000ffffffffffff000000000000ffffffffffff000000000000ffff
+ffffffffffffff000000000000000000ffffffffffff000000000000000000000000ffffff000000000000000000ffffffffffffffffffffffffffffffffffff
+ffffffffffff000000000000000000000000000000000000ffffffff00ceff00ceff00ceff00ceff00ceff00ceff00ceff00ceff00ceff00ceff00ceff00ceff
+00ceff00ceff00ceff00ceff00ceffffffffffffffffffffffffffffff000000ffffffffffffffffff000000ffffffffffffffffff000000000000ffffff0000
+00ffffffffffffffffff000000ffffff000000ffffffffffffffffffffffffffffffffffff000000000000000000000000000000ffffff000000ffffffffffff
+000000ffffffffffff000000000000000000000000ffffffffffff000000ffffff000000ffffffffffff000000ffffffffffffffffffffffffffffffffffff00
+0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffff000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000ffffffffffff000000
+000000ffffffffffff000000ffffff000000000000ffffffffffff000000ffffffffffffffffffffffff000000000000ffffff000000ffffffffffff000000ff
+ffff000000000000ffffffffffffffffffffffff000000000000ffffff000000000000ffffffffffff000000000000ffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffff000000000000000000000000000000000000ffffffff00ceff00ceff00ceff00ceff00ceff00ceff00ceff00ceff00ceff00ce
+ff00ceff00ceff00ceff00ceff00ceff00ceff00ceffffffffffffffffffffffffffffff000000ffffffffffffffffff000000ffffffffffffffffff00000000
+0000ffffff000000ffffffffffffffffff000000ffffff000000ffffffffffff000000000000ffffffffffff000000ffffffffffffffffff000000ffffff0000
+00000000000000000000ffffffffffff000000ffffffffffffffffffffffff000000000000ffffff000000000000ffffff000000ffffffffffffffffffffffff
+ffffffffffff000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffff000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000ffff
+ffffffff000000000000ffffffffffff000000ffffff000000000000ffffffffffff000000ffffffffffffffffffffffffffffff000000ffffff000000ffffff
+000000000000000000000000000000ffffffffffff000000000000000000000000ffffff000000000000ffffffffffff000000000000000000ffffffffffffff
+ffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffffff00ceff00ceff00ceff00ceff00ceff00ceff00ceff00
+ceff00ceff00ceff00ceff00ceff00ceff00ceff00ceff00ceff00ceffffffffffffffffffffffffffffff000000ffffffffffffffffff000000000000ffffff
+ffffff000000ffffffffffff000000ffffffffffffffffff000000ffffff000000000000ffffffffffff000000ffffffffffff000000ffffffffffffffffff00
+0000ffffff000000ffffffffffff000000ffffffffffff000000ffffffffffffffffffffffff000000000000000000000000000000ffffff000000000000ffff
+ffffffffffffffffffffffffff000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffff00
+0000000000ffffffffffff000000000000ffffffffffff000000ffffff000000000000ffffffffffff000000ffffffffffffffffffffffffffffff000000ffff
+ff000000ffffff000000000000ffffffffffffffffffffffff000000000000ffffff000000000000ffffff000000000000ffffffffffffffffff000000000000
+000000ffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000ffffffffffffffffffffff
+ff000000000000000000000000ffffffffffff000000000000000000000000000000ffffffffffff000000000000000000000000ffffffffffff000000ffffff
+ffffffffffff000000ffffff000000ffffffffffffffffff000000ffffff000000000000000000000000ffffff000000ffffffffffffffffff000000ffffffff
+ffff000000000000000000000000ffffffffffff000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000ffffff000000000000ffffffffffffffffffffffffffffffffffffffffff
+ffffffffffff000000000000ffffffffffffffffff000000ffffff000000000000ffffffffffff000000ffffff000000000000ffffffffffffffffffffffffff
+ffff000000000000000000ffffffffffff000000ffffffffffffffffffffffff000000000000ffffff000000000000ffffff000000000000ffffffffffff0000
+00ffffffffffff000000ffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000ffffffff
+ffffffffffffffffffffff000000000000ffffffffffffffffffffffff000000000000000000ffffffffffffffffffffffff000000000000000000ffffffffff
+ff000000ffffffffffffffffff000000ffffff000000ffffffffffffffffff000000ffffff000000000000000000000000000000000000ffffffffffffffffff
+000000ffffffffffffffffff000000000000ffffffffffffffffff000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000ffffff000000000000000000ffffffffffffffffffffff
+ffffffffffffffffffff000000000000000000000000ffffffffffff000000000000000000ffffffffffffffffff000000000000000000ffffffffffffffffff
+ffffffffffffffffff000000000000000000ffffffffffff000000000000000000000000ffffffffffff000000000000000000000000ffffff000000000000ff
+ffffffffff000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffff000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000000000000000000000000000
+0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffff000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000
+000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000
+00000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffff000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffff000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffff000000000000ffffffffffffffffff000000000000ffffffffffffffffff000000ffffffffffff000000000000000000000000ffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000ffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffff000000000000ffffffffffffffffff000000000000ffffffffffff000000000000ffffffffffff0000000000000000000000
+00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000ffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000
+00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffff000000ffffff000000000000ffffff000000000000ffffffffffffffffff000000000000ffffffffffff000000000000ffffffffffff000000ff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000ff
+ffffffffffffffffffffffffffffffffffffffff000000000000000000000000ffffffffffffffffff000000000000000000ffffffffffffffffff0000000000
+00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000000000000000
+0000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffff000000000000000000000000ffffff000000000000000000ffffff000000000000000000ffffff000000ffffff000000ffffff
+ffffff000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000
+000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000ffffffffffff000000000000ffffff000000ffffffffffff00
+0000000000ffffff000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000
+000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffff000000ffffffffffff000000ffffff000000000000000000ffffff000000000000000000ffffff000000ffff
+ff000000ffffffffffff000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000
+00000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000ffffffffffff000000ffffffffffff000000
+000000ffffff000000ffffffffffff000000000000ffffffffffffffffffffffff000000ffffffffffff000000000000ffffffffffff000000000000ffffffff
+ffffffffff000000000000000000ffffffffffff000000000000000000000000ffffff000000000000000000ffffffffffffffffffffffffffffffffffffffff
+ffffffff000000000000000000000000000000000000ffffff00fff000fff000fff000fff000fff000fff000fff000fff000fff000fff000fff000fff000fff0
+00fff000fff000fff000fff0ffffffffffffffffffffffffffffff000000ffffffffffff000000ffffff000000000000000000ffffff000000000000000000ff
+ffffffffffffffff000000ffffffffffff000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffff000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffff000000000000ffffffffffff000000ffff
+ffffffff000000000000ffffff000000ffffffffffff000000000000ffffffffffffffffffffffff000000ffffffffffff000000000000ffffff000000000000
+000000000000ffffff000000000000000000000000ffffffffffff000000000000000000000000ffffff000000000000000000ffffffffffffffffffffffffff
+ffffffffffffffffffffff000000000000000000000000000000000000ffffff00fff000fff000fff000fff000fff000fff000fff000fff000fff000fff000ff
+f000fff000fff000fff000fff000fff000fff0ffffffffffffffffffffffffffffff000000ffffffffffff000000ffffff000000000000000000000000000000
+000000000000ffffff000000000000000000000000ffffff000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffff000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffff000000000000000000ffffffff
+ffff000000ffffffffffff000000000000ffffff000000ffffffffffff000000000000ffffffffffffffffffffffff000000000000ffffff000000ffffffffff
+ff000000ffffff000000000000ffffff000000ffffffffffff000000000000ffffff000000000000ffffffffffff000000000000ffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffff00fff000fff000fff000fff000fff000fff000fff000fff000
+fff000fff000fff000fff000fff000fff000fff000fff000fff0ffffffffffffffffffffffffffffff000000ffffffffffff000000ffffff000000000000ffff
+ff000000ffffff000000000000ffffffffffffffffff000000ffffffffffff000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffff000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffff000000
+000000ffffffffffff000000ffffffffffff000000000000ffffff000000ffffffffffff000000000000ffffffffffffffffffffffffffffff000000ffffff00
+0000ffffff000000000000000000000000000000ffffffffffff000000000000000000000000ffffff000000000000ffffffffffff000000000000000000ffff
+ffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffff00fff000fff000fff000fff000fff000fff0
+00fff000fff000fff000fff000fff000fff000fff000fff000fff000fff000fff0ffffffffffffffffffffffffffffff000000000000000000000000ffffff00
+0000000000ffffffffffffffffff000000000000ffffffffffffffffff000000ffffffffffff000000ffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffff
+ffffffffffffff000000ffffffffffff000000ffffffffffff000000000000ffffff000000ffffffffffff000000000000ffffffffffffffffffffffffffffff
+000000ffffff000000ffffff000000000000000000000000000000ffffff000000000000000000000000000000ffffff000000000000ffffffffffffffffff00
+0000000000000000ffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffff00fff000fff000fff000ff
+f000fff000fff000fff000fff000fff000fff000fff000fff000fff000fff000fff000fff000fff0ffffffffffffffffffffffffffffff000000ffffff000000
+000000ffffff000000000000ffffffffffffffffff000000000000ffffffffffffffffff000000ffffffffffff000000ffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000000000000000000000ffffffffffffffffffff
+ffffffffffffffffffffffffffff000000ffffffffffff000000ffffffffffff000000000000ffffff000000ffffffffffff000000000000ffffffffffffffff
+ffffffffffffff000000ffffff000000ffffff000000000000ffffffffffffffffffffffff000000000000ffffff000000000000ffffff000000000000ffffff
+ffffffffffff000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffff00fff000
+fff000fff000fff000fff000fff000fff000fff000fff000fff000fff000fff000fff000fff000fff000fff000fff0ffffffffffffffffffffffffffffff0000
+00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000000000000000000000ffffff
+ffffffffffffffffffffffffffffffffffffffffff000000ffffffffffff000000ffffffffffff000000ffffffffffff000000ffffffffffff000000ffffffff
+ffffffffffffffffffffffffffff000000000000000000ffffff000000000000ffffffffffffffffffffffff000000000000ffffff000000000000ffffff0000
+00000000ffffffffffffffffffffffffffffff000000ffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000000000000000000000
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffff000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000
+00000000ffffffffffffffffffffffffffffff000000000000000000000000ffffffffffffffffff000000000000000000ffffffffffffffffff000000000000
+000000ffffffffffffffffffffffffffffffffffff000000000000000000ffffffffffff000000000000000000000000ffffff00000000000000000000000000
+0000ffffff000000000000ffffffffffff000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000
+00000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffff000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000000000000000000000000000
+0000000000000000000000ffffffffffffffffffffffffffffff000000000000000000ffffffffffffffffffffffff000000000000000000ffffffffffffffff
+ff000000000000000000ffffffffffffffffffffffffffffffffffff000000000000ffffffffffffffffffffffff000000000000000000ffffffffffff000000
+ffffff000000000000ffffff000000000000ffffffffffffffffff000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffff00000000
+0000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000
+000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000ffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffff000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000ffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffff000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000000000ffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffff000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000ffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffffff000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00ffffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ffffffffffffffffffffffffffffffffffffffffffff
+grestore
+3.000 setlinewidth
+1 setlinejoin
+0 setlinecap
+[] 0 setdash
+0.000 setgray
+gsave
+/o {
+gsave
+newpath
+translate
+3.0 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 7.5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 38.016 o
+grestore
+/DejaVuSans findfont
+10.000 scalefont
+setfont
+gsave
+49.646875 26.922250 translate
+0.000000 rotate
+0.000000 0.000000 m /zero glyphshow
+6.362305 0.000000 m /period glyphshow
+9.541016 0.000000 m /zero glyphshow
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+3.0 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 7.5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+129.024 38.016 o
+grestore
+gsave
+121.070875 26.922250 translate
+0.000000 rotate
+0.000000 0.000000 m /zero glyphshow
+6.362305 0.000000 m /period glyphshow
+9.541016 0.000000 m /two glyphshow
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+3.0 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 7.5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+200.448 38.016 o
+grestore
+gsave
+192.494875 26.922250 translate
+0.000000 rotate
+0.000000 0.000000 m /zero glyphshow
+6.362305 0.000000 m /period glyphshow
+9.541016 0.000000 m /four glyphshow
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+3.0 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 7.5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+271.872 38.016 o
+grestore
+gsave
+263.918875 26.922250 translate
+0.000000 rotate
+0.000000 0.000000 m /zero glyphshow
+6.362305 0.000000 m /period glyphshow
+9.541016 0.000000 m /six glyphshow
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+3.0 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 7.5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+343.296 38.016 o
+grestore
+gsave
+335.342875 26.922250 translate
+0.000000 rotate
+0.000000 0.000000 m /zero glyphshow
+6.362305 0.000000 m /period glyphshow
+9.541016 0.000000 m /eight glyphshow
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+3.0 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 7.5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+414.72 38.016 o
+grestore
+gsave
+406.766875 26.922250 translate
+0.000000 rotate
+0.000000 0.000000 m /one glyphshow
+6.362305 0.000000 m /period glyphshow
+9.541016 0.000000 m /zero glyphshow
+grestore
+1.500 setlinewidth
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+75.456 38.016 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+93.312 38.016 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+111.168 38.016 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+146.88 38.016 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+164.736 38.016 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+182.592 38.016 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+218.304 38.016 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+236.16 38.016 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+254.016 38.016 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+289.728 38.016 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+307.584 38.016 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+325.44 38.016 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+361.152 38.016 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+379.008 38.016 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+0 5 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+396.864 38.016 o
+grestore
+/DejaVuSans findfont
+18.000 scalefont
+setfont
+gsave
+178.152187 7.172250 translate
+0.000000 rotate
+0.000000 0.000000 m /D glyphshow
+13.860352 0.000000 m /i glyphshow
+18.861328 0.000000 m /s glyphshow
+28.239258 0.000000 m /t glyphshow
+35.296875 0.000000 m /a glyphshow
+46.327148 0.000000 m /n glyphshow
+57.735352 0.000000 m /c glyphshow
+67.631836 0.000000 m /e glyphshow
+78.706055 0.000000 m /space glyphshow
+84.427734 0.000000 m /bracketleft glyphshow
+91.450195 0.000000 m /m glyphshow
+108.984375 0.000000 m /bracketright glyphshow
+grestore
+3.000 setlinewidth
+gsave
+/o {
+gsave
+newpath
+translate
+3.0 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+7.5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 38.016 o
+grestore
+gsave
+30.100000 33.555062 translate
+0.000000 rotate
+/DejaVuSans findfont
+10.0 scalefont
+setfont
+0.000000 0.976562 moveto
+/one glyphshow
+
+6.362305 0.976562 moveto
+/zero glyphshow
+
+/DejaVuSans findfont
+7.0 scalefont
+setfont
+12.820312 4.804688 moveto
+/minus glyphshow
+
+18.685547 4.804688 moveto
+/three glyphshow
+
+
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+3.0 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+7.5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 126.72 o
+grestore
+gsave
+30.100000 122.259062 translate
+0.000000 rotate
+/DejaVuSans findfont
+10.0 scalefont
+setfont
+0.000000 0.976562 moveto
+/one glyphshow
+
+6.362305 0.976562 moveto
+/zero glyphshow
+
+/DejaVuSans findfont
+7.0 scalefont
+setfont
+12.820312 4.804688 moveto
+/minus glyphshow
+
+18.685547 4.804688 moveto
+/two glyphshow
+
+
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+3.0 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+7.5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 215.424 o
+grestore
+gsave
+30.100000 211.463062 translate
+0.000000 rotate
+/DejaVuSans findfont
+10.0 scalefont
+setfont
+0.000000 0.064063 moveto
+/one glyphshow
+
+6.362305 0.064063 moveto
+/zero glyphshow
+
+/DejaVuSans findfont
+7.0 scalefont
+setfont
+12.820312 3.892188 moveto
+/minus glyphshow
+
+18.685547 3.892188 moveto
+/one glyphshow
+
+
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+3.0 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+7.5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 304.128 o
+grestore
+gsave
+36.100000 299.667062 translate
+0.000000 rotate
+/DejaVuSans findfont
+10.0 scalefont
+setfont
+0.000000 0.976562 moveto
+/one glyphshow
+
+6.362305 0.976562 moveto
+/zero glyphshow
+
+/DejaVuSans findfont
+7.0 scalefont
+setfont
+12.820312 4.804688 moveto
+/zero glyphshow
+
+
+grestore
+1.500 setlinewidth
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 64.7186 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 80.3386 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 91.4211 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 100.017 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 107.041 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 112.98 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 118.124 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 122.661 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 153.423 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 169.043 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 180.125 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 188.721 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 195.745 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 201.684 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 206.828 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 211.365 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 242.127 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 257.747 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 268.829 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 277.425 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 284.449 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 290.388 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 295.532 o
+grestore
+gsave
+/o {
+gsave
+newpath
+translate
+1.5 setlinewidth
+1 setlinejoin
+0 setlinecap
+0 0 m
+5 0 l
+
+gsave
+0.000 setgray
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 300.069 o
+grestore
+gsave
+22.350000 121.736062 translate
+90.000000 rotate
+0.000000 0.000000 m /P glyphshow
+10.854492 0.000000 m /o glyphshow
+21.867188 0.000000 m /r glyphshow
+29.267578 0.000000 m /o glyphshow
+40.280273 0.000000 m /s glyphshow
+49.658203 0.000000 m /i glyphshow
+54.659180 0.000000 m /t glyphshow
+61.716797 0.000000 m /y glyphshow
+72.369141 0.000000 m /space glyphshow
+78.090820 0.000000 m /bracketleft glyphshow
+85.113281 0.000000 m /hyphen glyphshow
+91.608398 0.000000 m /bracketright glyphshow
+grestore
+2.500 setlinewidth
+2 setlinecap
+1.000 0.000 0.000 setrgbcolor
+gsave
+357.1 266.1 57.6 38.02 clipbox
+57.6 280.390256 m
+66.528 279.451489 l
+75.456 271.883022 l
+84.384 257.099092 l
+93.312 241.348283 l
+102.24 226.698704 l
+111.168 214.091411 l
+120.096 205.703906 l
+129.024 199.123868 l
+137.952 192.60269 l
+146.88 191.111265 l
+155.808 196.064829 l
+164.736 205.901717 l
+173.664 219.789835 l
+182.592 228.932585 l
+191.52 234.948468 l
+200.448 239.947268 l
+209.376 244.189151 l
+218.304 246.320035 l
+227.232 247.844246 l
+236.16 249.628819 l
+245.088 251.48574 l
+254.016 253.257255 l
+262.944 254.81255 l
+271.872 256.307482 l
+280.8 257.488879 l
+289.728 258.509433 l
+298.656 259.380765 l
+307.584 260.112249 l
+316.512 260.711385 l
+325.44 261.301345 l
+334.368 261.651033 l
+343.296 261.997575 l
+352.224 262.341027 l
+361.152 262.568306 l
+370.08 262.794252 l
+379.008 262.90673 l
+387.936 263.01888 l
+396.864 263.130705 l
+405.792 263.242206 l
+414.72 263.353386 l
+425.4336 263.353386 l
+432.576 263.464245 l
+443.2896 263.464245 l
+450.432 263.464245 l
+461.1456 263.574787 l
+461.8 263.574787 l
+stroke
+grestore
+1.000 setlinewidth
+2 setlinejoin
+0 setlinecap
+gsave
+357.1 266.1 57.6 38.02 clipbox
+/o {
+gsave
+newpath
+translate
+1.0 setlinewidth
+2 setlinejoin
+0 setlinecap
+0 3 m
+-0.673542 0.927051 l
+-2.85317 0.927051 l
+-1.089814 -0.354102 l
+-1.763356 -2.427051 l
+-0 -1.145898 l
+1.763356 -2.427051 l
+1.089814 -0.354102 l
+2.85317 0.927051 l
+0.673542 0.927051 l
+cl
+
+gsave
+1.000 0.000 0.000 setrgbcolor
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 280.39 o
+66.528 279.451 o
+75.456 271.883 o
+84.384 257.099 o
+93.312 241.348 o
+102.24 226.699 o
+111.168 214.091 o
+120.096 205.704 o
+129.024 199.124 o
+137.952 192.603 o
+146.88 191.111 o
+155.808 196.065 o
+164.736 205.902 o
+173.664 219.79 o
+182.592 228.933 o
+191.52 234.948 o
+200.448 239.947 o
+209.376 244.189 o
+218.304 246.32 o
+227.232 247.844 o
+236.16 249.629 o
+245.088 251.486 o
+254.016 253.257 o
+262.944 254.813 o
+271.872 256.307 o
+280.8 257.489 o
+289.728 258.509 o
+298.656 259.381 o
+307.584 260.112 o
+316.512 260.711 o
+325.44 261.301 o
+334.368 261.651 o
+343.296 261.998 o
+352.224 262.341 o
+361.152 262.568 o
+370.08 262.794 o
+379.008 262.907 o
+387.936 263.019 o
+396.864 263.131 o
+405.792 263.242 o
+414.72 263.353 o
+425.434 263.353 o
+432.576 263.464 o
+443.29 263.464 o
+450.432 263.464 o
+461.146 263.575 o
+461.8 263.575 o
+grestore
+2.500 setlinewidth
+1 setlinejoin
+2 setlinecap
+gsave
+357.1 266.1 57.6 38.02 clipbox
+57.6 281.445765 m
+66.528 280.532673 l
+75.456 278.263768 l
+84.384 273.876817 l
+93.312 244.733023 l
+102.24 229.471386 l
+111.168 215.807323 l
+120.096 208.431113 l
+129.024 205.654294 l
+137.952 202.500363 l
+146.88 201.017445 l
+155.808 201.628503 l
+164.736 199.358412 l
+173.664 179.248447 l
+182.592 173.522883 l
+191.52 174.090252 l
+200.448 176.066257 l
+209.376 176.491937 l
+218.304 162.325834 l
+227.232 135.927805 l
+236.16 241.933463 l
+245.088 251.33437 l
+254.016 253.257255 l
+262.944 254.81255 l
+271.872 256.307482 l
+280.8 257.488879 l
+289.728 258.509433 l
+298.656 259.380765 l
+307.584 260.112249 l
+316.512 260.711385 l
+325.44 261.301345 l
+334.368 261.651033 l
+343.296 261.997575 l
+352.224 262.341027 l
+361.152 262.568306 l
+370.08 262.794252 l
+379.008 262.90673 l
+387.936 263.01888 l
+396.864 263.130705 l
+405.792 263.242206 l
+414.72 263.353386 l
+425.4336 263.353386 l
+432.576 263.464245 l
+443.2896 263.464245 l
+450.432 263.464245 l
+461.1456 263.574787 l
+461.8 263.574787 l
+stroke
+grestore
+1.000 setlinewidth
+0 setlinecap
+gsave
+357.1 266.1 57.6 38.02 clipbox
+/o {
+gsave
+newpath
+translate
+1.0 setlinewidth
+1 setlinejoin
+0 setlinecap
+-3 -3 m
+3 3 l
+-3 3 m
+3 -3 l
+
+gsave
+1.000 0.000 0.000 setrgbcolor
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 281.446 o
+66.528 280.533 o
+75.456 278.264 o
+84.384 273.877 o
+93.312 244.733 o
+102.24 229.471 o
+111.168 215.807 o
+120.096 208.431 o
+129.024 205.654 o
+137.952 202.5 o
+146.88 201.017 o
+155.808 201.629 o
+164.736 199.358 o
+173.664 179.248 o
+182.592 173.523 o
+191.52 174.09 o
+200.448 176.066 o
+209.376 176.492 o
+218.304 162.326 o
+227.232 135.928 o
+236.16 241.933 o
+245.088 251.334 o
+254.016 253.257 o
+262.944 254.813 o
+271.872 256.307 o
+280.8 257.489 o
+289.728 258.509 o
+298.656 259.381 o
+307.584 260.112 o
+316.512 260.711 o
+325.44 261.301 o
+334.368 261.651 o
+343.296 261.998 o
+352.224 262.341 o
+361.152 262.568 o
+370.08 262.794 o
+379.008 262.907 o
+387.936 263.019 o
+396.864 263.131 o
+405.792 263.242 o
+414.72 263.353 o
+425.434 263.353 o
+432.576 263.464 o
+443.29 263.464 o
+450.432 263.464 o
+461.146 263.575 o
+461.8 263.575 o
+grestore
+1.500 setlinewidth
+2 setlinecap
+gsave
+357.1 266.1 57.6 38.02 clipbox
+57.6 281.65344 m
+66.528 280.745315 l
+75.456 278.489273 l
+84.384 277.03826 l
+93.312 244.733023 l
+102.24 229.471386 l
+111.168 215.807323 l
+120.096 208.431113 l
+129.024 205.654294 l
+137.952 202.500363 l
+146.88 201.017445 l
+155.808 201.628503 l
+164.736 199.823258 l
+173.664 194.901274 l
+182.592 174.090252 l
+191.52 174.090252 l
+200.448 176.066257 l
+209.376 176.491937 l
+218.304 162.325834 l
+227.232 135.927805 l
+236.16 73.774403 l
+245.088 250.722871 l
+254.016 253.257255 l
+262.944 254.81255 l
+271.872 256.307482 l
+280.8 257.488879 l
+289.728 258.509433 l
+298.656 259.380765 l
+307.584 260.112249 l
+316.512 260.711385 l
+325.44 261.301345 l
+334.368 261.651033 l
+343.296 261.997575 l
+352.224 262.341027 l
+361.152 262.568306 l
+370.08 262.794252 l
+379.008 262.90673 l
+387.936 263.01888 l
+396.864 263.130705 l
+405.792 263.242206 l
+414.72 263.353386 l
+425.4336 263.353386 l
+432.576 263.464245 l
+443.2896 263.464245 l
+450.432 263.464245 l
+461.1456 263.574787 l
+461.8 263.574787 l
+stroke
+grestore
+1.000 setlinewidth
+0 setlinejoin
+0 setlinecap
+gsave
+357.1 266.1 57.6 38.02 clipbox
+/o {
+gsave
+newpath
+translate
+1.0 setlinewidth
+0 setlinejoin
+0 setlinecap
+-0 -3 m
+3 3 l
+-3 3 l
+cl
+
+gsave
+1.000 0.000 0.000 setrgbcolor
+fill
+grestore
+stroke
+grestore
+} bind def
+57.6 281.653 o
+66.528 280.745 o
+75.456 278.489 o
+84.384 277.038 o
+93.312 244.733 o
+102.24 229.471 o
+111.168 215.807 o
+120.096 208.431 o
+129.024 205.654 o
+137.952 202.5 o
+146.88 201.017 o
+155.808 201.629 o
+164.736 199.823 o
+173.664 194.901 o
+182.592 174.09 o
+191.52 174.09 o
+200.448 176.066 o
+209.376 176.492 o
+218.304 162.326 o
+227.232 135.928 o
+236.16 73.7744 o
+245.088 250.723 o
+254.016 253.257 o
+262.944 254.813 o
+271.872 256.307 o
+280.8 257.489 o
+289.728 258.509 o
+298.656 259.381 o
+307.584 260.112 o
+316.512 260.711 o
+325.44 261.301 o
+334.368 261.651 o
+343.296 261.998 o
+352.224 262.341 o
+361.152 262.568 o
+370.08 262.794 o
+379.008 262.907 o
+387.936 263.019 o
+396.864 263.131 o
+405.792 263.242 o
+414.72 263.353 o
+425.434 263.353 o
+432.576 263.464 o
+443.29 263.464 o
+450.432 263.464 o
+461.146 263.575 o
+461.8 263.575 o
+grestore
+2.500 setlinewidth
+1 setlinejoin
+2 setlinecap
+0.750 0.000 0.750 setrgbcolor
+gsave
+357.1 266.1 57.6 38.02 clipbox
+58.595936 280.69368 m
+64.659905 280.294542 l
+70.248119 278.784188 l
+74.712119 276.370205 l
+78.09726 272.848591 l
+80.87601 268.148017 l
+85.526784 261.439268 l
+89.261902 255.669047 l
+95.119027 245.331409 l
+99.65088 236.766108 l
+103.093517 232.371749 l
+108.664589 224.973059 l
+114.296371 216.897866 l
+119.031782 211.337723 l
+127.941926 205.984988 l
+135.998554 198.602194 l
+144.515866 192.63333 l
+149.112 190.683107 l
+153.558144 192.535755 l
+161.829043 199.617094 l
+166.968 203.673063 l
+171.10345 206.475524 l
+176.853082 215.427852 l
+181.892045 223.093934 l
+189.02016 229.963156 l
+198.062438 235.809047 l
+207.101146 240.652143 l
+216.139853 244.476547 l
+225.182131 246.302756 l
+234.220838 247.751146 l
+243.259546 249.639915 l
+252.301824 251.404074 l
+261.340531 253.198053 l
+270.38281 254.725149 l
+279.421517 256.279479 l
+288.460224 257.47207 l
+297.502502 258.496842 l
+306.54121 259.373379 l
+315.579917 259.951297 l
+324.622195 260.826545 l
+333.660902 261.046411 l
+342.69961 261.689305 l
+351.741888 261.770364 l
+360.780595 262.204013 l
+369.819302 262.311382 l
+378.861581 262.594357 l
+387.900288 262.727735 l
+396.938995 262.864027 l
+405.981274 262.892126 l
+411.545203 263.01888 l
+stroke
+grestore
+1.000 setlinewidth
+2 setlinejoin
+0 setlinecap
+gsave
+357.1 266.1 57.6 38.02 clipbox
+/o {
+gsave
+newpath
+translate
+1.0 setlinewidth
+2 setlinejoin
+0 setlinecap
+0 3 m
+-0.673542 0.927051 l
+-2.85317 0.927051 l
+-1.089814 -0.354102 l
+-1.763356 -2.427051 l
+-0 -1.145898 l
+1.763356 -2.427051 l
+1.089814 -0.354102 l
+2.85317 0.927051 l
+0.673542 0.927051 l
+cl
+
+gsave
+0.750 0.000 0.750 setrgbcolor
+fill
+grestore
+stroke
+grestore
+} bind def
+58.5959 280.694 o
+64.6599 280.295 o
+70.2481 278.784 o
+74.7121 276.37 o
+78.0973 272.849 o
+80.876 268.148 o
+85.5268 261.439 o
+89.2619 255.669 o
+95.119 245.331 o
+99.6509 236.766 o
+103.094 232.372 o
+108.665 224.973 o
+114.296 216.898 o
+119.032 211.338 o
+127.942 205.985 o
+135.999 198.602 o
+144.516 192.633 o
+149.112 190.683 o
+153.558 192.536 o
+161.829 199.617 o
+166.968 203.673 o
+171.103 206.476 o
+176.853 215.428 o
+181.892 223.094 o
+189.02 229.963 o
+198.062 235.809 o
+207.101 240.652 o
+216.14 244.477 o
+225.182 246.303 o
+234.221 247.751 o
+243.26 249.64 o
+252.302 251.404 o
+261.341 253.198 o
+270.383 254.725 o
+279.422 256.279 o
+288.46 257.472 o
+297.503 258.497 o
+306.541 259.373 o
+315.58 259.951 o
+324.622 260.827 o
+333.661 261.046 o
+342.7 261.689 o
+351.742 261.77 o
+360.781 262.204 o
+369.819 262.311 o
+378.862 262.594 o
+387.9 262.728 o
+396.939 262.864 o
+405.981 262.892 o
+411.545 263.019 o
+grestore
+2.500 setlinewidth
+1 setlinejoin
+2 setlinecap
+gsave
+357.1 266.1 57.6 38.02 clipbox
+59.339924 280.69368 m
+69.123905 279.009634 l
+79.92 276.97361 l
+88.712294 273.878507 l
+90.635743 269.786956 l
+92.877385 262.002174 l
+93.976243 256.323475 l
+94.211942 248.865093 l
+100.300838 237.145004 l
+105.504077 229.703433 l
+110.09664 223.081305 l
+113.446426 218.591605 l
+117.639014 213.679655 l
+124.349299 210.512084 l
+133.323725 207.282468 l
+142.287437 203.441361 l
+151.468992 201.997091 l
+160.129152 203.006187 l
+170.296358 203.329732 l
+173.664 199.734789 l
+175.503168 191.900394 l
+179.074368 181.041598 l
+181.10281 178.011003 l
+186.481037 175.105188 l
+190.03081 176.200854 l
+195.976858 178.478207 l
+204.912 178.876197 l
+211.707994 181.164601 l
+216.072 179.217892 l
+220.153882 173.729237 l
+223.617946 167.976246 l
+227.267712 159.437983 l
+230.478221 149.738538 l
+234.120845 140.204161 l
+237.427776 131.747407 l
+238.156301 152.805117 l
+238.827686 163.819116 l
+239.377651 168.724073 l
+239.663347 178.470165 l
+239.813338 189.998286 l
+240.673997 202.202882 l
+241.002547 215.458656 l
+242.241754 227.470028 l
+243.163123 237.052826 l
+244.213056 245.929369 l
+246.57719 249.820169 l
+250.909056 251.106194 l
+259.951334 252.958879 l
+268.990042 254.46175 l
+278.028749 256.105672 l
+287.071027 257.232063 l
+296.109734 258.383333 l
+305.148442 259.248845 l
+314.19072 259.84808 l
+323.229427 260.729215 l
+332.271706 260.981528 l
+341.310413 261.62898 l
+350.34912 261.743749 l
+359.391398 262.154798 l
+368.430106 262.266872 l
+377.468813 262.551306 l
+386.511091 262.624917 l
+395.549798 262.849407 l
+404.588506 262.694999 l
+410.848819 263.00992 l
+stroke
+grestore
+1.000 setlinewidth
+0 setlinecap
+gsave
+357.1 266.1 57.6 38.02 clipbox
+/o {
+gsave
+newpath
+translate
+1.0 setlinewidth
+1 setlinejoin
+0 setlinecap
+-3 -3 m
+3 3 l
+-3 3 m
+3 -3 l
+
+gsave
+0.750 0.000 0.750 setrgbcolor
+fill
+grestore
+stroke
+grestore
+} bind def
+59.3399 280.694 o
+69.1239 279.01 o
+79.92 276.974 o
+88.7123 273.879 o
+90.6357 269.787 o
+92.8774 262.002 o
+93.9762 256.323 o
+94.2119 248.865 o
+100.301 237.145 o
+105.504 229.703 o
+110.097 223.081 o
+113.446 218.592 o
+117.639 213.68 o
+124.349 210.512 o
+133.324 207.282 o
+142.287 203.441 o
+151.469 201.997 o
+160.129 203.006 o
+170.296 203.33 o
+173.664 199.735 o
+175.503 191.9 o
+179.074 181.042 o
+181.103 178.011 o
+186.481 175.105 o
+190.031 176.201 o
+195.977 178.478 o
+204.912 178.876 o
+211.708 181.165 o
+216.072 179.218 o
+220.154 173.729 o
+223.618 167.976 o
+227.268 159.438 o
+230.478 149.739 o
+234.121 140.204 o
+237.428 131.747 o
+238.156 152.805 o
+238.828 163.819 o
+239.378 168.724 o
+239.663 178.47 o
+239.813 189.998 o
+240.674 202.203 o
+241.003 215.459 o
+242.242 227.47 o
+243.163 237.053 o
+244.213 245.929 o
+246.577 249.82 o
+250.909 251.106 o
+259.951 252.959 o
+268.99 254.462 o
+278.029 256.106 o
+287.071 257.232 o
+296.11 258.383 o
+305.148 259.249 o
+314.191 259.848 o
+323.229 260.729 o
+332.272 260.982 o
+341.31 261.629 o
+350.349 261.744 o
+359.391 262.155 o
+368.43 262.267 o
+377.469 262.551 o
+386.511 262.625 o
+395.55 262.849 o
+404.589 262.695 o
+410.849 263.01 o
+grestore
+2.500 setlinewidth
+2 setlinecap
+gsave
+357.1 266.1 57.6 38.02 clipbox
+58.73157 281.230682 m
+65.039881 280.59446 l
+72.342985 278.704522 l
+79.06684 277.311236 l
+89.108698 276.484855 l
+91.493902 269.121758 l
+92.805961 263.332286 l
+94.447642 257.276285 l
+95.265446 247.079517 l
+101.136499 236.766108 l
+106.246886 229.748613 l
+109.350259 223.682906 l
+112.35721 220.13227 l
+116.43552 214.70346 l
+124.349299 210.512084 l
+130.881024 209.16363 l
+142.369574 203.110272 l
+151.468992 201.910745 l
+159.107789 203.49653 l
+174.013978 200.889567 l
+175.15319 194.57239 l
+177.199488 187.781645 l
+179.395776 180.49987 l
+185.738227 175.709335 l
+195.976858 179.14288 l
+204.912 178.790546 l
+212.504371 181.216126 l
+218.664691 176.746157 l
+222.05376 171.134351 l
+225.228557 163.543129 l
+227.814106 157.37342 l
+231.678144 149.715217 l
+234.652954 139.632579 l
+237.427776 131.747407 l
+239.338368 117.124151 l
+244.305907 96.489932 l
+245.734387 165.04642 l
+245.959373 151.96415 l
+246.005798 156.668153 l
+246.359347 178.470165 l
+246.509338 189.998286 l
+247.234291 223.59264 l
+247.369997 202.202882 l
+247.698547 213.482043 l
+247.955674 234.54488 l
+248.730624 242.827066 l
+250.29481 247.40504 l
+253.691021 251.705678 l
+262.733299 253.141655 l
+271.772006 254.985379 l
+280.810714 256.452506 l
+289.852992 257.668153 l
+298.891699 258.641396 l
+307.930406 259.443484 l
+316.972685 260.108626 l
+326.011392 260.868014 l
+335.050099 261.15705 l
+344.092378 261.703213 l
+353.131085 261.821228 l
+362.169792 262.229169 l
+371.21207 262.355841 l
+380.250778 262.647538 l
+389.293056 262.734505 l
+398.331763 262.879765 l
+407.37047 262.897743 l
+412.238016 263.065886 l
+stroke
+grestore
+1.000 setlinewidth
+0 setlinejoin
+0 setlinecap
+gsave
+357.1 266.1 57.6 38.02 clipbox
+/o {
+gsave
+newpath
+translate
+1.0 setlinewidth
+0 setlinejoin
+0 setlinecap
+-0 -3 m
+3 3 l
+-3 3 l
+cl
+
+gsave
+0.750 0.000 0.750 setrgbcolor
+fill
+grestore
+stroke
+grestore
+} bind def
+58.7316 281.231 o
+65.0399 280.594 o
+72.343 278.705 o
+79.0668 277.311 o
+89.1087 276.485 o
+91.4939 269.122 o
+92.806 263.332 o
+94.4476 257.276 o
+95.2654 247.08 o
+101.136 236.766 o
+106.247 229.749 o
+109.35 223.683 o
+112.357 220.132 o
+116.436 214.703 o
+124.349 210.512 o
+130.881 209.164 o
+142.37 203.11 o
+151.469 201.911 o
+159.108 203.497 o
+174.014 200.89 o
+175.153 194.572 o
+177.199 187.782 o
+179.396 180.5 o
+185.738 175.709 o
+195.977 179.143 o
+204.912 178.791 o
+212.504 181.216 o
+218.665 176.746 o
+222.054 171.134 o
+225.229 163.543 o
+227.814 157.373 o
+231.678 149.715 o
+234.653 139.633 o
+237.428 131.747 o
+239.338 117.124 o
+244.306 96.4899 o
+245.734 165.046 o
+245.959 151.964 o
+246.006 156.668 o
+246.359 178.47 o
+246.509 189.998 o
+247.234 223.593 o
+247.37 202.203 o
+247.699 213.482 o
+247.956 234.545 o
+248.731 242.827 o
+250.295 247.405 o
+253.691 251.706 o
+262.733 253.142 o
+271.772 254.985 o
+280.811 256.453 o
+289.853 257.668 o
+298.892 258.641 o
+307.93 259.443 o
+316.973 260.109 o
+326.011 260.868 o
+335.05 261.157 o
+344.092 261.703 o
+353.131 261.821 o
+362.17 262.229 o
+371.212 262.356 o
+380.251 262.648 o
+389.293 262.735 o
+398.332 262.88 o
+407.37 262.898 o
+412.238 263.066 o
+grestore
+2.500 setlinewidth
+1 setlinejoin
+2 setlinecap
+0.000 0.750 0.750 setrgbcolor
+gsave
+357.1 266.1 57.6 38.02 clipbox
+62.064 279.826633 m
+70.992 277.332018 l
+79.92 264.190306 l
+88.848 249.123603 l
+97.776 234.563636 l
+106.704 221.334811 l
+115.632 210.594401 l
+124.56 204.589701 l
+133.488 196.253355 l
+142.416 190.012222 l
+151.344 191.606773 l
+160.272 198.576968 l
+169.2 210.153273 l
+178.128 223.219689 l
+187.056 231.089943 l
+195.984 236.894513 l
+204.912 241.708246 l
+213.84 244.616195 l
+222.768 246.569027 l
+231.696 248.457707 l
+240.624 250.389668 l
+249.552 252.255126 l
+258.48 253.963926 l
+267.408 255.479112 l
+276.336 256.797561 l
+285.264 257.930779 l
+294.192 258.895499 l
+303.12 259.710066 l
+312.048 260.392965 l
+320.976 260.962159 l
+329.904 261.434367 l
+338.832 261.824809 l
+347.76 262.14678 l
+356.688 262.412082 l
+365.616 262.630573 l
+374.544 262.810694 l
+383.472 262.959032 l
+392.4 263.081654 l
+401.328 263.182816 l
+410.256 263.266582 l
+419.184 263.336063 l
+428.112 263.393665 l
+437.04 263.441545 l
+445.968 263.4814 l
+454.896 263.514581 l
+461.8 263.536032 l
+stroke
+grestore
+1.000 setlinewidth
+2 setlinejoin
+0 setlinecap
+gsave
+357.1 266.1 57.6 38.02 clipbox
+/o {
+gsave
+newpath
+translate
+1.0 setlinewidth
+2 setlinejoin
+0 setlinecap
+0 3 m
+-0.673542 0.927051 l
+-2.85317 0.927051 l
+-1.089814 -0.354102 l
+-1.763356 -2.427051 l
+-0 -1.145898 l
+1.763356 -2.427051 l
+1.089814 -0.354102 l
+2.85317 0.927051 l
+0.673542 0.927051 l
+cl
+
+gsave
+0.000 0.750 0.750 setrgbcolor
+fill
+grestore
+stroke
+grestore
+} bind def
+62.064 279.827 o
+70.992 277.332 o
+79.92 264.19 o
+88.848 249.124 o
+97.776 234.564 o
+106.704 221.335 o
+115.632 210.594 o
+124.56 204.59 o
+133.488 196.253 o
+142.416 190.012 o
+151.344 191.607 o
+160.272 198.577 o
+169.2 210.153 o
+178.128 223.22 o
+187.056 231.09 o
+195.984 236.895 o
+204.912 241.708 o
+213.84 244.616 o
+222.768 246.569 o
+231.696 248.458 o
+240.624 250.39 o
+249.552 252.255 o
+258.48 253.964 o
+267.408 255.479 o
+276.336 256.798 o
+285.264 257.931 o
+294.192 258.895 o
+303.12 259.71 o
+312.048 260.393 o
+320.976 260.962 o
+329.904 261.434 o
+338.832 261.825 o
+347.76 262.147 o
+356.688 262.412 o
+365.616 262.631 o
+374.544 262.811 o
+383.472 262.959 o
+392.4 263.082 o
+401.328 263.183 o
+410.256 263.267 o
+419.184 263.336 o
+428.112 263.394 o
+437.04 263.442 o
+445.968 263.481 o
+454.896 263.515 o
+461.8 263.536 o
+grestore
+2.500 setlinewidth
+1 setlinejoin
+2 setlinecap
+gsave
+357.1 266.1 57.6 38.02 clipbox
+62.064 280.835757 m
+70.992 278.943398 l
+79.92 277.52562 l
+88.848 263.214918 l
+97.776 238.31686 l
+106.704 223.981763 l
+115.632 212.306103 l
+124.56 208.141144 l
+133.488 204.000718 l
+142.416 200.618842 l
+151.344 200.541255 l
+160.272 201.474819 l
+169.2 199.032892 l
+178.128 180.492811 l
+187.056 174.948088 l
+195.984 175.861216 l
+204.912 176.951156 l
+213.84 168.949224 l
+222.768 150.835292 l
+231.696 121.329292 l
+240.624 237.087309 l
+249.552 252.081624 l
+258.48 253.960951 l
+267.408 255.478976 l
+276.336 256.797561 l
+285.264 257.930779 l
+294.192 258.895374 l
+303.12 259.710066 l
+312.048 260.392965 l
+320.976 260.962159 l
+329.904 261.434367 l
+338.832 261.824809 l
+347.76 262.14678 l
+356.688 262.412082 l
+365.616 262.630573 l
+374.544 262.810694 l
+383.472 262.959032 l
+392.4 263.081654 l
+401.328 263.182816 l
+410.256 263.266582 l
+419.184 263.336063 l
+428.112 263.393665 l
+437.04 263.441545 l
+445.968 263.4814 l
+454.896 263.514581 l
+461.8 263.536032 l
+stroke
+grestore
+1.000 setlinewidth
+0 setlinecap
+gsave
+357.1 266.1 57.6 38.02 clipbox
+/o {
+gsave
+newpath
+translate
+1.0 setlinewidth
+1 setlinejoin
+0 setlinecap
+-3 -3 m
+3 3 l
+-3 3 m
+3 -3 l
+
+gsave
+0.000 0.750 0.750 setrgbcolor
+fill
+grestore
+stroke
+grestore
+} bind def
+62.064 280.836 o
+70.992 278.943 o
+79.92 277.526 o
+88.848 263.215 o
+97.776 238.317 o
+106.704 223.982 o
+115.632 212.306 o
+124.56 208.141 o
+133.488 204.001 o
+142.416 200.619 o
+151.344 200.541 o
+160.272 201.475 o
+169.2 199.033 o
+178.128 180.493 o
+187.056 174.948 o
+195.984 175.861 o
+204.912 176.951 o
+213.84 168.949 o
+222.768 150.835 o
+231.696 121.329 o
+240.624 237.087 o
+249.552 252.082 o
+258.48 253.961 o
+267.408 255.479 o
+276.336 256.798 o
+285.264 257.931 o
+294.192 258.895 o
+303.12 259.71 o
+312.048 260.393 o
+320.976 260.962 o
+329.904 261.434 o
+338.832 261.825 o
+347.76 262.147 o
+356.688 262.412 o
+365.616 262.631 o
+374.544 262.811 o
+383.472 262.959 o
+392.4 263.082 o
+401.328 263.183 o
+410.256 263.267 o
+419.184 263.336 o
+428.112 263.394 o
+437.04 263.442 o
+445.968 263.481 o
+454.896 263.515 o
+461.8 263.536 o
+grestore
+2.500 setlinewidth
+2 setlinecap
+gsave
+357.1 266.1 57.6 38.02 clipbox
+62.064 281.063216 m
+70.992 279.202217 l
+79.92 277.731328 l
+88.848 268.129093 l
+97.776 238.383784 l
+106.704 223.982688 l
+115.632 212.306103 l
+124.56 208.141144 l
+133.488 204.000718 l
+142.416 200.618842 l
+151.344 200.541255 l
+160.272 201.474819 l
+169.2 199.159846 l
+178.128 196.316099 l
+187.056 179.585504 l
+195.984 175.87735 l
+204.912 176.95126 l
+213.84 168.949224 l
+222.768 150.835292 l
+231.696 121.329292 l
+240.624 38.016 l
+249.552 240.196558 l
+258.48 253.939978 l
+267.408 255.478976 l
+276.336 256.797561 l
+285.264 257.930779 l
+294.192 258.895374 l
+303.12 259.710066 l
+312.048 260.392965 l
+320.976 260.962159 l
+329.904 261.434367 l
+338.832 261.824809 l
+347.76 262.14678 l
+356.688 262.412082 l
+365.616 262.630573 l
+374.544 262.810694 l
+383.472 262.959032 l
+392.4 263.081542 l
+401.328 263.182816 l
+410.256 263.266582 l
+419.184 263.336063 l
+428.112 263.393665 l
+437.04 263.441545 l
+445.968 263.4814 l
+454.896 263.514581 l
+461.8 263.536032 l
+stroke
+grestore
+1.000 setlinewidth
+0 setlinejoin
+0 setlinecap
+gsave
+357.1 266.1 57.6 38.02 clipbox
+/o {
+gsave
+newpath
+translate
+1.0 setlinewidth
+0 setlinejoin
+0 setlinecap
+-0 -3 m
+3 3 l
+-3 3 l
+cl
+
+gsave
+0.000 0.750 0.750 setrgbcolor
+fill
+grestore
+stroke
+grestore
+} bind def
+62.064 281.063 o
+70.992 279.202 o
+79.92 277.731 o
+88.848 268.129 o
+97.776 238.384 o
+106.704 223.983 o
+115.632 212.306 o
+124.56 208.141 o
+133.488 204.001 o
+142.416 200.619 o
+151.344 200.541 o
+160.272 201.475 o
+169.2 199.16 o
+178.128 196.316 o
+187.056 179.586 o
+195.984 175.877 o
+204.912 176.951 o
+213.84 168.949 o
+222.768 150.835 o
+231.696 121.329 o
+240.624 38.016 o
+249.552 240.197 o
+258.48 253.94 o
+267.408 255.479 o
+276.336 256.798 o
+285.264 257.931 o
+294.192 258.895 o
+303.12 259.71 o
+312.048 260.393 o
+320.976 260.962 o
+329.904 261.434 o
+338.832 261.825 o
+347.76 262.147 o
+356.688 262.412 o
+365.616 262.631 o
+374.544 262.811 o
+383.472 262.959 o
+392.4 263.082 o
+401.328 263.183 o
+410.256 263.267 o
+419.184 263.336 o
+428.112 263.394 o
+437.04 263.442 o
+445.968 263.481 o
+454.896 263.515 o
+461.8 263.536 o
+grestore
+0.800 setlinewidth
+2 setlinecap
+[] 0 setdash
+0.000 setgray
+gsave
+57.6 38.016 m
+57.6 304.128 l
+stroke
+grestore
+gsave
+414.72 38.016 m
+414.72 304.128 l
+stroke
+grestore
+gsave
+57.6 38.016 m
+414.72 38.016 l
+stroke
+grestore
+gsave
+57.6 304.128 m
+414.72 304.128 l
+stroke
+grestore
+
+end
+showpage

@@ -1,0 +1,16 @@
+Case description:
+In this case we benchmark Celestite dissolution (kinetics) and Barite precipitation (equilibrium phases) in a flow cell. This case has been numerically analysed in Jena et.al (2018).
+
+The same set up (initial and boundary conditions) have been used for two cases:
+-> structuredMesh
+-> unstructuredMesh
+
+Extracting the concentration of minerals (Celestite, Barite) as shown in Case8 of our paper:
+
+Note: Celestite has both Celestite_SmlGrns and Celestite_LrgGrns
+
+Ater the runs, to extract the concentration of Celestite (Celestite_SmlGrns, Celestite_LrgGrns, total = Celestite_SmlGrns+Celestite_LrgGrns) and Barite, we used paraview for post processing as explained below.
+
+Within the flow cell, we use 'integrateVariables' module of paraview to obtain the volume fraction of both minerals (celestite and barite) then multiply the results with the cell volume (we get results in [m3]). Finally, this value is added up (i.e. the integrate variables module of paraview adds up the cell data of all cells within the flow cell.)
+
+The obtained variables above (from integrateVariables step) for Celestite is divided by the Celestite molar volume (Vm,Celestite = 0.00004638 m3/mol) and for Barite, the obtained value above is divided by the molar vlume of Barite (Vm,Barite = 0.00005209 m3/mol). This gives us the concentration of Barite, Celestite_SmlGrns, Celestite_LrgGrns, Total Celestite in [mol] (Celestite_SmlGrns+ Celestite_LrgGrns). This data is plotted in Case8 of the paper.

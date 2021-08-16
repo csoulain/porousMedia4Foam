@@ -1,0 +1,9 @@
+Calcite
+    -start
+1   REM   PARM(1) = specific surface area of Calcite (large grains), [m^2/m^3]
+10  si_cc = SR("Calcite")
+20  rate = 1*PARM(1)*(1 - si_cc) #mol/m3/s,1 is the effective rate constant mol/m2/s
+30  mole = rate*time #mol/m3
+35  mole = mole*0.001 #mol/l
+40  save mole
+    -end

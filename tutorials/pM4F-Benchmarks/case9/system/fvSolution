@@ -1,0 +1,94 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.2                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(U|UFinal)"
+    {
+//        solver           smoothSolver;
+	solver		PBiCG;
+	preconditioner DILU;
+        smoother         GaussSeidel;
+//		solver	PCG;
+//		preconditioner DIC;
+        tolerance        1e-09;
+        relTol           0.1;
+        nSweeps          1;
+    }
+
+    "(p|pFinal)"
+    {
+/*
+		solver	PCG;
+		preconditioner DIC;
+        tolerance        1e-6;
+        relTol           0.05;
+*/
+        solver           GAMG;
+        tolerance        1e-6;
+        relTol           0.0;
+        smoother         DIC; //GaussSeidel;
+        nPreSweeps       0;
+        nPostSweeps      2;
+        cacheAgglomeration on;
+        agglomerator     faceAreaPair;
+        nCellsInCoarsestLevel 10;
+        mergeLevels      1;
+    }
+
+    Ci
+    {
+		solver	PBiCG;
+		preconditioner DILU;
+        tolerance        1e-6;
+        relTol           0.1;
+        nSweeps          1;
+    }
+
+    "(Y.*)"
+    {
+		solver	PBiCG;
+		preconditioner DILU;
+        tolerance        1e-6;
+        relTol           0.1;
+        nSweeps          1;
+    }
+
+    epsSolid
+    {
+        solver           diagonal;
+//		solver	BICCG;
+//		preconditioner DILU;
+        tolerance        1e-09;
+        relTol           1e-5;
+    }
+
+
+}
+
+
+PIMPLE
+{
+    momentumPredictor yes;
+    nOuterCorrectors 1; //3;
+    nCorrectors     2; //2;
+    nNonOrthogonalCorrectors 0;
+    pRefCell        0;
+    pRefValue       0;
+}
+
+// ************************************************************************* //

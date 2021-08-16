@@ -1,0 +1,12 @@
+echo Running calcite disslution using 'darcyFoam'
+
+cd darcyFoam
+./runTestCase
+
+cd ..
+
+echo Running calcite dissolution using 'dbsFoam'
+cd dbsFoam
+./runTestCase
+
+echo END OF CASE. FOR FINAL RESULTS COMPARISON LOOK INTO dbsFOAM plots.

@@ -1,0 +1,45 @@
+PRINT
+-reset false
+
+SOLUTION 0
+pH 2
+Cl 10 charge
+END
+
+SOLUTION 1-50
+pH 8.2 charge
+Ca 1 Calcite 0
+C(4) 1 CO2(g) -3.45
+Cl 1e-12
+
+KINETICS 1-50
+Calcite 
+	-m	2.031
+	-m0	2.031
+	-parms	2.5 0
+END
+
+PRINT
+-selected_output true
+
+SELECTED_OUTPUT
+-reset false
+-file CalciteDiss_KinEq.op
+-time true
+-distance true
+-pH true
+-totals Cl Ca C(4)
+-kin calcite
+
+TRANSPORT
+-cells 50
+-lengths 50*0.01
+-time_step 0.4 s
+-shifts 9000
+-diffusion_coefficient 1e-9
+-dispersivities 1e-4
+
+-print_frequency 1500
+-punch_frequency 1500
+-warnings false
+END

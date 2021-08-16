@@ -1,0 +1,78 @@
+transportModel  Newtonian;
+mu              mu [ 1 -1 -1 0 0 0 0 ] 1e-3;
+rho              rho [ 1 -3 0 0 0 0 0 ] 1000;
+
+geochemicalProperties
+{
+ geochemicalModel phreeqcRM;
+
+ mineral (Witherite BaCl2 BaCl22H2O BaCl2H2O Barite Strontianite SrCl2 SrCl22H2O SrCl26H2O Celestite_SmlGrns Celestite_LrgGrns);
+
+ absolutePermeabilityModel KozenyCarman;
+ KozenyCarmanCoeffs
+ {
+	updateFromInitialPoroPerm true;
+	K0 K0 [0 2 0 0 0 0 0] 1.;
+ }
+
+ dispersionModel archiesLaw;
+ archiesLawCoeffs 
+ {
+        Di              Di  [0 2 -1 0 0 0 0] 1e-9;
+	alphaL		alphaL [0 1 0 0 0 0 0] 1e-5;
+	n 0;
+	addDispersion true;
+ }
+
+ BariteProperties
+ {
+  activatePhaseEquilibrium true;
+  rhos rhos [1 -3 0 0 0 0 0] 4480;
+  //https://en.wikipedia.org/wiki/Baryte
+  Vm Vm [0 3 0 0 -1 0 0] 52.09e-6;
+  surfaceAreaModel none;
+ }
+ 
+ //define other mineral (mentioned on line #9) properties as well
+
+ Celestite_SmlGrnsProperties
+ {
+  activatePhaseEquilibrium false;
+  rhos rhos [1 -3 0 0 0 0 0] 1930;
+  //https://en.wikipedia.org/wiki/Strontium_sulfate
+  Vm Vm [0 3 0 0 -1 0 0] 46.38e-6;
+  surfaceAreaModel mingliangLaw;
+  mingliangLawCoeffs
+  {
+   A0 A0 [0 -1 0 0 0 0 0] 20000.;
+   n 1.;
+   initVF 0.223;
+  }
+ }
+
+ Celestite_LrgGrnsProperties
+ {
+  activatePhaseEquilibrium false;
+  rhos rhos [1 -3 0 0 0 0 0] 1930;
+  //https://en.wikipedia.org/wiki/Strontium_sulfate
+  Vm Vm [0 3 0 0 -1 0 0] 46.38e-6;
+  surfaceAreaModel mingliangLaw;
+  mingliangLawCoeffs
+  {
+   A0 A0 [0 -1 0 0 0 0 0] 100.;
+   n 1.;
+   initVF 0.447;
+  }
+ }
+
+phreeqcRM
+{
+        PhreeqcInputFile "test.phr";		//define chemical solution	
+        PhreeqcDataBase  "JenaFin.DAT";	//phreeqc database
+        activateUpdatePorosity true;		//update porosity
+	numThreads 4;				//use 4 threads for runs
+	use_cvODE true;			//use cvODE to solve chem.
+        cvODETol 1e-7;				//set solver tol.
+}
+
+}

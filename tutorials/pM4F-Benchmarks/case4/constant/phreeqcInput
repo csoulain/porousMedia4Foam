@@ -1,0 +1,36 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       IOobject;
+    location    "constant";
+    object      phreeqcInput;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+SOLUTION 0
+	temp 25
+	pH 3
+	units mmol/kgw
+	Ca 0.1 
+	S 200 
+	C 10
+	Na 395.62 
+END
+
+# CELLS WITH CALCITE
+SOLUTION 1-80
+	temp 25
+	pH 9.33
+	units mmol/kgw
+	Ca 0.169512
+	S 0.169512
+	C 0.2695
+	Na 0.32
+END

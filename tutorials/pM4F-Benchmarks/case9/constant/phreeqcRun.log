@@ -1,0 +1,43 @@
+   Input file: phreeqcRun.phr
+  Output file: phreeqcRun.log
+Database file: phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+WARNING: Unknown input, no keyword has been specified.
+WARNING: Unknown input, no keyword has been specified.
+WARNING: Unknown input, no keyword has been specified.
+WARNING: Unknown input, no keyword has been specified.
+WARNING: Unknown input, no keyword has been specified.
+WARNING: Unknown input, no keyword has been specified.
+WARNING: Unknown input, no keyword has been specified.
+WARNING: Unknown input, no keyword has been specified.
+WARNING: Unknown input, no keyword has been specified.
+WARNING: Unknown input, no keyword has been specified.
+WARNING: Unknown input, no keyword has been specified.
+WARNING: Unknown input, no keyword has been specified.
+WARNING: Unknown input, no keyword has been specified.
+WARNING: Unknown input, no keyword has been specified.
+WARNING: Unknown input, no keyword has been specified.
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	PRINT
+	reset false
+WARNING: Dispersivities were read for 1 cells. Last value is used till cell 50.
+---------------------------------
+End of Run after 302.582 Seconds.
+---------------------------------
+

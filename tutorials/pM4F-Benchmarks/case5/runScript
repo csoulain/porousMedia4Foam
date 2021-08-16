@@ -1,0 +1,65 @@
+#Script to mesh, run the benchmark case (B3. M Xie - 6 minerals - Calcite, Gypsum, Ferrihydrite, Siderite, Gibbsite, Jarosite. Precipitation and dissolution taken into accout by kinetic equilibrium), post process output data, plot results
+
+#Remove any previous output files and run the case from 0
+#1foamListTimes -rm
+
+echo Building mesh
+#2blockMesh > blockMesh.log
+
+echo Running the case
+#3darcyFoam
+echo End of the run
+
+#Output cell center data at 10, 100, 300 years
+#Data written for - 
+#porosity, 
+#hydraulic head (pressure), 
+#hydraulic conductivity (permeability),
+#flux
+#all mineral volume fractions
+echo Postprocessing output data - check postProcess folder
+#4postProcess -time 3.149928e+08,3.1499928e+09,9.45e+09 -func singleGraph
+
+lastTime=9.45e+09
+echo Taking the final output time as $lastTime
+#Output flux
+#5postProcess -time 0:1e+10 -func 'flowRatePatch(name=outlet)'
+
+#6sed -i 1,5d postProcessing/flowRatePatch\(name\=outlet\)/$lastTime/surfaceFieldValue.dat
+
+#7awk '{print $1, $2}' postProcessing/flowRatePatch\(name\=outlet\)/$lastTime/surfaceFieldValue.dat > postProcessing/flowRatePatch\(name\=outlet\)/$lastTime/surfaceFieldValue1.dat
+
+echo Plotting the benchmark \(B3\) results
+
+echo Please close the plot window to see the next result. The results are also saved in plots/porosity/B3-porosity.eps for example.
+#Porosity - output
+python plots/porosity/porosity.py
+
+#Hydraulic head - calculated from pressure
+python plots/hydHead/hydHead.py
+
+#Hydraulic conductivity calculated from permeability
+python plots/hydCond/hydCond.py
+
+#Outflux
+python plots/flux/flux.py
+
+#Calcite volume fraction - output
+python plots/mineralsVF/calcite_VF/calcite_VF.py
+
+#Gypsum volume fraction - output
+python plots/mineralsVF/gypsum_VF/gypsum_VF.py
+
+#Ferrihydrite volume fraction - output
+python plots/mineralsVF/ferrihydrite_VF/ferrihydrite_VF.py
+
+#Gibbsite volume fraction - output
+python plots/mineralsVF/gibbsite_VF/gibbsite_VF.py
+
+#Siderite volume fraction - output
+python plots/mineralsVF/siderite_VF/siderite_VF.py
+
+#Jarosite volume fraction - output
+python plots/mineralsVF/jarosite_VF/jarosite_VF.py
+
+echo END

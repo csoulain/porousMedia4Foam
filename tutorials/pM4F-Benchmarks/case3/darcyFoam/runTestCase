@@ -1,0 +1,44 @@
+#Script to mesh, run the benchmark case (B1. M Xie - Calcite dissolution), post process output data, plot results
+
+#Remove any previous output files and run the case from 0
+foamListTimes -rm
+
+echo Building mesh
+blockMesh > blockMesh.log
+
+echo Running the case
+darcyFoam
+echo End of the run
+
+#Output cell center data at 10, 100, 120 years
+#Data written for - porosity, calcite volume fraction and pressure
+echo Postprocessing output data - check postProcess folder
+postProcess -time 3.149928e+08,3.1499928e+09,3.78e+09 -func singleGraph
+
+#Output flux
+postProcess -time 0:6e+09 -func 'flowRatePatch(name=outlet)'
+
+##**IMPORTANT**##
+##**Change this variable as per simulation end time**##
+lastTime=4.73999e+09 #150 years
+#lastTime=3.78e+09 #120 years
+sed -i 1,5d postProcessing/flowRatePatch\(name\=outlet\)/$lastTime/surfaceFieldValue.dat
+
+awk '{print $1, $2}' postProcessing/flowRatePatch\(name\=outlet\)/$lastTime/surfaceFieldValue.dat > postProcessing/flowRatePatch\(name\=outlet\)/$lastTime/surfaceFieldValue1.dat
+
+echo Plotting the benchmark \(B1\) results
+echo Please close the plot window to see the next result. The results are also saved in plots/porosity/B1-porosity.eps for example.
+
+#Porosity - output
+python plots/porosity/porosity.py
+
+#Calcite volume fraction - output
+python plots/calcite_VF/calcite_VF.py
+
+#Hydraulic head calculated from pressure
+python plots/hydHead/hydHead.py
+
+#Outflux
+python plots/flux/flux.py
+
+echo END

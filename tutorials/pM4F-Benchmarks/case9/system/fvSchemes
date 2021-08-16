@@ -1,0 +1,70 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.2                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+ddtSchemes
+{
+    default         Euler;
+}
+
+gradSchemes
+{
+    default         Gauss linear;
+    grad(p)         Gauss linear;
+	grad(epsSolid)  leastSquares;
+	
+}
+
+divSchemes
+{
+    default         none;
+    div(phi,U)      bounded Gauss linear;
+    div(phi,Yi)     bounded Gauss vanLeer; //upwind; //bounded Gauss vanLeer; Gamma 0.7
+    div((nuEff*dev2(T(grad(U)))))  Gauss linear;
+}
+
+laplacianSchemes
+{
+    default         			none;
+	laplacian(rhorAUf,p) 		Gauss linear orthogonal;
+    laplacian(muf,U) 			Gauss linear orthogonal;
+ 	laplacian((muf|eps),U) 		Gauss linear orthogonal;
+    laplacian(Dp,p) 			Gauss linear orthogonal;
+    laplacian(nuEff,U) 			Gauss linear orthogonal;
+	laplacian((1|A(U)),p) 		Gauss linear orthogonal;
+	laplacian(Di,Yi)  			Gauss linear orthogonal;
+laplacian((nu|(eps+2.22045e-16)),U) Gauss linear orthogonal;
+}
+
+interpolationSchemes
+{
+    default         linear;
+    interpolate(HbyA) linear;
+}
+
+snGradSchemes
+{
+    default         orthogonal;
+}
+
+fluxRequired
+{
+    default         no;
+    p               ;
+}
+
+
+// ************************************************************************* //
