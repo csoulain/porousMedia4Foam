@@ -13,7 +13,7 @@ volVectorField U
         IOobject::AUTO_WRITE
     ),
     mesh,
-    dimensionedVector("U",dimensionSet(0,2,-1,0,0,0,0),vector::zero)
+    dimensionedVector("U",dimensionSet(0,1,-1,0,0,0,0),vector::zero)
 );
 
 #include "createPhi.H"
