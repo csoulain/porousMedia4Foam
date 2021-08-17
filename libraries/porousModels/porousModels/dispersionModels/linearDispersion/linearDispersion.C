@@ -73,7 +73,7 @@ Foam::dispersionModels::linearDispersion::linearDispersion
     ),
     eps_(mesh.lookupObject<volScalarField>(epsName_)),
     U_(mesh.lookupObject<volVectorField>(UName_)),
-    n_(readScalar(linearDispersionDict_.lookup("n")))
+    n_( linearDispersionDict_.lookupOrDefault("n",0.))
 {
 
 }

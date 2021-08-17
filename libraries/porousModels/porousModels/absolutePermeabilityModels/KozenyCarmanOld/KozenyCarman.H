@@ -25,26 +25,10 @@ Class
     Foam::twoPhaseMixture
 
 Description
-    Several versions of the Kozeny-Carman equation are available in literature. We use a switch to select the suitable variant
-
-    1. K_(t+dt) = K(t)*( (eps(t+dt)^3)/((1-eps(t+dt))^2) )*( ((1-eps(t))^2)/(eps(t)^3) )
-
-    Ref: Implementation and evaluation of permeability-porosity and tortuosity-porosity relationships linked to mineral dissolution-precipitation. Mingliang Xie et.al. (2015) -> Eq. 2
-    
-    2. K_(t+dt) = K(0)*( ((1-eps(0))/(1-eps))^2*(eps/eps(0))^3 )
-
-    Ref.: Benchmarking of reactive transport codes for 2D simulations with mineral dissolution-precipitation reactions and feedback on transport parameters. J. Poonoosamy et.al.(2018) -> Eq. 10
-    In code: use switch 'updateFromInitialPoroPerm_'
-
-    3. K_(t+dt) = K(0)*(eps(t)/eps(0))^3
-
-    Ref.: Benchmarking of reactive transport codes for 2D simulations w
-ith mineral dissolution-precipitation reactions and feedback on transpo
-rt parameters. J. Poonoosamy et.al.(2018) -> Eq. 11
-    In code: use switch 'modifiedKozenyCarman_'
+    PhreeqcRM module
 
 SourceFiles
-    KozenyCarman.C
+    phreeqc.C
 
 \*---------------------------------------------------------------------------*/
 
@@ -81,20 +65,15 @@ class KozenyCarman : public absolutePermeabilityModel
 
     dimensionedScalar K0_;
 
-//    Switch updateFromInitialValue_;
-    Switch modifiedKozenyCarman_;
-    Switch updateFromInitialPoroPerm_;
-
+    Switch updateFromInitialValue_;
 
     volScalarField K_;
-    volScalarField initK_;
-    scalar extrapolateKOnPatchn_;
+
     volScalarField invK_;
 
     surfaceScalarField Kf_;
 
     const volScalarField & eps_;
-    volScalarField eps0_;
 
   // Private Member Functions
 
