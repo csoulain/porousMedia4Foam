@@ -89,9 +89,13 @@ Foam::dispersionTensorModels::linearDispersionTensor::effectiveDispersionTensor(
 void Foam::dispersionTensorModels::linearDispersionTensor::updateDispersionTensor()
 {
 
+       dimensionedScalar smallU("smallU", dimLength/dimTime, SMALL);
+
        Deff_=
                 tensor(1,0,0,0,1,0,0,0,0)*(Di_+alphaT_*mag(U_))
-              + (alphaL_-alphaT_)/(mag(U_)+SMALL)*U_*U_ ;
+//              + (alphaL_-alphaT_)/(mag(U_)+SMALL)*U_*U_ ;
+              + (alphaL_-alphaT_)/(mag(U_)+smallU)*U_*U_ ;
+
 
        Deff_= Foam::pow(eps_,n_)*Deff_;
 

@@ -70,6 +70,7 @@ class phreeqcRM : public basicGeochemicalModel
 
     Switch setComponentH2O_ ;
 
+    scalar numThreads_; // for openmp. Default 1.
     label nthread_;
     int nxyz_;
 
@@ -86,13 +87,16 @@ class phreeqcRM : public basicGeochemicalModel
 
     PtrList<dimensionedScalar> Vm_;
 
-
+    volScalarField linkDomainZonesToPhreeqcSol_;
 //    dimensionedScalar Di_;
 //    dimensionedScalar alphaL_;
 
 //    volScalarField Deff;
-    Switch cvODE;
+//    Switch cvODE;
 
+    Switch cvODE;
+    double cvODETol_;
+    Switch use_SNIA; 	//seq. non-iterative
 
 
     word UName_;

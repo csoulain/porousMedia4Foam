@@ -67,6 +67,7 @@ Foam::geochemicalModels::phreeqcRM::phreeqcRM
       (
             phreeqcDict_.lookupOrDefault<Switch>("setComponentH2O", false)
       ),
+      numThreads_(phreeqcDict_.lookupOrDefault("numThreads",1)),
       nthread_(1),
       nxyz_(mesh_.cells().size()),
       strangSteps_ (readScalar(phreeqcDict_.lookup("StrangSteps"))),
@@ -75,10 +76,24 @@ Foam::geochemicalModels::phreeqcRM::phreeqcRM
       mineralSubDict_( mineralList_.size() ),
       activatePhaseEquilibrium_( mineralList_.size() ),
       Vm_( mineralList_.size() ),
-      cvODE
+      linkDomainZonesToPhreeqcSol_
       (
-        phreeqcDict_.lookupOrDefault<Switch>("cvODE", false)
+        IOobject
+        (
+          "linkDomainZonesToPhreeqcSol",
+          mesh_.time().timeName(),
+          mesh_,
+          IOobject::READ_IF_PRESENT,
+          IOobject::NO_WRITE
+        ),
+        mesh_,
+        1//,
+        //calculatedFvPatchScalarField::typeName
+        //"zeroGradient"
       ),
+      cvODE ( phreeqcDict_.lookupOrDefault("cvODE",false)),
+      cvODETol_ (phreeqcDict_.lookupOrDefault("cvODETol",1e-8)),
+      use_SNIA ( phreeqcDict_.lookupOrDefault("use_SNIA",false)),
       UName_(phreeqcDict_.lookupOrDefault<word>("U", "U")),
       U_(mesh.lookupObject<volVectorField>(UName_)),
       pH_
@@ -291,8 +306,8 @@ std::string Foam::geochemicalModels::phreeqcRM::generateKineticsInputString()
 
           const volScalarField Ae_ ("Ae",porousMedia_[s].surfaceArea());
 
-          double AeMi
-    					= Ae_[i];
+//          double AeMi = Ae_[i];
+          double AeMi = Ae_[i]/(Ys_[s][i]+SMALL);
 //              = Ae_[i]*Vm_[s].value()/(Ys_[s][i]+SMALL)*100;
 
 
@@ -313,6 +328,11 @@ std::string Foam::geochemicalModels::phreeqcRM::generateKineticsInputString()
     			else
     			{
     			     Info << "Using cv ode for chemistry " << nl;
+
+               std::ostringstream strs_cvODETol;
+               //set by user in transportProp./ use default value
+            	 strs_cvODETol << cvODETol_;
+
                input +=
     		              mineralList_[s]     + ";\n"
                       +" -m "  + strs_Mi.str() + ";\n"
@@ -320,7 +340,7 @@ std::string Foam::geochemicalModels::phreeqcRM::generateKineticsInputString()
                       +" -parms " + strs_AeMi.str() + " 0.0 " + ";\n"
                       +" -cvode " + "true" + ";\n"
                       +" -cvode_steps " + "500" + ";\n"
-                      +" -tol " + "1e-6" + "; \n"
+                      +" -tol " + strs_cvODETol.str() + "; \n"
     			      ;
     			}
         }
@@ -361,9 +381,17 @@ void Foam::geochemicalModels::phreeqcRM::updateKineticsParameters()
               const volScalarField Ae_ ("Ae",porousMedia_[s].surfaceArea());
 
               //attention au 100 pour Calcite mais pas pour le reste
-              double AeMi
-                  = Ae_[i];
-//                  = Ae_[i]*Vm_[s].value()/(Ys_[s][i]+SMALL)*100;
+              double AeMi;
+
+              if (eps_[i]<=0.001)
+          		{
+          			AeMi = SMALL;
+          		}
+          		else
+          		{
+          			AeMi = Ae_[i];
+          		}
+          		/*Saideep: to curtail add. precip. at low porosity*/
 
 
           		std::ostringstream strs_AeMi;
@@ -524,7 +552,7 @@ void Foam::geochemicalModels::phreeqcRM::initializeFluidComposition()
 	ic1.resize(nxyz_*7, -1);
 	for (int i = 0; i < nxyz_; i++)
 	{
-		ic1[0*nxyz_ + i] =  1;      			 // SOLUTION 1
+		ic1[0*nxyz_ + i] =  linkDomainZonesToPhreeqcSol_[i];      			 // SOLUTION 1
 		ic1[1*nxyz_ + i] =  i;     //-1; 	 // EQUILIBRIUM_PHASES
 		ic1[2*nxyz_ + i] = -1; 						 // EXCHANGE
 		ic1[3*nxyz_ + i] = -1; 		 //-1; 	 // SURFACE
@@ -744,67 +772,119 @@ void Foam::geochemicalModels::phreeqcRM::updateFluidComposition()
 //Split chemistry in steps along with transport - Sapa
 void Foam::geochemicalModels::phreeqcRM::updateFluidComposition()
 {
-    int strangCounter_ = 0;
-//    const volScalarField &Deff = effectiveDispersion();
-    const volTensorField &Deff = effectiveDispersionTensor();
 
-
-    word divPhiYiScheme = "div(phi,Yi)";
-
-    std::vector<double> c;
-    c.resize(Y_.size()*nxyz_);
-    const Time& runTime = mesh_.time();
-
-    for
-    (
-        subCycleTime subCycle(const_cast<Time&>(runTime),strangSteps_); !(++subCycle).end();
-    )
+    if(use_SNIA)
     {
-        strangCounter_++;
-        Info << "Num sub cycles = " << subCycle.nSubCycles() << endl; //report numSubCycles
-        Info << "Delta t = " << runTime.deltaT() << endl;             //subCycle time = dt/nSubCycles
+        Info << "Using SNIA (seq. non-iterative) for transport and chemistry coupling." << nl;
 
-        forAll (Y_, i)
+        const volTensorField &Deff = effectiveDispersionTensor();
+        word divPhiYiScheme = "div(phi,Yi)";
+
+        std::vector<double> c;
+        c.resize(Y_.size()*nxyz_);
+
+        forAll(Y_,i)
         {
-            volScalarField& Yi = Y_[i];
-            fvScalarMatrix YiEqn
-            (
-                fvm::ddt(eps_,Yi) + fvm::div(phi_,Yi,divPhiYiScheme)
-                -fvm::laplacian(eps_*Deff,Yi,"laplacian(Di,Yi)")
-            );
-            YiEqn.solve();
+             volScalarField& Yi = Y_[i];
+             fvScalarMatrix YiEqn
+             (
+                 fvm::ddt(eps_,Yi) + fvm::div(phi_,Yi,divPhiYiScheme)
+                 -fvm::laplacian(eps_*Deff,Yi,"laplacian(Di,Yi)")
+             );
+             YiEqn.solve();
 
-            forAll(Y_[i],cellI)
-            {
-                c[i*nxyz_+cellI]=Y_[i][cellI];
-            } //copy flow information to phreeqc concentration
-        } //solve transport for the species
+             forAll(Y_[i],cellI)
+             {
+                 c[i*nxyz_+cellI]=Y_[i][cellI];
+             } //copy flow information to phreeqc concentration
+        } //solve transport for the species    i
+        updateKineticsParameters();
+        Info << "run Phreeqc ... " << nl;
+        status = phreeqc_.SetConcentrations(c);
+        status = phreeqc_.SetTimeStep(mesh_.time().deltaT().value());
+        status = phreeqc_.SetTime(mesh_.time().value());
+        Info << "I am going to runcell" << nl;
+        status = phreeqc_.RunCells();
+        Info << "I finished run cell" << nl;
+        status = phreeqc_.GetConcentrations(c);
 
-        for (; (strangCounter_==strangSteps_/2 /*|| strangCounter_==7*/); strangCounter_++)
+        forAll(Y_,s)
         {
-            Info<<"run phreeqc ..." << strangCounter_ << endl;
-            status = phreeqc_.SetConcentrations(c);         // Transported concentrations
-
-            status = phreeqc_.SetTimeStep(runTime.deltaT().value()*strangSteps_);    // Time step for kinetic reactions
-            Info << "Time stamp = " << mesh_.time().timeName() << endl;
-            status = phreeqc_.RunCells();
-            // Transfer data from PhreeqcRM for transport
-            status = phreeqc_.GetConcentrations(c);
-            forAll (Y_,s)
+            forAll(Y_[s],cellI)
             {
-                forAll(Y_[s],cellI)
-                {
-                    Y_[s][cellI]=c[nxyz_*s+cellI];
-                }
+                Y_[s][cellI]=c[nxyz_*s+cellI];
             }
-            phreeqc_.CloseFiles();
-            //if (strangCounter_==3){
-            //updateMineralDistribution();
-            //updatePorosity();
-            updateKineticsParameters();//}
-            updatepH();
-        } //solve for chemistry
-    } //for subCycle
+        }
+        updatepH();
+    }
+    else
+    {
+
+      int strangCounter_ = 0;
+  //    const volScalarField &Deff = effectiveDispersion();
+      const volTensorField &Deff = effectiveDispersionTensor();
+
+
+      word divPhiYiScheme = "div(phi,Yi)";
+
+      std::vector<double> c;
+      c.resize(Y_.size()*nxyz_);
+      const Time& runTime = mesh_.time();
+
+      for
+      (
+          subCycleTime subCycle(const_cast<Time&>(runTime),strangSteps_); !(++subCycle).end();
+      )
+      {
+          strangCounter_++;
+          Info << "Num sub cycles = " << subCycle.nSubCycles() << endl; //report numSubCycles
+          Info << "Delta t = " << runTime.deltaT() << endl;             //subCycle time = dt/nSubCycles
+
+          forAll (Y_, i)
+          {
+              volScalarField& Yi = Y_[i];
+              fvScalarMatrix YiEqn
+              (
+                  fvm::ddt(eps_,Yi) + fvm::div(phi_,Yi,divPhiYiScheme)
+                  -fvm::laplacian(eps_*Deff,Yi,"laplacian(Di,Yi)")
+              );
+              YiEqn.solve();
+
+              forAll(Y_[i],cellI)
+              {
+                  c[i*nxyz_+cellI]=Y_[i][cellI];
+              } //copy flow information to phreeqc concentration
+          } //solve transport for the species
+
+          for (; (strangCounter_==strangSteps_/2 /*|| strangCounter_==7*/); strangCounter_++)
+          {
+              Info<<"run phreeqc ..." << strangCounter_ << endl;
+              status = phreeqc_.SetConcentrations(c);         // Transported concentrations
+
+              status = phreeqc_.SetTimeStep(runTime.deltaT().value()*strangSteps_);    // Time step for kinetic reactions
+              Info << "Time stamp = " << mesh_.time().timeName() << endl;
+              status = phreeqc_.RunCells();
+              // Transfer data from PhreeqcRM for transport
+              status = phreeqc_.GetConcentrations(c);
+              forAll (Y_,s)
+              {
+                  forAll(Y_[s],cellI)
+                  {
+                      Y_[s][cellI]=c[nxyz_*s+cellI];
+                  }
+              }
+              phreeqc_.CloseFiles();
+              //if (strangCounter_==3){
+              //updateMineralDistribution();
+              //updatePorosity();
+              updateKineticsParameters();//}
+              updatepH();
+          } //solve for chemistry
+      } //for subCycle
+
+    }
+
+
 }
 
 

@@ -34,7 +34,7 @@ Foam::autoPtr<Foam::dispersionTensorModel> Foam::dispersionTensorModel::New
     const dictionary& dict
 )
 {
-    const word modelType(dict.lookup("dispersionTensorModel"));
+    const word modelType(dict.lookup("dispersionModel"));
 
     Info<< "Selecting dispersion model " << modelType << endl;
 

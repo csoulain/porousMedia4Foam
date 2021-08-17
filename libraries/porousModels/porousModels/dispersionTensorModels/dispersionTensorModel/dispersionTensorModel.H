@@ -69,7 +69,7 @@ class dispersionTensorModel
 public:
 
   //- Runtime type information
-    TypeName("dispersionTensorModel");
+    TypeName("dispersionModel");
 
 
     // Declare run-time constructor selection table
