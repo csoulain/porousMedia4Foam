@@ -18,7 +18,7 @@ porousModels/dispersionModels/dispersionNone/dispersionNone.C
 porousModels/dispersionTensorModels/dispersionTensorModel/dispersionTensorModel.C
 porousModels/dispersionTensorModels/dispersionTensorModel/dispersionTensorModelNew.C
 porousModels/dispersionTensorModels/taylorArisTensor/taylorArisTensor.C
-
+porousModels/dispersionTensorModels/dispersionTensorNone/dispersionTensorNone.C
 
 
 porousModels/surfaceAreaModels/surfaceAreaModel/surfaceAreaModel.C
