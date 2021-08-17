@@ -745,7 +745,10 @@ void Foam::geochemicalModels::phreeqcRM::updateFluidComposition()
 void Foam::geochemicalModels::phreeqcRM::updateFluidComposition()
 {
     int strangCounter_ = 0;
-    const volScalarField &Deff = effectiveDispersion();
+//    const volScalarField &Deff = effectiveDispersion();
+    const volTensorField &Deff = effectiveDispersionTensor();
+
+
     word divPhiYiScheme = "div(phi,Yi)";
 
     std::vector<double> c;

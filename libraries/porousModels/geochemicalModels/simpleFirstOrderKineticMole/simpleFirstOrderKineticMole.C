@@ -148,7 +148,8 @@ void Foam::geochemicalModels::simpleFirstOrderKineticMole::updateFluidCompositio
 
     word divPhiYiScheme = "div(phi,Yi)";
 
-    const volScalarField &Deff = effectiveDispersion();
+//    const volScalarField &Deff = effectiveDispersion();
+    const volTensorField &Deff = effectiveDispersionTensor();
 
 
   //  tmp<volScalarField> Aee_ (this->surfaceArea());

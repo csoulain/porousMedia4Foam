@@ -73,6 +73,20 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
           dimensionedScalar("eps",dimless,1.0),
           "zeroGradient"
       ),
+      eps0_
+      (
+          IOobject
+          (
+              "eps0",
+              mesh.time().timeName(),
+              mesh,
+              IOobject::READ_IF_PRESENT,
+              IOobject::NO_WRITE
+          ),
+          mesh,
+          dimensionedScalar("eps0",dimless,1.0),
+          "zeroGradient"
+      ),
       rhol_
       (
           dict.lookup("rhol")
@@ -97,10 +111,12 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
       (
           absolutePermeabilityModel::New(mesh, dict)
       ),
+/*
       dispersionModelPtr_
       (
           dispersionModel::New(mesh, dict)
       ),
+*/
       dispersionTensorModelPtr_
       (
           dispersionTensorModel::New(mesh, dict)

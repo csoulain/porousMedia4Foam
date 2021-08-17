@@ -181,12 +181,16 @@ class geochemicalModel
         return basicGeochemicalModelPtr_->dMinvdRho();
     }
 
-
+/*
     const volScalarField & effectiveDispersion()  const
     {
         return basicGeochemicalModelPtr_->effectiveDispersion();
     }
-
+*/
+    const volTensorField & effectiveDispersionTensor()  const
+    {
+        return basicGeochemicalModelPtr_->effectiveDispersionTensor();
+    }
 
     void update()
     {

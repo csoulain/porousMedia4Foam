@@ -45,7 +45,7 @@ Authors
 #include "volFields.H"
 #include "surfaceInterpolate.H"
 #include "absolutePermeabilityModel.H"
-#include "dispersionModel.H"
+//#include "dispersionModel.H"
 #include "dispersionTensorModel.H"
 #include "surfaceAreaModel.H"
 //#include "autoPtr.H"
@@ -81,7 +81,7 @@ class porousModel
 
     autoPtr<absolutePermeabilityModel> absolutePermeabilityModelPtr_;
 
-    autoPtr<dispersionModel> dispersionModelPtr_;
+//    autoPtr<dispersionModel> dispersionModelPtr_;
 
     autoPtr<dispersionTensorModel> dispersionTensorModelPtr_;
 
@@ -166,7 +166,7 @@ class porousModel
 //          return fvc::interpolate(absolutePermeability(),"K");
 
     }
-
+/*
     tmp<volScalarField> effectiveDispersion() const
     {
         return dispersionModelPtr_->effectiveDispersion();
@@ -176,7 +176,7 @@ class porousModel
     {
         dispersionModelPtr_->updateDispersion();
     }
-
+*/
     tmp<volTensorField> effectiveDispersionTensor() const
     {
         return dispersionTensorModelPtr_->effectiveDispersionTensor();

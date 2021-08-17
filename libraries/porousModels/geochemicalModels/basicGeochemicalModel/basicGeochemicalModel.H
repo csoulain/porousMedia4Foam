@@ -74,7 +74,7 @@ class basicGeochemicalModel
     volScalarField inertMineral_;
 
     volScalarField eps_;
-
+    volScalarField eps0_;
 
     dimensionedScalar rhol_;
 
@@ -92,7 +92,7 @@ class basicGeochemicalModel
 
     autoPtr<absolutePermeabilityModel> absolutePermeabilityModelPtr_;
 
-    autoPtr<dispersionModel> dispersionModelPtr_;
+//    autoPtr<dispersionModel> dispersionModelPtr_;
 
     autoPtr<dispersionTensorModel> dispersionTensorModelPtr_;
 
@@ -194,7 +194,7 @@ class basicGeochemicalModel
         }
     }
 
-
+/*
     tmp<volScalarField> effectiveDispersion() const
     {
         return dispersionModelPtr_->effectiveDispersion();
@@ -204,7 +204,7 @@ class basicGeochemicalModel
     {
         dispersionModelPtr_->updateDispersion();
     }
-
+*/
     tmp<volTensorField> effectiveDispersionTensor() const
     {
         return dispersionTensorModelPtr_->effectiveDispersionTensor();
