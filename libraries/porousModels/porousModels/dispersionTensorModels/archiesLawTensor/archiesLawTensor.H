@@ -32,12 +32,12 @@ Description
     Deff = molecularDiffusionCoeff*(1+channelradius^2*|velocity|^2/(48*molecularDiffusionCoeff^2))
 
 SourceFiles
-    linearDispersionTensor.C
+    archiesLawTensor.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef linearDispersionTensor_H
-#define linearDispersionTensor_H
+#ifndef archiesLawTensor_H
+#define archiesLawTensor_H
 
 #include "volFields.H"
 #include "speciesTable.H"
@@ -54,48 +54,38 @@ namespace dispersionTensorModels
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class linearDispersionTensor : public dispersionTensorModel
+class archiesLawTensor : public dispersionTensorModel
 {
   protected:
 
-    dictionary linearDispersionTensorDict_;
+    dictionary archiesLawTensorDict_;
 
     // Protected data
 
     // Name of the porosity field
     word epsName_;
 
-    // Name of the velocity field
-    word UName_;
-
     dimensionedScalar Di_;              //molecular diffusion coefficient - m2/s
     volTensorField Deff_;                //effectiveDispersion
-
     const volScalarField & eps_;        //porosity
-    const volVectorField & U_;          //velocity
-
-    dimensionedScalar alphaL_;          //hydrodynamic dispersion coeff - m/s
-    dimensionedScalar alphaT_;          //hydrodynamic dispersion coeff - m/s
-
-    scalar n_;                          //for porosity
-
+    scalar n_;
 
   // Private Member Functions
 
     //- Disallow copy construct
-    linearDispersionTensor(const linearDispersionTensor&);
+    archiesLawTensor(const archiesLawTensor&);
 
 public:
 
   //- Runtime type information
-    TypeName("linearDispersion");
+    TypeName("archiesLaw");
 
   // Declare run-time constructor selection table
 
   // Selectors
 
     //- Construct from components
-    linearDispersionTensor
+    archiesLawTensor
     (
       const fvMesh& mesh,
       const dictionary& dict
@@ -103,7 +93,7 @@ public:
 
 
     //- Destructor
-    virtual ~linearDispersionTensor()
+    virtual ~archiesLawTensor()
     {}
 
 

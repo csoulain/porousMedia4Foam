@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "linearDispersionTensor.H"
+#include "archiesLawTensor.H"
 #include "addToRunTimeSelectionTable.H"
 #include "fvc.H"
 
@@ -33,29 +33,28 @@ namespace Foam
 {
 namespace dispersionTensorModels
 {
-    defineTypeNameAndDebug(linearDispersionTensor, 0);
+    defineTypeNameAndDebug(archiesLawTensor, 0);
 
     addToRunTimeSelectionTable
     (
         dispersionTensorModel,
-        linearDispersionTensor,
+        archiesLawTensor,
         dictionary
     );
 }
 }
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::dispersionTensorModels::linearDispersionTensor::linearDispersionTensor
+Foam::dispersionTensorModels::archiesLawTensor::archiesLawTensor
 (
     const fvMesh& mesh,
     const dictionary& dict
 )
 :
     dispersionTensorModel(mesh, dict),
-    linearDispersionTensorDict_(dict.subDict(typeName+"Coeffs")),
-    epsName_(linearDispersionTensorDict_.lookupOrDefault<word>("eps", "eps")),
-    UName_(linearDispersionTensorDict_.lookupOrDefault<word>("U", "U")),
-    Di_( linearDispersionTensorDict_.lookup("Di") ),
+    archiesLawTensorDict_(dict.subDict(typeName+"Coeffs")),
+    epsName_(archiesLawTensorDict_.lookupOrDefault<word>("eps", "eps")),
+    Di_( archiesLawTensorDict_.lookup("Di") ),
     Deff_
      (
       IOobject
@@ -71,29 +70,22 @@ Foam::dispersionTensorModels::linearDispersionTensor::linearDispersionTensor
       "zeroGradient"
     ),
     eps_(mesh.lookupObject<volScalarField>(epsName_)),
-    U_(mesh.lookupObject<volVectorField>(UName_)),
-    alphaL_( linearDispersionTensorDict_.lookup("alphaL") ),
-    alphaT_( linearDispersionTensorDict_.lookup("alphaT") ),
-    n_( linearDispersionTensorDict_.lookupOrDefault("n",0.))
+    n_(readScalar(archiesLawTensorDict_.lookup("n")))
+
 {
 }
 
 // * * * * * * * * * * * * * * member functions  * * * * * * * * * * * * * * //
 
 Foam::tmp<Foam::volTensorField>
-Foam::dispersionTensorModels::linearDispersionTensor::effectiveDispersionTensor() const
+Foam::dispersionTensorModels::archiesLawTensor::effectiveDispersionTensor() const
 {
       return Deff_;
 }
 
-void Foam::dispersionTensorModels::linearDispersionTensor::updateDispersionTensor()
+void Foam::dispersionTensorModels::archiesLawTensor::updateDispersionTensor()
 {
 
-       Deff_=
-                tensor(1,0,0,0,1,0,0,0,0)*(Di_+alphaT_*mag(U_))
-              + (alphaL_-alphaT_)/(mag(U_)+SMALL)*U_*U_ ;
-
-       Deff_= Foam::pow(eps_,n_)*Deff_;
-
+       Deff_= tensor(1,0,0,0,1,0,0,0,0)*Foam::pow(eps_,n_)*Di_ ;
 }
 // -------------------------------------------------------------------------//

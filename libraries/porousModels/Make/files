@@ -21,6 +21,7 @@ porousModels/dispersionTensorModels/taylorArisTensor/taylorArisTensor.C
 porousModels/dispersionTensorModels/dispersionTensorNone/dispersionTensorNone.C
 porousModels/dispersionTensorModels/diffusionOnlyTensor/diffusionOnlyTensor.C
 porousModels/dispersionTensorModels/linearDispersionTensor/linearDispersionTensor.C
+porousModels/dispersionTensorModels/archiesLawTensor/archiesLawTensor.C
 
 
 porousModels/surfaceAreaModels/surfaceAreaModel/surfaceAreaModel.C
