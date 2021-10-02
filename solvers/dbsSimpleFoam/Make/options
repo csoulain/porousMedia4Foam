@@ -17,4 +17,4 @@ EXE_LIBS = \
     -lsampling \
     -L$(FOAM_USER_LIBBIN) \
     -lporousModels  \
-    -L../../ThirdParty/phreeqcrm/lib/ -lphreeqcrm
+    -L../../ThirdParty/phreeqcrm/lib/ -lphreeqcrm-3.6.2
