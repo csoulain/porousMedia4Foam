@@ -171,13 +171,13 @@ void Foam::absolutePermeabilityModels::KozenyCarman::updatePermeability()
   {
    if(updateFromInitialPoroPerm_)
    {
-     Info << "Using Jena KC" << nl;
+//     Info << "Using Jena KC" << nl;
      //invK_ = Foam::pow(eps0_/(eps_+SMALL),3)/initK_*Foam::pow((1-eps_)/(1-eps0_+SMALL),2);
      invK_ = Foam::pow((1.-eps_),2)/(Foam::pow(eps_+SMALL,3))/K0_;
    }
    else
    {
-    Info << "Ming KC" << nl;
+//    Info << "Ming KC" << nl;
     invK_= Foam::pow((1.-eps_),2)/(Foam::pow(eps_+SMALL,3))
           /(Foam::pow((1.-eps_.oldTime()+SMALL),2)/(Foam::pow(eps_.oldTime()+SMALL,3)))
           *invK_.oldTime();
@@ -204,18 +204,21 @@ void Foam::absolutePermeabilityModels::KozenyCarman::updatePermeability()
   K_ = 1./(invK_+smallInvK_);
   /*Extrapolating K_ value on the boundary faces*/
 
+/*
   label patchInlet = mesh_.boundaryMesh().findPatchID("inlet");
   if (patchInlet == -1)
   {
    FatalError << "Inlet patch not found." << exit(FatalError);
   }
-
+*/
   /* SaPa comment - outlet patch not required for extrapolation */
+/*
   label patchOutlet = mesh_.boundaryMesh().findPatchID("outlet");
   if (patchOutlet == -1)
   {
    FatalError << "Outlet patch not found." << exit(FatalError);
   }
+*/
   /*SaPa comment ends here*/
 
 /*
@@ -225,13 +228,13 @@ void Foam::absolutePermeabilityModels::KozenyCarman::updatePermeability()
    FatalError << "Walls patch not found." << exit(FatalError);
   }
 */
-  
-  forAll(mesh_.boundary()[patchInlet],faceI)
+
+/*  forAll(mesh_.boundary()[patchInlet],faceI)
   {
    if (eps_[mesh_.boundary()[patchInlet].faceCells()[faceI]] - eps_.oldTime()[mesh_.boundary()[patchInlet].faceCells()[faceI]] >= 0.)
     {
-     K_.boundaryFieldRef()[patchInlet][faceI] = 
-     K_[mesh_.boundary()[patchInlet].faceCells()[faceI]] + 
+     K_.boundaryFieldRef()[patchInlet][faceI] =
+     K_[mesh_.boundary()[patchInlet].faceCells()[faceI]] +
     (Foam::pow(Foam::mag(eps_[mesh_.boundary()[patchInlet].faceCells()[faceI]] - eps_.oldTime()[mesh_.boundary()[patchInlet].faceCells()[faceI]]),extrapolateKOnPatchn_)*K_[mesh_.boundary()[patchInlet].faceCells()[faceI]]);
     }
 
@@ -259,7 +262,7 @@ void Foam::absolutePermeabilityModels::KozenyCarman::updatePermeability()
     (Foam::pow(Foam::mag(eps_[mesh_.boundary()[patchOutlet].faceCells()[faceI]]-eps_.oldTime()[mesh_.boundary()[patchOutlet].faceCells()[faceI]]),extrapolateKOnPatchn_)*K_[mesh_.boundary()[patchOutlet].faceCells()[faceI]]);
    }
   }
-
+*/
 /*
   forAll(mesh_.boundary()[patchWalls],faceI)
   {
