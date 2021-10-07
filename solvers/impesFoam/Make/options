@@ -15,4 +15,4 @@ EXE_LIBS = \
     -lporousModels \
     -lotherModels \
     -ltoolsGIS  \
-    -I../../ThirdParty/phreeqcrm/lib/ -lphreeqcrm-3.6.2
+    -L../../ThirdParty/phreeqcrm/lib/ -lphreeqcrm-3.6.2

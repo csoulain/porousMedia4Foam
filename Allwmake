@@ -25,3 +25,6 @@ wmake solvers/constantVelocityFoam
 #wmake utilities/setBoundaryHeadPressure
 #wmake utilities/setFieldsFromXY
 #wmake utilities/setFieldsFromMNT
+
+mkdir -p $FOAM_USER_LIBBIN
+cp -a ThirdParty/phreeqcrm/lib/libphreeqcrm-3.6.2.so $FOAM_USER_LIBBIN

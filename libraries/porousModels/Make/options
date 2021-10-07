@@ -7,9 +7,10 @@ EXE_INC = \
     -I../../ThirdParty/phreeqcrm/include
 
 
-EXE_LIBS = \
+LIB_LIBS = \
     -lfiniteVolume \
     -lspecie \
+    -L$(FOAM_USER_LIBBIN) \
     -lotherModels \
     -ltoolsGIS \
-    -L../../ThirdParty/phreeqcrm/lib/ -lphreeqcrm
+    -L../../ThirdParty/phreeqcrm/lib/ -lphreeqcrm-3.6.2
