@@ -2,6 +2,8 @@
 Cyprien Soulaine (cyprien.soulaine@gmail.com)
 Francisco Carrillo
 Saideep Pavuluri
+Emmanuel LeTrong
+
 
 
 # Developers of porousMultiphaseFoam
