@@ -23,98 +23,66 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "heterogeneousScalarConstant.H"
+#include "improvedVolumeOfSolid.H"
 #include "addToRunTimeSelectionTable.H"
-
-
-//#include "fvCFD.H"
+#include "fvcGrad.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
 namespace Foam
 {
-namespace absolutePermeabilityModels
+namespace surfaceAreaModels
 {
-    defineTypeNameAndDebug(heterogeneousScalarConstant, 0);
+    defineTypeNameAndDebug(improvedVolumeOfSolid, 0);
 
     addToRunTimeSelectionTable
     (
-        absolutePermeabilityModel,
-        heterogeneousScalarConstant,
+        surfaceAreaModel,
+        improvedVolumeOfSolid,
         dictionary
     );
 }
 }
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::absolutePermeabilityModels::heterogeneousScalarConstant::heterogeneousScalarConstant
+Foam::surfaceAreaModels::improvedVolumeOfSolid::improvedVolumeOfSolid
 (
     const fvMesh& mesh,
+    const volScalarField& Ys,
     const dictionary& dict
 )
 :
-    absolutePermeabilityModel(mesh, dict),
-    heterogeneousScalarConstantDict_(dict.subDict(typeName+"Coeffs")),
-    K0_(heterogeneousScalarConstantDict_.lookupOrDefault
-    (
-        "K0",
-        dimensionedScalar("K0",dimensionSet(0,2,0,0,0,0,0),SMALL))
-    ),
-    K_
+    surfaceAreaModel(mesh, Ys, dict),
+    Ys_(Ys),
+    Ae_
     (
         IOobject
         (
-          "K",
+          "Ae",
           mesh_.time().timeName(),
           mesh_,
-          IOobject::READ_IF_PRESENT,
+          IOobject::NO_READ,
           IOobject::NO_WRITE
         ),
-        mesh_,
-        K0_,
-        "zeroGradient"
-    ),
-    invK_
-    (
-        IOobject
-        (
-          "invK",
-          mesh_.time().timeName(),
-          mesh_,
-          IOobject::READ_IF_PRESENT,
-          IOobject::NO_WRITE
-        ),
-        1/K_,
-        "zeroGradient"
-    ),
-    Kf_("Kf", fvc::interpolate(K_,"K"))
+        mag(fvc::grad(Ys_))
+    )
 {}
 
 // * * * * * * * * * * * * * * member functions  * * * * * * * * * * * * * * //
 
 Foam::tmp<Foam::volScalarField>
-Foam::absolutePermeabilityModels::heterogeneousScalarConstant::absolutePermeability() const
+Foam::surfaceAreaModels::improvedVolumeOfSolid::surfaceArea() const
 {
-      return K_;
+      return Ae_;
 }
 
-Foam::tmp<Foam::volScalarField>
-Foam::absolutePermeabilityModels::heterogeneousScalarConstant::inversePermeability() const
+void Foam::surfaceAreaModels::improvedVolumeOfSolid::updateSurfaceArea()
 {
-      return invK_;
-}
+      Ae_= mag(fvc::grad(Ys_));
+//      Ae_=Ae_*2.*Ys_;  //(Diffuse interface function)
+      Ae_=Ae_*2.*Foam::pow(Ys_,1);  //(Diffuse interface function)
 
-Foam::tmp<Foam::surfaceScalarField>
-Foam::absolutePermeabilityModels::heterogeneousScalarConstant::Kf() const
-{
-      return Kf_;
-}
-
-
-
-void Foam::absolutePermeabilityModels::heterogeneousScalarConstant::updatePermeability()
-{
-    //do nothing
+//      Ae_ = 2.0*fvc::average( fvc::interpolate(Ae_, "Ae") );
 
 }
 

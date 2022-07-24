@@ -24,7 +24,7 @@
     {
         fvScalarMatrix pEqn
         (
-            fvm::laplacian(rAtU(), p) == fvc::div(phiHbyA)
+            fvm::laplacian(rAtU(), p) == fvc::div(phiHbyA)-sourceTerm
         );
 
         pEqn.setReference(pRefCell, pRefValue);

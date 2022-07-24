@@ -37,6 +37,22 @@ setRefCell(p, pimple.dict(), pRefCell, pRefValue);
 mesh.setFluxRequired(p.name());
 
 
+Info<< "Reading field sourceTerm\n" << endl;
+volScalarField sourceTerm
+(
+    IOobject
+    (
+        "sourceTerm",
+        runTime.timeName(),
+        mesh,
+        IOobject::READ_IF_PRESENT,
+        IOobject::AUTO_WRITE
+    ),
+    mesh,
+    dimensionedScalar("sourceTerm",dimensionSet(0,0,-1,0,0,0,0),0.0)
+);
+
+
 Info << "Reading transportProperties\n" << endl;
 
 singlePhaseTransportModel laminarTransport(U, phi);

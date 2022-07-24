@@ -4,6 +4,9 @@ set -x
 
 # Compiling libraries
 #wmake libraries/numericalMethods
+
+wmake libso libraries/porousInterfaceProperties/
+wmake libso libraries/porousImmiscibleIncompressibleTwoPhaseMixture/
 wmake libraries/porousModels
 wmake libraries/otherModels
 wmake libraries/toolsGIS
@@ -19,7 +22,7 @@ wmake solvers/dbsFoam
 wmake solvers/constantVelocityFoam
 #wmake solvers/anisoImpesFoam
 #wmake solvers/threePhaseImpesFoam
-
+wmake solvers/hybridPorousInterFoam
 
 # Compiling utilities
 #wmake utilities/setBoundaryHeadPressure

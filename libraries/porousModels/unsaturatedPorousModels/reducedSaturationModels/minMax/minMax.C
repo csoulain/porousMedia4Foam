@@ -80,9 +80,7 @@ Foam::reducedSaturationModels::minMax::minMax
         minMaxCoeffs_.lookupOrDefault(Sb_.name()+"max",dimensionedScalar(Sb_.name()+"max",dimless,0))
     )
 {
-
     Se_ = (Sb_-Smin_)/(Smax_-Smin_);
-
 
     Info << "Parameters for reduced saturation model" << nl << "{" << endl;
     Info << "    Smax ";
