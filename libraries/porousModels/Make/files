@@ -31,7 +31,7 @@ porousModels/surfaceAreaModels/constantSurfaceArea/constantSurfaceArea.C
 porousModels/surfaceAreaModels/surfacePowerLaw/surfacePowerLaw.C
 porousModels/surfaceAreaModels/mingliangLaw/mingliangLaw.C
 porousModels/surfaceAreaModels/volumeOfSolid/volumeOfSolid.C
-porousModels/surfaceAreaModels/improvedVolumeOfSolid/improvedVolumeOfSolid.C
+##porousModels/surfaceAreaModels/improvedVolumeOfSolid/improvedVolumeOfSolid.C
 
 porousModels/porousModel.C
 

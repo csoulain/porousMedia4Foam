@@ -1,6 +1,6 @@
 darcyGradPressure/darcyGradPressure.C
 
-eventFlux/eventFlux.C
-eventInfiltration/eventInfiltration.C
+#eventFlux/eventFlux.C
+#eventInfiltration/eventInfiltration.C
 
 LIB = $(FOAM_USER_LIBBIN)/libporousBoundaryConditions

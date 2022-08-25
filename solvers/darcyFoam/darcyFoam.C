@@ -36,7 +36,7 @@ Developers
 #include "incompressiblePhase.H"
 #include "geochemicalModel.H"
 //#include "porousModel.H"
-#include "sourceEventFile.H"
+//#include "sourceEventFile.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     #include "createMesh.H"
     #include "readGravitationalAcceleration.H"
     #include "createFields.H"
-    #include "readEvent.H"
+//    #include "readEvent.H"
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

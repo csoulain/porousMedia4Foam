@@ -5,11 +5,11 @@ set -x
 # Compiling libraries
 #wmake libraries/numericalMethods
 
-wmake libso libraries/porousInterfaceProperties/
-wmake libso libraries/porousImmiscibleIncompressibleTwoPhaseMixture/
+##wmake libso libraries/porousInterfaceProperties/
+##wmake libso libraries/porousImmiscibleIncompressibleTwoPhaseMixture/
 wmake libraries/porousModels
 wmake libraries/otherModels
-wmake libraries/toolsGIS
+##wmake libraries/toolsGIS
 wmake libraries/porousBoundaryConditions
 ##wmake libraries/geochemicalModels
 
@@ -17,12 +17,12 @@ wmake libraries/porousBoundaryConditions
 # Compiling solvers
 wmake solvers/darcyFoam
 wmake solvers/impesFoam
-wmake solvers/dbsSimpleFoam
-wmake solvers/dbsFoam
+#wmake solvers/dbsSimpleFoam
+#wmake solvers/dbsFoam
 wmake solvers/constantVelocityFoam
 #wmake solvers/anisoImpesFoam
 #wmake solvers/threePhaseImpesFoam
-wmake solvers/hybridPorousInterFoam
+##wmake solvers/hybridPorousInterFoam
 
 # Compiling utilities
 #wmake utilities/setBoundaryHeadPressure

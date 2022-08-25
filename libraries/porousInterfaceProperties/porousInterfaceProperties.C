@@ -53,7 +53,7 @@ void Foam::interfaceProperties::correctContactAngle
 ) const
 {
     const fvMesh& mesh = alpha1_.mesh();
-    const volScalarField::Boundary& abf = alpha1_.boundaryField();
+    const volScalarField::Boundary& abf = alpha1_.boundaryFieldRef();
 
     const fvBoundaryMesh& boundary = mesh.boundary();
 
@@ -158,10 +158,10 @@ void Foam::interfaceProperties::correctContactAngleDB
 
             //cos(theta0) - cos(thetaI)*cos(thetaDiff)/ ( 1-cos^2(thetaI) )
             surfaceScalarField a((b1 - a12*b2)/det);
-            
+
             //cos(thetaDiff) - cos(thetaI)*cos(theta0)/ ( 1-cos^2(thetaI) )
             surfaceScalarField b((b2 - a12*b1)/det);
-            
+
             //correction of the interface and re-normalizing
             nHatb = a*nHatSolidfv + b*nHatb;
             nHatb /= (mag(nHatb) + deltaN_.value());
