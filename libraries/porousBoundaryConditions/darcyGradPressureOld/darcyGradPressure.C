@@ -1,8 +1,8 @@
 /*---------------------------------------------------------------------------*\
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
-   \\    /   O peration     | Website:  https://openfoam.org
-    \\  /    A nd           | Copyright (C) 2011-2021 OpenFOAM Foundation
+   \\    /   O peration     |
+    \\  /    A nd           | Copyright (C) 2011-2016 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -24,107 +24,84 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "darcyGradPressure.H"
-#include "fvPatchFieldMapper.H"
-#include "volFields.H"
-#include "surfaceFields.H"
 #include "addToRunTimeSelectionTable.H"
+#include "linear.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::darcyGradPressureFvPatchScalarField::darcyGradPressureFvPatchScalarField
+Foam::darcyGradPressure::darcyGradPressure
 (
     const fvPatch& p,
     const DimensionedField<scalar, volMesh>& iF
 )
-:
+    :
     fixedGradientFvPatchScalarField(p, iF),
-  //  curTimeIndex_(-1)
     MfName_("Mf"),
     phiName_("phi"),
     phiGfName_("phiG"),
     phiPcName_("phiPc")
 {}
 
-
-Foam::darcyGradPressureFvPatchScalarField::darcyGradPressureFvPatchScalarField
+Foam::darcyGradPressure::darcyGradPressure
 (
     const fvPatch& p,
     const DimensionedField<scalar, volMesh>& iF,
     const dictionary& dict
 )
-:
-    fixedGradientFvPatchScalarField(p, iF, dict, false),
-//    curTimeIndex_(-1)
+    :
+    fixedGradientFvPatchScalarField(p, iF),
     MfName_(dict.lookupOrDefault<word>("Mf", "Mf")),
     phiName_(dict.lookupOrDefault<word>("phi", "phi")),
     phiGfName_(dict.lookupOrDefault<word>("phiG","phiG")),
     phiPcName_(dict.lookupOrDefault<word>("phiPc","phiPc"))
 {
-//    if (dict.found("value") && dict.found("gradient"))
-//    {
-//        fvPatchField<scalar>::operator=(scalarField("value", dict, p.size()));
-//        gradient() = scalarField("gradient", dict, p.size());
-//    }
-//    else
-//    {
-        fvPatchField<scalar>::operator=(patchInternalField());
-        gradient() = Zero;
-//    }
+    fvPatchField<scalar>::operator=(patchInternalField());
+    gradient() = 0.0;
 }
 
-
-Foam::darcyGradPressureFvPatchScalarField::darcyGradPressureFvPatchScalarField
+Foam::darcyGradPressure::darcyGradPressure
 (
-    const darcyGradPressureFvPatchScalarField& ptf,
+    const darcyGradPressure& ptf,
     const fvPatch& p,
     const DimensionedField<scalar, volMesh>& iF,
     const fvPatchFieldMapper& mapper
 )
-:
+    :
     fixedGradientFvPatchScalarField(ptf, p, iF, mapper),
-//    curTimeIndex_(-1)
     MfName_(ptf.MfName_),
     phiName_(ptf.phiName_),
     phiGfName_(ptf.phiGfName_),
     phiPcName_(ptf.phiPcName_)
 {}
 
-
-Foam::darcyGradPressureFvPatchScalarField::darcyGradPressureFvPatchScalarField
+Foam::darcyGradPressure::darcyGradPressure
 (
-    const darcyGradPressureFvPatchScalarField& wbppsf,
-    const DimensionedField<scalar, volMesh>& iF
+    const darcyGradPressure& ptf
 )
-:
-    fixedGradientFvPatchScalarField(wbppsf, iF),
-//    curTimeIndex_(-1)
-    MfName_(wbppsf.MfName_),
-    phiName_(wbppsf.phiName_),
-    phiGfName_(wbppsf.phiGfName_),
-    phiPcName_(wbppsf.phiPcName_)
+    :
+    fixedGradientFvPatchScalarField(ptf),
+    MfName_(ptf.MfName_),
+    phiName_(ptf.phiName_),
+    phiGfName_(ptf.phiGfName_),
+    phiPcName_(ptf.phiPcName_)
 {}
 
+Foam::darcyGradPressure::darcyGradPressure
+(
+    const darcyGradPressure& ptf,
+    const DimensionedField<scalar, volMesh>& iF
+)
+    :
+    fixedGradientFvPatchScalarField(ptf, iF),
+    MfName_(ptf.MfName_),
+    phiName_(ptf.phiName_),
+    phiGfName_(ptf.phiGfName_),
+    phiPcName_(ptf.phiPcName_)
+{}
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
-/*
-void Foam::darcyGradPressureFvPatchScalarField::updateCoeffs
-(
-    const scalarField& snGradp
-)
-{
-    if (updated())
-    {
-        return;
-    }
 
-    curTimeIndex_ = this->db().time().timeIndex();
-
-    gradient() = snGradp;
-    fixedGradientFvPatchScalarField::updateCoeffs();
-}
-*/
-
-void Foam::darcyGradPressureFvPatchScalarField::updateCoeffs()
+void Foam::darcyGradPressure::updateCoeffs()
 {
     if (updated())
     {
@@ -147,22 +124,9 @@ void Foam::darcyGradPressureFvPatchScalarField::updateCoeffs()
     gradient() = - (phi-phiGf-phiPc)/Mf/(patch().magSf());
 
     fixedGradientFvPatchScalarField::updateCoeffs();
-
-/*
-
-    if (curTimeIndex_ != this->db().time().timeIndex())
-    {
-        FatalErrorInFunction
-            << "updateCoeffs(const scalarField& snGradp) MUST be called before"
-               " updateCoeffs() or evaluate() to set the boundary gradient."
-            << exit(FatalError);
-    }
-
-    */
 }
 
-
-void Foam::darcyGradPressureFvPatchScalarField::write(Ostream& os) const
+void Foam::darcyGradPressure::write(Ostream& os) const
 {
     fixedGradientFvPatchScalarField::write(os);
     writeEntryIfDifferent<word>(os, "Mf", "Mf", MfName_);
@@ -172,17 +136,15 @@ void Foam::darcyGradPressureFvPatchScalarField::write(Ostream& os) const
     writeEntry(os, "value", *this);
 }
 
-
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
 {
-    makePatchTypeField
-    (
-        fvPatchScalarField,
-        darcyGradPressureFvPatchScalarField
-    );
+makePatchTypeField
+(
+    fvPatchScalarField,
+    darcyGradPressure
+);
 }
-
 
 // ************************************************************************* //

@@ -3,13 +3,11 @@ EXE_INC = \
     -I$(LIB_SRC)/meshTools/lnInclude \
     -I$(LIB_SRC)/thermophysicalModels/specie/lnInclude \
     -I$(LIB_SRC)/thermophysicalModels/basic/lnInclude \
-    -I$(LIB_SRC)/thermophysicalModels/reactionThermo/lnInclude \
-	-I../toolsGIS/lnInclude
+    -I$(LIB_SRC)/thermophysicalModels/reactionThermo/lnInclude
 
 
 EXE_LIBS = \
     -lfiniteVolume \
     -lspecie \
     -lfluidThermophysicalModels \
-    -lreactionThermophysicalModels \
-    -ltoolsGIS
+    -lreactionThermophysicalModels 

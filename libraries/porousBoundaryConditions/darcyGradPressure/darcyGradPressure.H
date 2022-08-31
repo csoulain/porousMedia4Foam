@@ -1,8 +1,8 @@
 /*---------------------------------------------------------------------------*\
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
-   \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2016 OpenFOAM Foundation
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Copyright (C) 2011-2020 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -22,20 +22,33 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::darcyGradPressure
+    Foam::darcyGradPressureFvPatchScalarField
 
 Description
-    Set the pressure gradient boundary condition for a given Darcy total velocity
-    Permeability is isotropic (K volScalarField)
+    This boundary condition sets the pressure gradient to the provided value
+    such that the flux on the boundary is that specified by the velocity
+    boundary condition.
+
+    Example of the boundary condition specification:
+    \verbatim
+    <patchName>
+    {
+        type            darcyGradPressure;
+    }
+    \endverbatim
+
+See also
+    Foam::fixedGradientFvPatchField
 
 SourceFiles
-    darcyGradPressure.C
+    darcyGradPressureFvPatchScalarField.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef darcyGradPressure_H
-#define darcyGradPressure_H
+#ifndef darcyGradPressureFvPatchScalarField_H
+#define darcyGradPressureFvPatchScalarField_H
 
+#include "fvPatchFields.H"
 #include "fixedGradientFvPatchFields.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -44,21 +57,25 @@ namespace Foam
 {
 
 /*---------------------------------------------------------------------------*\
-    Class darcyGradPressureFvPatch Declaration
-    \*---------------------------------------------------------------------------*/
+             Class darcyGradPressureFvPatchScalarField Declaration
+\*---------------------------------------------------------------------------*/
 
-class darcyGradPressure
+class darcyGradPressureFvPatchScalarField
 :
     public fixedGradientFvPatchScalarField
 {
-    // Private data
+    // Private Data
 
-    //- Name of the velocity and permeability fields used to calculate the wall BC in darcy's law
-    word MfName_;
-    word phiName_;
-    word phiGfName_;		
-    word phiPcName_;
-  
+        //- Current time index (used for updating)
+      //  label curTimeIndex_;
+
+        //- Name of the velocity and permeability fields used to calculate the wall BC in darcy's law
+        word MfName_;
+        word phiName_;
+        word phiGfName_;
+        word phiPcName_;
+
+
 public:
 
     //- Runtime type information
@@ -67,77 +84,109 @@ public:
 
     // Constructors
 
-    //- Construct from patch and internal field
-    darcyGradPressure
-    (
-        const fvPatch&,
-        const DimensionedField<scalar, volMesh>&
-    );
+        //- Construct from patch and internal field
+        darcyGradPressureFvPatchScalarField
+        (
+            const fvPatch&,
+            const DimensionedField<scalar, volMesh>&
+        );
 
-    //- Construct from patch, internal field and dictionary
-    darcyGradPressure
-    (
-        const fvPatch&,
-        const DimensionedField<scalar, volMesh>&,
-        const dictionary&
-    );
+        //- Construct from patch, internal field and dictionary
+        darcyGradPressureFvPatchScalarField
+        (
+            const fvPatch&,
+            const DimensionedField<scalar, volMesh>&,
+            const dictionary&
+        );
 
-    //- Construct by mapping given
-    //  darcyGradPressure onto a new patch
-    darcyGradPressure
-    (
-        const darcyGradPressure&,
-        const fvPatch&,
-        const DimensionedField<scalar, volMesh>&,
-        const fvPatchFieldMapper&
-    );
+        //- Construct by mapping given darcyGradPressureFvPatchScalarField onto
+        //  a new patch
+        darcyGradPressureFvPatchScalarField
+        (
+            const darcyGradPressureFvPatchScalarField&,
+            const fvPatch&,
+            const DimensionedField<scalar, volMesh>&,
+            const fvPatchFieldMapper&
+        );
 
-    //- Construct as copy
-    darcyGradPressure
-    (
-        const darcyGradPressure&
-    );
+        //- Disallow copy without setting internal field reference
+        darcyGradPressureFvPatchScalarField
+        (
+            const darcyGradPressureFvPatchScalarField&
+        ) = delete;
 
-    //- Construct and return a clone
-    virtual tmp<fvPatchScalarField> clone() const
+        //- Copy constructor setting internal field reference
+        darcyGradPressureFvPatchScalarField
+        (
+            const darcyGradPressureFvPatchScalarField&,
+            const DimensionedField<scalar, volMesh>&
+        );
+
+        //- Construct and return a clone setting internal field reference
+        virtual tmp<fvPatchScalarField> clone
+        (
+            const DimensionedField<scalar, volMesh>& iF
+        ) const
         {
             return tmp<fvPatchScalarField>
-                (
-                    new darcyGradPressure(*this)
-                );
+            (
+                new darcyGradPressureFvPatchScalarField(*this, iF)
+            );
         }
 
-    //- Construct as copy setting internal field reference
-    darcyGradPressure
-    (
-        const darcyGradPressure&,
-        const DimensionedField<scalar, volMesh>&
-    );
 
-    //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchScalarField> clone
-    (
-        const DimensionedField<scalar, volMesh>& iF
-    ) const
-        {
-            return tmp<fvPatchScalarField>
-                (
-                    new darcyGradPressure(*this, iF)
-                );
-        }
+    // Member Functions
 
-    // Member functions
+        //- Update the patch pressure gradient field from the given snGradp
+//        virtual void updateCoeffs(const scalarField& snGradp);
 
-    //- Update the coefficients associated with the patch field
-    virtual void updateCoeffs();
+        //- Update the patch pressure gradient field
+        virtual void updateCoeffs();
 
-    //- Write
-    virtual void write(Ostream&) const;
+        //- Write
+        virtual void write(Ostream&) const;
 };
+
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 } // End namespace Foam
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+/*
+#include "volFields.H"
+
+namespace Foam
+{
+    template<class GradBC>
+    inline void setSnGrad
+    (
+        volScalarField::Boundary& bf,
+        const FieldField<fvsPatchField, scalar>& snGrad
+    )
+    {
+        forAll(bf, patchi)
+        {
+            if (isA<GradBC>(bf[patchi]))
+            {
+                refCast<GradBC>(bf[patchi]).updateCoeffs(snGrad[patchi]);
+            }
+        }
+    }
+
+    template<class GradBC>
+    inline void setSnGrad
+    (
+        volScalarField::Boundary& bf,
+        const tmp<FieldField<fvsPatchField, scalar>>& tsnGrad
+    )
+    {
+        setSnGrad<GradBC>(bf, tsnGrad());
+    }
+}
+*/
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

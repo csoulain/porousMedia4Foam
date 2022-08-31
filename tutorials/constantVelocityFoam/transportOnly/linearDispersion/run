@@ -1,0 +1,10 @@
+blockMesh
+
+constantVelocityFoam
+
+postProcess -func "probes(points=((10 0 0)), fields=(Ci))"
+
+## postProcess -func "boundaryProbes(points=((10 0 0)),maxDistance=1e-3 fields=(Ci))"
+
+
+gnuplot plot.gp

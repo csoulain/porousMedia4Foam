@@ -1,0 +1,76 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                |
+  \      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \    /   O peration     | Website:  https://openfoam.org
+    \  /    A nd           | Version:  7
+     \/     M anipulation  |
+  \*---------------------------------------------------------------------------*/
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  location    "constant";
+  object      transportProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+phase.a
+{
+  rho	rho [1 -3 0 0 0 0 0] 	1e0;
+  mu	mu [1 -1 -1 0 0 0 0]	1.76e-5;
+}
+	
+phase.b
+{
+  rho	rho [1 -3 0 0 0 0 0] 	1e3;
+  mu	mu [1 -1 -1 0 0 0 0]	1e-3;
+}
+
+
+porousMediaProperties
+{
+
+	eps		eps [0  0  0 0 0 0 0]	0.5;	
+
+	absolutePermeabilityModel  heterogeneousScalarConstant;
+
+
+	reducedSaturationModel	minMax;
+	minMaxCoeffs
+	{
+		Sbmin		Sbmin [0  0  0 0 0 0 0]	1e-3;
+		Sbmax		Sbmax [0  0  0 0 0 0 0]	0.999;
+	}
+
+	heterogeneousScalarConstantCoeffs
+	{
+		  K0 K0 [0 2 0 0 0 0 0] 1e-11;
+	}
+
+	relativePermeabilityModel  BrooksAndCorey; 
+
+	VanGenuchtenCoeffs
+	{
+		pc0 pc0 [1 -1 -2 0 0 0 0] 5;
+		m	0.5;	
+	}	
+
+	capillarityModel	BrooksAndCorey;
+
+	BrooksAndCoreyCoeffs
+	{
+		n 3;
+		pc0 pc0 [1 -1 -2 0 0 0 0] 1000;
+		alpha 0.5;	
+	}
+
+	dispersionModel		none;
+
+	surfaceAreaModel	none;
+
+}
+
+
+
+// ************************************************************************* //

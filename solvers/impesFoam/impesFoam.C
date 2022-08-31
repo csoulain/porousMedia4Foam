@@ -46,10 +46,10 @@ Developers
 #include "unsaturatedPorousModel.H"
 #include "capillarityModel.H"
 #include "relativePermeabilityModel.H"
-#include "sourceEventFile.H"
-#include "outputEventFile.H"
-#include "patchEventFile.H"
-#include "eventInfiltration.H"
+//#include "sourceEventFile.H"
+//#include "outputEventFile.H"
+//#include "patchEventFile.H"
+//#include "eventInfiltration.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 using namespace Foam;
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
     #include "readGravitationalAcceleration.H"
     #include "createFields.H"
     #include "readTimeControls.H"
-    #include "readEvent.H"
+//    #include "readEvent.H"
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -71,16 +71,16 @@ int main(int argc, char *argv[])
 
     while (runTime.run())
     {
-        if (outputEventIsPresent) outputEvent.updateIndex(runTime.timeOutputValue());
-        if (sourceEventIsPresent) sourceEvent.updateIndex(runTime.timeOutputValue());
-        forAll(patchEventList,patchEventi) patchEventList[patchEventi]->updateIndex(runTime.timeOutputValue());
+  //      if (outputEventIsPresent) outputEvent.updateIndex(runTime.timeOutputValue());
+  //      if (sourceEventIsPresent) sourceEvent.updateIndex(runTime.timeOutputValue());
+  //      forAll(patchEventList,patchEventi) patchEventList[patchEventi]->updateIndex(runTime.timeOutputValue());
         #include "setDeltaT.H"
 
         runTime++;
 
         Info<< "Time = " << runTime.timeName() << nl << endl;
 
-        #include "computeSourceTerm.H"
+  //      #include "computeSourceTerm.H"
 
         //- Solve saturation equation (explicit)
         #include "SEqn.H"
@@ -90,10 +90,11 @@ int main(int argc, char *argv[])
         //- Solve pressure equation (implicit)
         #include "pEqn.H"
 
-        #include "eventWrite.H"
+  //      #include "eventWrite.H"
 
         if(runTime.outputTime())
         {
+          runTime.write();
         }
 
 

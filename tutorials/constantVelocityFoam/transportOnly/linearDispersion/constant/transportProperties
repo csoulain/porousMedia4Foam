@@ -1,0 +1,58 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.2                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      transportProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+geochemicalProperties
+{
+	geochemicalModel transportOnly; 
+
+
+	rhol    rhol [ 1 -3 0 0 0 0 0 ] 1000;
+
+
+	mineral (Calcite);
+
+	CalciteProperties
+	{
+		surfaceAreaModel none;
+		rhos   rhos [ 1 -3 0 0 0 0 0 ] 2710;
+	}
+
+
+
+	absolutePermeabilityModel heterogeneousScalarConstant;
+	heterogeneousScalarConstantCoeffs
+	{
+		K0              K0 [ 0 2 0 0 0 0 0 ] 1e-11;
+	}
+
+	dispersionModel linearDispersion;
+	linearDispersionCoeffs
+	{
+		Di   		Di  [0 2 -1 0 0 0 0] 1e-5;
+		n 1;	
+		alphaL alphaL [0 1 0 0 0 0 0] 0.5;
+		alphaT alphaT [0 1 0 0 0 0 0] 0.0;
+	}
+
+}
+
+
+
+
+
+// ************************************************************************* //
