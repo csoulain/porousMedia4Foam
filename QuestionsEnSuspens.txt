@@ -1,0 +1,12 @@
+
+
+- lors de la mise à jour de dbsFoam -> v10:
+   * il a fallu rajouter speciesTable dans les options de compilation sinon la
+      librarie basicGeochemicalModel se plaignait
+   * le fichier d'entrée est transportProperties. Ne faut-il pas migrer vers
+      physicalProperties comme c'est le cas dorénavant ?
+      (à migrer sur l'ensemble de la plateforme)
+
+
+- darcyGradPressure -> n'est-il pas mieux de changer la valeur de snGradP dans
+     la condition fixedFluxPressure

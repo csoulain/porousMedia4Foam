@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     | Website:  https://openfoam.org
-    \\  /    A nd           | Copyright (C) 2011-2019 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2022 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -22,7 +22,7 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Application
-    dbsFoam
+    pimpleFoam
 
 Description
     Transient solver for incompressible, turbulent flow of Newtonian fluids,
@@ -33,10 +33,13 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
-#include "dynamicFvMesh.H"
-#include "singlePhaseTransportModel.H"
+#include "viscosityModel.H"
+#include "incompressibleMomentumTransportModels.H"
 #include "pimpleControl.H"
+#include "pressureReference.H"
 #include "CorrectPhi.H"
+#include "fvModels.H"
+#include "fvConstraints.H"
 #include "localEulerDdtScheme.H"
 #include "fvcSmooth.H"
 #include "geochemicalModel.H"
@@ -51,11 +54,13 @@ int main(int argc, char *argv[])
 
     #include "setRootCaseLists.H"
     #include "createTime.H"
-    #include "createDynamicFvMesh.H"
+    #include "createMesh.H"
     #include "initContinuityErrs.H"
     #include "createDyMControls.H"
     #include "createFields.H"
     #include "createUfIfPresent.H"
+
+    turbulence->validate();
 
     if (!LTS)
     {
@@ -67,7 +72,7 @@ int main(int argc, char *argv[])
 
     Info<< "\nStarting time loop\n" << endl;
 
-    while (runTime.run())
+    while (pimple.run(runTime))
     {
         #include "readDyMControls.H"
 
@@ -81,15 +86,40 @@ int main(int argc, char *argv[])
             #include "setDeltaT.H"
         }
 
+        fvModels.preUpdateMesh();
+
+        // Update the mesh for topology change, mesh to mesh mapping
+        mesh.update();
+
         runTime++;
 
-        Info<< "Time = " << runTime.timeName() << nl << endl;
-
-  //      geochemistry.update();
+        Info<< "Time = " << runTime.userTimeName() << nl << endl;
 
         // --- Pressure-velocity PIMPLE corrector loop
         while (pimple.loop())
         {
+            if (pimple.firstPimpleIter() || moveMeshOuterCorrectors)
+            {
+                // Move the mesh
+                mesh.move();
+
+                if (mesh.changing())
+                {
+                    MRF.update();
+
+                    if (correctPhi)
+                    {
+                        #include "correctPhi.H"
+                    }
+
+                    if (checkMeshCourantNo)
+                    {
+                        #include "meshCourantNo.H"
+                    }
+                }
+            }
+
+            fvModels.correct();
 
             #include "UEqn.H"
 
@@ -99,15 +129,12 @@ int main(int argc, char *argv[])
                 #include "pEqn.H"
             }
 
-            // compute equation only at the end of the PIMPLE loops
-            // if turbCorr=true
             if (pimple.turbCorr())
             {
-//                laminarTransport.correct();
-                  geochemistry.update();
+                viscosity->correct();
+                turbulence->correct();
+                geochemistry.update();
             }
-
-
         }
 
         runTime.write();

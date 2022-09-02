@@ -1,24 +1,19 @@
 volScalarField rAU(1.0/UEqn.A());
 volVectorField HbyA(constrainHbyA(rAU*UEqn.H(), U, p));
-
-/*
-surfaceScalarField phiDragU
-(
-    fvc::interpolate(laminarTransport.nu()*invK,"invK")*phi
-);
-*/
-
 surfaceScalarField phiHbyA
 (
     "phiHbyA",
     fvc::flux(HbyA)
+  + MRF.zeroFilter(fvc::interpolate(rAU)*fvc::ddtCorr(U, phi, Uf))
 );
 
-//phiHbyA += phiDragU;
+MRF.makeRelative(phiHbyA);
 
 if (p.needReference())
 {
+    fvc::makeRelative(phiHbyA, U);
     adjustPhi(phiHbyA, U, p);
+    fvc::makeAbsolute(phiHbyA, U);
 }
 
 tmp<volScalarField> rAtU(rAU);
@@ -37,21 +32,21 @@ if (pimple.nCorrPiso() <= 1)
 }
 
 // Update the pressure BCs to ensure flux consistency
-constrainPressure(p, U, phiHbyA, rAtU());
-
-// Source term in the continuity equation due to phase change
-tmp<volScalarField> source(geochemistry.dMinvdRho());
-
+constrainPressure(p, U, phiHbyA, rAtU(), MRF);
 
 // Non-orthogonal pressure corrector loop
 while (pimple.correctNonOrthogonal())
 {
     fvScalarMatrix pEqn
     (
-        fvm::laplacian(rAtU(), p) == fvc::div(phiHbyA) - sourceTerm*0.001//- source
+        fvm::laplacian(rAtU(), p) == fvc::div(phiHbyA) - sourceTerm
     );
 
-    pEqn.setReference(pRefCell, pRefValue);
+    pEqn.setReference
+    (
+        pressureReference.refCell(),
+        pressureReference.refValue()
+    );
 
     pEqn.solve();
 
@@ -66,6 +61,12 @@ while (pimple.correctNonOrthogonal())
 // Explicitly relax pressure for momentum corrector
 p.relax();
 
-U = fvc::reconstruct(phi);
-//U = HbyA - rAtU*fvc::grad(p);
+U = HbyA - rAtU*fvc::grad(p);
 U.correctBoundaryConditions();
+fvConstraints.constrain(U);
+
+// Correct Uf if the mesh is moving
+fvc::correctUf(Uf, U, phi, MRF);
+
+// Make the fluxes relative to the mesh motion
+fvc::makeRelative(phi, U);

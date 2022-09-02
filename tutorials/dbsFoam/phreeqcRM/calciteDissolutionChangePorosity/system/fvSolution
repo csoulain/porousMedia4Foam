@@ -1,0 +1,143 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+   p 
+    {
+        solver          PCG; //GAMG;
+	//smoother 	GaussSeidel;
+        preconditioner  DIC;
+        tolerance       1e-12;
+        relTol          0;
+    }
+
+   pFinal
+    {
+        solver          PCG; //GAMG;	//PCG;
+        //smoother  GaussSeidel;	//DIC;
+	preconditioner  DIC;
+        tolerance       1e-12;
+        relTol          0;
+    }
+
+    U
+    {
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+        tolerance       1e-6;
+        relTol          0.01;
+    }
+
+    UFinal
+    {
+        $U;
+        relTol          0;
+    }
+
+
+    Ci
+    {
+                solver  PBiCG;
+                preconditioner DILU;
+        tolerance        1e-6;
+        relTol           0.1;
+        nSweeps          1;
+    }
+
+    CiFinal
+    {
+        $Ci;
+        relTol          0;
+    }
+
+
+    "(Y.*)"
+    {
+                solver  PBiCG;
+                preconditioner DILU;
+        tolerance        1e-6;
+        relTol           0.1;
+        nSweeps          1;
+    }
+
+    "Ys.*"
+    {
+        solver           diagonal;
+//              solver  BICCG;
+//              preconditioner DILU;
+        tolerance        1e-09;
+        relTol           1e-5;
+    }
+}
+/*
+SIMPLE
+{
+    nNonOrthogonalCorrectors 2;
+}
+
+
+PIMPLE
+{
+    nNonOrthogonalCorrectors 2;
+}
+*/
+
+PIMPLE
+{
+    momentumPredictor   off;
+    nOuterCorrectors    100;  // if = 1 then PISO or SIMPLE mode according to the transient or steadyStage mode
+    nCorrectors         2;
+    nNonOrthogonalCorrectors 0;
+    pRefCell            0;
+    pRefValue           0;
+    turbOnFinalIterOnly yes; //yes;
+
+/*
+    residualControl   //for SIMPLE mode?
+    {
+        p               1e-5;
+        U               1e-5;
+     }
+*/
+   outerCorrectorResidualControl
+   {
+       p
+       {
+            tolerance    1e-5;
+            relTol       1e-6;
+       }
+   }
+
+}
+
+relaxationFactors
+{
+    equations
+    {
+        U               0.9; // 0.9 is more stable but 0.95 more convergent
+        Ci              1;
+//        ".*"            0.9; // 0.9 is more stable but 0.95 more convergent
+    }
+    fields
+    {
+        p               1;
+    }
+}
+
+
+// ************************************************************************* //

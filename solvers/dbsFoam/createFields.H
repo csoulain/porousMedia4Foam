@@ -30,11 +30,9 @@ volVectorField U
 
 #include "createPhi.H"
 
+pressureReference pressureReference(p, pimple.dict());
 
-label pRefCell = 0;
-scalar pRefValue = 0.0;
-setRefCell(p, pimple.dict(), pRefCell, pRefValue);
-mesh.setFluxRequired(p.name());
+mesh.schemes().setFluxRequired(p.name());
 
 
 Info<< "Reading field sourceTerm\n" << endl;
@@ -53,9 +51,16 @@ volScalarField sourceTerm
 );
 
 
-Info << "Reading transportProperties\n" << endl;
 
-singlePhaseTransportModel laminarTransport(U, phi);
+
+autoPtr<viscosityModel> viscosity(viscosityModel::New(mesh));
+
+autoPtr<incompressible::momentumTransportModel> turbulence
+(
+    incompressible::momentumTransportModel::New(U, phi, viscosity)
+);
+
+
 
 
 IOdictionary transportProperties
@@ -97,3 +102,10 @@ if (activateHeleShaw)
     HeleShawCorrection = HeleShaw.inversePermeability();
     Info << "HeleShaw correction is activated" << nl << endl;
 }
+
+
+
+
+#include "createMRF.H"
+#include "createFvModels.H"
+#include "createFvConstraints.H"

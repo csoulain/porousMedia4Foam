@@ -1,27 +1,26 @@
 EXE_INC = \
     -I$(LIB_SRC)/MomentumTransportModels/momentumTransportModels/lnInclude \
     -I$(LIB_SRC)/MomentumTransportModels/incompressible/lnInclude \
-    -I$(LIB_SRC)/transportModels/lnInclude \
+    -I$(LIB_SRC)/physicalProperties/lnInclude \
     -I$(LIB_SRC)/finiteVolume/lnInclude \
-    -I$(LIB_SRC)/thermophysicalModels/specie/lnInclude \
     -I$(LIB_SRC)/sampling/lnInclude \
-    -I$(LIB_SRC)/dynamicFvMesh/lnInclude \
-    -I$(LIB_SRC)/dynamicMesh/lnInclude \
     -I$(LIB_SRC)/meshTools/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/specie/lnInclude \
     -I../../libraries/porousModels/lnInclude \
-    -I../../ThirdParty/phreeqcrm/include
-
+    -I../otherModels/lnInclude \
+    -I../../ThirdParty/phreeqcrm/include \
 
 EXE_LIBS = \
     -lmomentumTransportModels \
     -lincompressibleMomentumTransportModels \
-    -lincompressibleTransportModels \
-    -lspecie \
+    -lphysicalProperties \
+    -lfiniteVolume \
+    -lfvModels \
+    -lfvConstraints \
     -lsampling \
-    -ldynamicFvMesh \
-    -ltopoChangerFvMesh \
-    -ldynamicMesh \
     -lmeshTools \
+    -lspecie \
     -L$(FOAM_USER_LIBBIN) \
     -lporousModels \
+    -lotherModels \
     -L../../ThirdParty/phreeqcrm/lib/ -lphreeqcrm-3.6.2
