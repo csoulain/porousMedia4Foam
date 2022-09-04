@@ -10,3 +10,39 @@
 
 - darcyGradPressure -> n'est-il pas mieux de changer la valeur de snGradP dans
      la condition fixedFluxPressure
+
+
+- Attention, probleme dans darcyFoam lors de la simulation de la dissolution de
+  la calcite avec un dP constant (voir case 1 de Soulaine et al. 2021). Il n'y a
+  pas de problème lorsque l'on utilise dbsFoam. Saideep avait déjà eu le problème
+  auparavant. Comment l'avait-il résolu ?
+
+
+- reprogrammer les classes perm, surface, perm relative, cap pressure selon les
+  les classes de la v10.
+
+
+- impesFoam -> encapsuler les nombres de Courant, Coats, setBoundaryHeadPressure
+
+
+- Ajouter hybridPorousInterFoam. Pour cela il est nécessaire de revoir la classe
+  sur le diphasique
+
+- Développer une classe pour la thermo des fluides.
+
+
+- Vérfier updateFromInitialValue off dans KozenyCarman. Il y a probablement une
+  erreur
+
+- attention, la dispersion s'active meme dans les zones de porosité = 1... à
+  corriger.
+
+
+- terme de source dans l'équation en pression lors du changement de phase (disso)
+
+
+- condition d'inlet multiple avec phreeqc. Faire une condition à la limite spéciale
+  pour PHREEQC.
+
+
+- dans phreeqcRM -> a-t-on le module pour localiser les zones réactives?
