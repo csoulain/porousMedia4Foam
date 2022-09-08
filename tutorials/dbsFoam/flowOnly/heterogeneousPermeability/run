@@ -1,0 +1,13 @@
+
+blockMesh > log.blockMesh
+
+
+setFields > log.setFields
+
+
+dbsFoam > log.dbsFoam
+
+
+postProcess -func graphCell > log.postProcess
+
+gnuplot plot.gp
