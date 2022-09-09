@@ -5,7 +5,7 @@ MRF.correctBoundaryVelocity(U);
 tmp<fvVectorMatrix> tUEqn
 (
     1./(eps+SMALL)*(fvm::ddt(U) + fvm::div(phi, U))
-  - fvm::laplacian(turbulence->nu()/(eps+SMALL),U)
+  - fvm::laplacian(turbulence->nu()/(eps+SMALL),U, "laplacian(nu,U)")
   + fvm::Sp(turbulence->nu()*invK,U)
  ==
     fvModels.source(U)

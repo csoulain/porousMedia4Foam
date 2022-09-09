@@ -61,7 +61,8 @@ while (pimple.correctNonOrthogonal())
 // Explicitly relax pressure for momentum corrector
 p.relax();
 
-U = HbyA - rAtU*fvc::grad(p);
+U = fvc::reconstruct(phi);
+//U = HbyA - rAtU*fvc::grad(p);
 U.correctBoundaryConditions();
 fvConstraints.constrain(U);
 

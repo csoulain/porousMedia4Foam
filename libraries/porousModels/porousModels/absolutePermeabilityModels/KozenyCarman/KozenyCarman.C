@@ -59,18 +59,13 @@ Foam::absolutePermeabilityModels::KozenyCarman::KozenyCarman
         "K0",
         dimensionedScalar("K0",dimensionSet(0,2,0,0,0,0,0),SMALL))
     ),
-/*
     updateFromInitialValue_
     (
         KozenyCarmanDict_.lookupOrDefault<Switch>("updateFromInitialValue",false)
-    ),*/
+    ),
     modifiedKozenyCarman_
     (
 	KozenyCarmanDict_.lookupOrDefault<Switch>("modifiedKozenyCarman",false)
-    ),
-    updateFromInitialPoroPerm_
-    (
-        KozenyCarmanDict_.lookupOrDefault<Switch>("updateFromInitialPoroPerm",false)
     ),
     K_
     (
@@ -109,7 +104,7 @@ Foam::absolutePermeabilityModels::KozenyCarman::KozenyCarman
           IOobject::NO_READ,
           IOobject::NO_WRITE
         ),
-        1/K_,
+        1./K_,
         "zeroGradient"
     ),
     Kf_("Kf", fvc::interpolate(K_,"K")),
@@ -169,32 +164,18 @@ void Foam::absolutePermeabilityModels::KozenyCarman::updatePermeability()
   }
   else
   {
-   if(updateFromInitialPoroPerm_)
-   {
-//     Info << "Using Jena KC" << nl;
-     //invK_ = Foam::pow(eps0_/(eps_+SMALL),3)/initK_*Foam::pow((1-eps_)/(1-eps0_+SMALL),2);
-     invK_ = Foam::pow((1.-eps_),2)/(Foam::pow(eps_+SMALL,3))/K0_;
-   }
-   else
-   {
-//    Info << "Ming KC" << nl;
-    invK_= Foam::pow((1.-eps_),2)/(Foam::pow(eps_+SMALL,3))
-          /(Foam::pow((1.-eps_.oldTime()+SMALL),2)/(Foam::pow(eps_.oldTime()+SMALL,3)))
-          *invK_.oldTime();
-   }
+    if(updateFromInitialValue_)
+    {
+        invK_= Foam::pow((1.-eps_),2)/(Foam::pow(eps_+SMALL,3))/K0_;
+    }
+    else
+    {
+      invK_= Foam::pow((1.-eps_),2)/(Foam::pow(eps_+SMALL,3))
+            /(Foam::pow((1.-eps_.oldTime()-SMALL),2)/(Foam::pow(eps_.oldTime()+SMALL,3)))
+            *invK_.oldTime();
+    }
   }
-/*
-  if(updateFromInitialValue_)
-  {
-      invK_= Foam::pow((1.-eps_),2)/(Foam::pow(eps_+SMALL,3))/K0_;
-  }
-  else
-  {
-    invK_= Foam::pow((1.-eps_),2)/(Foam::pow(eps_+SMALL,3))
-          /(Foam::pow((1.-eps_.oldTime()-SMALL),2)/(Foam::pow(eps_.oldTime()+SMALL,3)))
-          *invK_.oldTime();
-  }
-*/
+
   invK_.max(0.0);
 
 

@@ -70,7 +70,7 @@ Foam::geochemicalModels::phreeqcRM::phreeqcRM
       numThreads_(phreeqcDict_.lookupOrDefault("numThreads",1)),
       nthread_(1),
       nxyz_(mesh_.cells().size()),
-      strangSteps_ (readScalar(phreeqcDict_.lookup("StrangSteps"))),
+      strangSteps_ (phreeqcDict_.lookupOrDefault("StrangSteps",6)),
       phreeqcInputFile_( phreeqcDict_.lookup("PhreeqcInputFile") ),
       phreeqcDataBase_( phreeqcDict_.lookup("PhreeqcDataBase") ),
       mineralSubDict_( mineralList_.size() ),
@@ -129,6 +129,7 @@ Foam::geochemicalModels::phreeqcRM::phreeqcRM
 //	phreeqc.SetComponentH2O(false);
 //	phreeqc.SetFilePrefix("testCoupling");
 //	phreeqc.OpenFiles();
+  Info << "Load database... ";
 	phreeqc_.LoadDatabase(mesh_.time().constant()/phreeqcDataBase_);
 
   Info << "Set properties... ";
@@ -306,8 +307,8 @@ std::string Foam::geochemicalModels::phreeqcRM::generateKineticsInputString()
 
           const volScalarField Ae_ ("Ae",porousMedia_[s].surfaceArea());
 
-//          double AeMi = Ae_[i];
-          double AeMi = Ae_[i]/(Ys_[s][i]+SMALL);
+          double AeMi = Ae_[i];
+//          double AeMi = Ae_[i]/(Ys_[s][i]+SMALL);
 //              = Ae_[i]*Vm_[s].value()/(Ys_[s][i]+SMALL)*100;
 
 
@@ -883,8 +884,6 @@ void Foam::geochemicalModels::phreeqcRM::updateFluidComposition()
       } //for subCycle
 
     }
-
-
 }
 
 

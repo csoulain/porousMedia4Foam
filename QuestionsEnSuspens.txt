@@ -32,7 +32,7 @@
 
 
 - Vérfier updateFromInitialValue off dans KozenyCarman. Il y a probablement une
-  erreur
+  erreur..
 
 - attention, la dispersion s'active meme dans les zones de porosité = 1... à
   corriger.
@@ -46,3 +46,34 @@
 
 
 - dans phreeqcRM -> a-t-on le module pour localiser les zones réactives?
+
+
+- dans la compilation de dbsFoam :
+      from dbsFoam.C:53:
+      ./createFields.H: In function ‘int main(int, char**)’:
+      ./createFields.H:85:24: warning: unused variable ‘eps’ [-Wunused-variable]
+      const volScalarField & eps = geochemistry.porosity();
+
+  alors que eps est bien utilisée et modifiée..
+
+
+- Gestion des sorties erreurs de PHREEQC (pas la même redirection qu'OpenFOAM..)
+
+
+- phreeqc > mpi.h , voir message d'erreur dans la compilation.
+
+
+- phreeqcrm : nthread et parallélisation ??
+
+
+- Il faut passer à la dernière version de phreeqcrm
+
+- dans les properties du solide. on doit pouvoir obtenir Vm et rhos depuis la
+  database de PhreeqC. Comment faire un cas général car dans simpleFirstOrderKineticMole
+  ces données sont fournies par l'utilisateur. Une classe pour la thermo du solide
+  comme pour les fluides?
+
+
+- dans les tests flowOnly/heterogeneousPermeability (darcyFoam et dbsFoam), il y
+  a un léger décalage par rapport à la solution analytique sur la valeur de la
+  vitesse. Même décalage dans les 2 cas.
