@@ -23,8 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "geochemicalModel.H"
-#include "fvcDdt.H"
+#include "fluidProperties.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
@@ -32,54 +31,42 @@ License
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::geochemicalModel::geochemicalModel
+Foam::fluidProperties::fluidProperties
 (
     const fvMesh& mesh,
     const dictionary& dict
 )
 :
         mesh_(mesh),
-//        geochemicalModelDict_(dict.subDict("geochemicalProperties")),
-//        fluidPropertiesDict_(dict.subDict("fluidProperties")),
-/*        Ys_
-        (
-            IOobject
-            (
-                "Ys",
-                mesh.time().timeName(),
-                mesh,
-                IOobject::NO_READ,
-                IOobject::NO_WRITE
-            ),
-            mesh,
-            dimensionedScalar("Ys",dimless,0.0),
-            "zeroGradient"
-        ),
-        eps_
-        (
-            IOobject
-            (
-                "eps",
-                mesh.time().timeName(),
-                mesh,
-                IOobject::READ_IF_PRESENT,
-                IOobject::AUTO_WRITE
-            ),
-            mesh,
-            porousMediaDict_.lookupOrDefault("eps",dimensionedScalar("",dimless,1.))
-        ),*/
-        basicGeochemicalModelPtr_
-        (
-//            basicGeochemicalModel::New(mesh, geochemicalModelDict_)
-            basicGeochemicalModel::New(mesh, dict)
-        )
-        /*,
+        fluidName_("fluid"),
+        fluidDict_(dict.subDict(fluidName_+"Properties")),
         densityModelPtr_
         (
-            densityModel::New(mesh, fluidPropertiesDict_)
+            densityModel::New(mesh, fluidDict_)
         )
-        */
+
 {}
+
+/*
+Foam::fluidProperties::fluidProperties
+(
+    const fvMesh& mesh,
+    const word & name,
+    const dictionary& dict
+)
+:
+        mesh_(mesh),
+        porousMediaName_(name),
+        porousMediaDict_(dict.subDict(porousMediaName_+"Properties")),
+        absolutePermeabilityModelPtr_(NULL),
+//        dispersionModelPtr_(NULL),
+        dispersionTensorModelPtr_(NULL),
+        surfaceAreaModelPtr_
+        (
+            surfaceAreaModel::New(mesh, Yss_, porousMediaDict_)
+        )
+{}
+*/
 
 // -------------------------------------------------------------------------//
 

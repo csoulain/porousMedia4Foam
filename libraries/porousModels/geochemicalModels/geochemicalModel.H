@@ -46,6 +46,7 @@ Authors
 #include "surfaceInterpolate.H"
 //#include "speciesTable.H"
 //#include "runTimeSelectionTables.H"
+//#include "fluidProperties.H"
 #include "basicGeochemicalModel.H"
 //#include "autoPtr.H"
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -67,7 +68,9 @@ class geochemicalModel
 
     const fvMesh &mesh_;
 
-    dictionary geochemicalModelDict_;
+//    dictionary geochemicalModelDict_;
+
+//    dictionary fluidPropertiesDict_;
 
 //    volScalarField Ys_;
 
@@ -75,6 +78,7 @@ class geochemicalModel
 
     autoPtr<basicGeochemicalModel> basicGeochemicalModelPtr_;
 
+  //  autoPtr<densityModel> densityModelPtr_;
 
 /*
     tmp<volScalarField> invK_;
@@ -192,6 +196,20 @@ class geochemicalModel
         return basicGeochemicalModelPtr_->effectiveDispersionTensor();
     }
 
+
+
+
+    const volScalarField & rho()  const
+    {
+        return basicGeochemicalModelPtr_->rho();
+    }
+
+    const surfaceScalarField & rhof()  const
+    {
+        return fvc::interpolate(basicGeochemicalModelPtr_->rho());
+    }
+
+
     void update()
     {
         basicGeochemicalModelPtr_->updateFluidComposition();
@@ -202,6 +220,7 @@ class geochemicalModel
       //  basicGeochemicalModelPtr_->updateDispersion();
         basicGeochemicalModelPtr_->updateDispersionTensor();
         basicGeochemicalModelPtr_->updatedMinvdRho();
+        basicGeochemicalModelPtr_->updateDensity();
         Info << "geochemistry updated" <<nl <<endl;
     }
 

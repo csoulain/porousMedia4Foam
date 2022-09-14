@@ -46,8 +46,7 @@ IOdictionary transportProperties
 );
 
 
-dimensionedScalar rho (transportProperties.lookup("rho"));
-
+//dimensionedScalar rho (transportProperties.lookup("rho"));
 dimensionedScalar mu (transportProperties.lookup("mu"));
 
 
@@ -63,11 +62,13 @@ dimensionedScalar mu (transportProperties.lookup("mu"));
 geochemicalModel porousMedia(mesh,transportProperties);
 
 
+const volScalarField& rho = porousMedia.rho();
+
 Info << "Reading field K\n" << endl;
 const surfaceScalarField& Kf = porousMedia.Kf();
 
 surfaceScalarField Mf ("Mf",Kf/mu);
-surfaceScalarField phiG("phiG",(rho * Mf * g) & mesh.Sf());
+surfaceScalarField phiG("phiG",((fvc::interpolate(rho) * Mf) * g) & mesh.Sf());
 surfaceScalarField phiPc("phiPc", 0 * phiG); //- required for porousBoundaryConditions
 
 

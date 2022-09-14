@@ -23,65 +23,28 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "geochemicalModel.H"
-#include "fvcDdt.H"
+#include "densityModel.H"
+#include "volFields.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
-
+namespace Foam
+{
+    defineTypeNameAndDebug(densityModel, 0);
+    defineRunTimeSelectionTable(densityModel, dictionary);
+}
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::geochemicalModel::geochemicalModel
+Foam::densityModel::densityModel
 (
     const fvMesh& mesh,
     const dictionary& dict
 )
 :
-        mesh_(mesh),
-//        geochemicalModelDict_(dict.subDict("geochemicalProperties")),
-//        fluidPropertiesDict_(dict.subDict("fluidProperties")),
-/*        Ys_
-        (
-            IOobject
-            (
-                "Ys",
-                mesh.time().timeName(),
-                mesh,
-                IOobject::NO_READ,
-                IOobject::NO_WRITE
-            ),
-            mesh,
-            dimensionedScalar("Ys",dimless,0.0),
-            "zeroGradient"
-        ),
-        eps_
-        (
-            IOobject
-            (
-                "eps",
-                mesh.time().timeName(),
-                mesh,
-                IOobject::READ_IF_PRESENT,
-                IOobject::AUTO_WRITE
-            ),
-            mesh,
-            porousMediaDict_.lookupOrDefault("eps",dimensionedScalar("",dimless,1.))
-        ),*/
-        basicGeochemicalModelPtr_
-        (
-//            basicGeochemicalModel::New(mesh, geochemicalModelDict_)
-            basicGeochemicalModel::New(mesh, dict)
-        )
-        /*,
-        densityModelPtr_
-        (
-            densityModel::New(mesh, fluidPropertiesDict_)
-        )
-        */
+      mesh_(mesh)
 {}
 
 // -------------------------------------------------------------------------//
-
 
 // ************************************************************************* //

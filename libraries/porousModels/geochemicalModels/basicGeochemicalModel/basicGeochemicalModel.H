@@ -45,6 +45,7 @@ Authors
 #include "speciesTable.H"
 #include "runTimeSelectionTables.H"
 #include "porousModel.H"
+#include "fluidProperties.H"
 //#include "autoPtr.H"
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -65,18 +66,18 @@ class basicGeochemicalModel
 
     const fvMesh &mesh_;
 
+    dictionary geochemicalModelDict_;
+
+    dictionary fluidPropertiesDict_;
+
     speciesTable mineralList_;
 
     PtrList<volScalarField> Ys_;
-
-  //  PtrList<dimensionedScalar> rhos_;
 
     volScalarField inertMineral_;
 
     volScalarField eps_;
     volScalarField eps0_;
-
-    dimensionedScalar rhol_;
 
     PtrList<dimensionedScalar> rhos_;
 
@@ -90,9 +91,11 @@ class basicGeochemicalModel
 //    tmp<volScalarField> Ae_;
 //    volScalarField Ae_;
 
-    autoPtr<absolutePermeabilityModel> absolutePermeabilityModelPtr_;
+    autoPtr<densityModel> densityModelPtr_;
 
-//    autoPtr<dispersionModel> dispersionModelPtr_;
+    volScalarField rho_;
+
+    autoPtr<absolutePermeabilityModel> absolutePermeabilityModelPtr_;
 
     autoPtr<dispersionTensorModel> dispersionTensorModelPtr_;
 
@@ -194,17 +197,6 @@ class basicGeochemicalModel
         }
     }
 
-/*
-    tmp<volScalarField> effectiveDispersion() const
-    {
-        return dispersionModelPtr_->effectiveDispersion();
-    }
-
-    void updateDispersion()
-    {
-        dispersionModelPtr_->updateDispersion();
-    }
-*/
     tmp<volTensorField> effectiveDispersionTensor() const
     {
         return dispersionTensorModelPtr_->effectiveDispersionTensor();
@@ -215,6 +207,16 @@ class basicGeochemicalModel
         dispersionTensorModelPtr_->updateDispersionTensor();
     }
 
+
+    tmp<volScalarField> rho() const
+    {
+        return densityModelPtr_->rho();
+    }
+
+    void updateDensity()
+    {
+        densityModelPtr_->updateDensity();
+    }
 
     tmp<volScalarField> dMinvdRho() const
     {

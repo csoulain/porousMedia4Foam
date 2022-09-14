@@ -1,3 +1,11 @@
+fluidProperties/densityModels/densityModel/densityModel.C
+fluidProperties/densityModels/densityModel/densityModelNew.C
+fluidProperties/densityModels/constantDensity/constantDensity.C
+
+fluidProperties/fluidProperties.C
+
+
+
 porousModels/absolutePermeabilityModels/absolutePermeabilityModel/absolutePermeabilityModel.C
 porousModels/absolutePermeabilityModels/absolutePermeabilityModel/absolutePermeabilityModelNew.C
 porousModels/absolutePermeabilityModels/HeleShaw/HeleShaw.C
