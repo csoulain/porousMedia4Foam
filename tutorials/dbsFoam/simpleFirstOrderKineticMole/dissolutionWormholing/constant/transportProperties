@@ -15,23 +15,29 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+fluidProperties
+{
+	densityModel constantDensity;
+
+	constantDensityCoeffs
+	{
+		rho0         rho0   [ 1 -3 0 0 0 0 0 ] 1000;
+	}
+
+}
+
+
 transportModel  Newtonian;
-
-//mu 		mu [1 -1 -1 0 0 0 0] 1e-3;
-rho		rho [1 -3 0 0 0 0 0] 1000;
-
-
-
+mu             mu  [ 1 -1 -1 0 0 0 0 ] 1e-3;
 nu 		nu [ 0 2 -1 0 0 0 0 ] 1e-6;
+
+
+geochemicalModel simpleFirstOrderKineticMole;
+
 
 
 geochemicalProperties
 {
-	geochemicalModel simpleFirstOrderKineticMole; 
-
-
-	rhol    rhol [ 1 -3 0 0 0 0 0 ] 1000;
-
 
 	mineral (Calcite);
 
