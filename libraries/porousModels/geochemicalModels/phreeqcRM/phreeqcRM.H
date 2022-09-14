@@ -59,12 +59,14 @@ class phreeqcRM : public basicGeochemicalModel
 {
 
 
-  dictionary  phreeqcDict_;
+
 
   protected:
 
     // Protected data
-    dictionary transportPropertiesDict_;
+    dictionary geochemicalModelDict_;
+
+    dictionary  phreeqcDict_;
 
     Switch activateUpdatePorosity_ ;
 

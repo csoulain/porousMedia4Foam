@@ -60,8 +60,8 @@ Foam::geochemicalModels::phreeqcRM::phreeqcRM
 )
 :
       basicGeochemicalModel(mesh, dict),
-      phreeqcDict_(dict.subDict(typeName)),
-      transportPropertiesDict_(dict),
+      geochemicalModelDict_(dict.subDict("geochemicalProperties")),
+      phreeqcDict_(geochemicalModelDict_.subDict(typeName)),
       activateUpdatePorosity_(phreeqcDict_.lookup("activateUpdatePorosity")),
       setComponentH2O_
       (
@@ -428,7 +428,7 @@ void Foam::geochemicalModels::phreeqcRM::initializeMineralDistribution()
         s,
         new dictionary
         (
-              transportPropertiesDict_.subDict(currentMineral+"Properties")
+              geochemicalModelDict_.subDict(currentMineral+"Properties")
         )
     );
 

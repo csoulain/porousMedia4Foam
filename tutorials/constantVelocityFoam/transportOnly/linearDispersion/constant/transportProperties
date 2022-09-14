@@ -16,13 +16,23 @@ FoamFile
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 
+fluidProperties
+{
+	densityModel constantDensity;
+
+	constantDensityCoeffs
+	{
+		rho0         rho0   [ 1 -3 0 0 0 0 0 ] 1000;
+	}
+
+}
+
+
+geochemicalModel transportOnly; 
+
+
 geochemicalProperties
 {
-	geochemicalModel transportOnly; 
-
-
-	rhol    rhol [ 1 -3 0 0 0 0 0 ] 1000;
-
 
 	mineral (Calcite);
 

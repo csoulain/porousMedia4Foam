@@ -93,7 +93,7 @@ class basicGeochemicalModel
 
     autoPtr<densityModel> densityModelPtr_;
 
-    volScalarField rho_;
+//    volScalarField rho_;
 
     autoPtr<absolutePermeabilityModel> absolutePermeabilityModelPtr_;
 

@@ -17,19 +17,25 @@ FoamFile
 
 transportModel  Newtonian;
 mu 		mu [1 -1 -1 0 0 0 0] 1e-3;
-rho		rho [1 -3 0 0 0 0 0] 1000;
 
+fluidProperties
+{
+	densityModel constantDensity;
+
+	constantDensityCoeffs
+	{
+		rho0         rho0   [ 1 -3 0 0 0 0 0 ] 1000;
+	}
+
+}
+
+geochemicalModel phreeqcRM;
 
 // ************************************************************************* //
 
 geochemicalProperties
 {
 
-	rhol		rhol [1 -3 0 0 0 0 0] 1000;
-
-
- geochemicalModel phreeqcRM;
- 
  mineral (Calcite);
 
  absolutePermeabilityModel heterogeneousScalarConstant; 

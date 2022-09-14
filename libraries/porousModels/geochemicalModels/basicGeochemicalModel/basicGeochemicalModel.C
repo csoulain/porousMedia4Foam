@@ -109,6 +109,7 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
       (
           densityModel::New(mesh, fluidPropertiesDict_)
       ),
+      /*
       rho_
       (
           IOobject
@@ -123,6 +124,7 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
           dimensionedScalar("rho",dimensionSet(1,-3,0,0,0,0,0),1.e3),
           "zeroGradient"
       ),
+      */
       absolutePermeabilityModelPtr_
       (
           absolutePermeabilityModel::New(mesh, geochemicalModelDict_)
