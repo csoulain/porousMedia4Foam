@@ -32,8 +32,8 @@ SourceFiles
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef fromGeoChemicalPackage_H
-#define fromGeoChemicalPackage_H
+#ifndef fromPhreeqc_H
+#define fromPhreeqc_H
 
 #include "volFields.H"
 #include "speciesTable.H"
@@ -52,29 +52,23 @@ namespace densityModels
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class fromGeoChemicalPackage : public densityModel
+class fromPhreeqc : public densityModel
 {
 
   protected:
 
     // Protected data
 
-    dictionary fromGeoChemicalPackageDict_;
-
-    dimensionedScalar rho0_;
-
-    volScalarField rho_;
-
   // Private Member Functions
 
     //- Disallow copy construct
-    fromGeoChemicalPackage(const fromGeoChemicalPackage&);
+    fromPhreeqc(const fromPhreeqc&);
 
 
 public:
 
   //- Runtime type information
-    TypeName("fromGeoChemicalPackage");
+    TypeName("fromPhreeqc");
 
 
   // Declare run-time constructor selection table
@@ -83,7 +77,7 @@ public:
   // Selectors
 
     //- Construct from components
-    fromGeoChemicalPackage
+    fromPhreeqc
     (
       const fvMesh& mesh,
       const dictionary& dict
@@ -91,14 +85,16 @@ public:
 
 
     //- Destructor
-    virtual ~fromGeoChemicalPackage()
+    virtual ~fromPhreeqc()
     {}
 
 
     // Member Functions
-    virtual tmp<volScalarField> rho() const;
+    virtual tmp<volScalarField> rho() const
+    {}
 
-    virtual void updateDensity();
+    virtual void updateDensity()
+    {}
 
 };
 

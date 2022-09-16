@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "fromGeoChemicalPackage.H"
+#include "fromPhreeqc.H"
 #include "addToRunTimeSelectionTable.H"
 
 
@@ -35,57 +35,29 @@ namespace Foam
 {
 namespace densityModels
 {
-    defineTypeNameAndDebug(fromGeoChemicalPackage, 0);
+    defineTypeNameAndDebug(fromPhreeqc, 0);
 
     addToRunTimeSelectionTable
     (
         densityModel,
-        fromGeoChemicalPackage,
+        fromPhreeqc,
         dictionary
     );
 }
 }
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::densityModels::fromGeoChemicalPackage::fromGeoChemicalPackage
+Foam::densityModels::fromPhreeqc::fromPhreeqc
 (
     const fvMesh& mesh,
     const dictionary& dict
 )
 :
-    densityModel(mesh, dict),
-    fromGeoChemicalPackageDict_(dict.subDict(typeName+"Coeffs")),
-    rho0_(fromGeoChemicalPackageDict_.lookup("rho0")),
-    rho_
-    (
-        IOobject
-        (
-          "rho",
-          mesh_.time().timeName(),
-          mesh_,
-          IOobject::READ_IF_PRESENT,
-          IOobject::NO_WRITE
-        ),
-        mesh_,
-        rho0_,
-        "zeroGradient"
-    )
+    densityModel(mesh, dict)
 {}
 
 // * * * * * * * * * * * * * * member functions  * * * * * * * * * * * * * * //
 
-
-Foam::tmp<Foam::volScalarField>
-Foam::densityModels::fromGeoChemicalPackage::rho() const
-{
-      return rho_;
-}
-
-void Foam::densityModels::fromGeoChemicalPackage::updateDensity()
-{
-    //do nothing
-
-}
 
 
 // -------------------------------------------------------------------------//

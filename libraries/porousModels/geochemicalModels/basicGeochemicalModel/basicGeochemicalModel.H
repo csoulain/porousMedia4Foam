@@ -95,6 +95,8 @@ class basicGeochemicalModel
 
 //    volScalarField rho_;
 
+//    volScalarField rho_;
+
     autoPtr<absolutePermeabilityModel> absolutePermeabilityModelPtr_;
 
     autoPtr<dispersionTensorModel> dispersionTensorModelPtr_;
@@ -208,12 +210,12 @@ class basicGeochemicalModel
     }
 
 
-    tmp<volScalarField> rho() const
+    virtual tmp<volScalarField> rho() const
     {
         return densityModelPtr_->rho();
     }
 
-    void updateDensity()
+    virtual void updateDensity()
     {
         densityModelPtr_->updateDensity();
     }

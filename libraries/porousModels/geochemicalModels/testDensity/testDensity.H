@@ -60,8 +60,10 @@ class testDensity : public basicGeochemicalModel
   protected:
 
     // Protected data
+    const word densitymodelType_;
 
 
+    volScalarField rho_;
 
   // Private Member Functions
 
@@ -100,6 +102,18 @@ class testDensity : public basicGeochemicalModel
     virtual void updateMineralDistribution()
     {}
 
+
+    virtual tmp<volScalarField> rho() const;
+
+
+    virtual void updateDensity();
+
+/*
+    void updateDensity()
+    {
+      Info << "je suis ici" << nl << endl;
+    }
+*/
 };
 
 

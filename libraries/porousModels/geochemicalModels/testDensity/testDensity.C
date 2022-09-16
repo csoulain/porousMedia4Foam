@@ -52,16 +52,66 @@ Foam::geochemicalModels::testDensity::testDensity
     const dictionary& dict
 )
 :
-      basicGeochemicalModel(mesh, dict)
+      basicGeochemicalModel(mesh, dict),
+      densitymodelType_(dict.subDict("fluidProperties").lookup("densityModel")),
+      rho_
+      (
+          IOobject
+          (
+              "rho",
+              mesh.time().timeName(),
+              mesh,
+              IOobject::READ_IF_PRESENT,
+              IOobject::AUTO_WRITE
+          ),
+          mesh,
+          dimensionedScalar("rho",dimensionSet(1,-3,0,0,0,0,0),1e3),
+          "zeroGradient"
+      )
 {
     Y_.resize(0);
 }
 
-void Foam::basicGeochemicalModel::updateDensity()
+
+
+// * * * * * * * * * * * * * * * * Functions      * * * * * * * * * * * * * * //
+Foam::tmp<Foam::volScalarField>
+Foam::geochemicalModels::testDensity::rho() const
 {
-    //densityModelPtr_->updateDensity();
-    Info << "Je suis ici " << nl << endl;
+      if(densitymodelType_ == "fromPhreeqc")
+      {
+            return rho_;
+      }
+      else
+      {
+            return Foam::basicGeochemicalModel::rho();
+      }
 }
+
+
+
+void Foam::geochemicalModels::testDensity::updateDensity()
+{
+
+//    volScalarField &rho = this->rho();
+
+    if(densitymodelType_ == "fromPhreeqc")
+    {
+        Info << "Je suis ici " << nl << endl;
+        forAll(rho_,cellI)
+        {
+            rho_[cellI] = cellI;
+        }
+    }
+    else
+    {
+          Foam::basicGeochemicalModel::updateDensity();
+    }
+
+    //densityModelPtr_->updateDensity();
+
+}
+
 
 // -------------------------------------------------------------------------//
 

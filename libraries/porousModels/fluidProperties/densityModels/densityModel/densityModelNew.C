@@ -36,7 +36,7 @@ Foam::autoPtr<Foam::densityModel> Foam::densityModel::New
 {
     const word modelType(dict.lookup("densityModel"));
 
-    Info<< "Selecting absolute permeability model " << modelType << endl;
+    Info<< "Selecting density model " << modelType << endl;
 
     dictionaryConstructorTable::iterator cstrIter =
         dictionaryConstructorTablePtr_->find(modelType);

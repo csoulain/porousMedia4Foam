@@ -109,6 +109,7 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
       (
           densityModel::New(mesh, fluidPropertiesDict_)
       ),
+  //    rho_(this->rho()),
       /*
       rho_
       (
