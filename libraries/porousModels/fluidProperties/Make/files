@@ -1,6 +1,8 @@
 densityModels/densityModel/densityModel.C
 densityModels/densityModel/densityModelNew.C
 densityModels/constantDensity/constantDensity.C
+densityModels/fromGeoChemicalPackage/fromGeoChemicalPackage.C
+
 
 fluidProperties.C
 

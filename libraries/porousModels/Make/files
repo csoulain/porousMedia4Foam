@@ -1,6 +1,7 @@
 fluidProperties/densityModels/densityModel/densityModel.C
 fluidProperties/densityModels/densityModel/densityModelNew.C
 fluidProperties/densityModels/constantDensity/constantDensity.C
+fluidProperties/densityModels/fromGeoChemicalPackage/fromGeoChemicalPackage.C
 
 fluidProperties/fluidProperties.C
 
@@ -76,6 +77,7 @@ geochemicalModels/simpleFirstOrderKineticMole/simpleFirstOrderKineticMole.C
 geochemicalModels/transportOnly/transportOnly.C
 geochemicalModels/phreeqcRM/phreeqcRM.C
 
+geochemicalModels/testDensity/testDensity.C
 
 geochemicalModels/geochemicalModel.C
 
