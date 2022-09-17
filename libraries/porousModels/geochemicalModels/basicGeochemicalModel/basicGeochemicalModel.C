@@ -188,6 +188,32 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
     updatePorosity();
 
 
+
+// -----------------------------------------------------------------------------
+    const word densitymodelType
+    (
+      fluidPropertiesDict_.lookup("densityModel")
+    );
+
+    const word geochemicalmodelType
+    (
+      dict.lookup("geochemicalModel")
+    );
+
+    if
+    (
+      (densitymodelType == "fromPhreeqc") && (geochemicalmodelType != "phreeqcRM")
+    )
+    {
+      FatalErrorInFunction
+          << "fromPhreeqc densityModel type must be used "
+          << "with phreeqcRM geochemical package" <<nl
+          << exit(FatalError);
+    }
+
+// -----------------------------------------------------------------------------
+
+
 }
 
 // -------------------------------------------------------------------------//

@@ -90,11 +90,6 @@ class phreeqcRM : public basicGeochemicalModel
     PtrList<dimensionedScalar> Vm_;
 
     volScalarField linkDomainZonesToPhreeqcSol_;
-//    dimensionedScalar Di_;
-//    dimensionedScalar alphaL_;
-
-//    volScalarField Deff;
-//    Switch cvODE;
 
     Switch cvODE;
     double cvODETol_;
@@ -106,6 +101,10 @@ class phreeqcRM : public basicGeochemicalModel
 
 
     volScalarField pH_;
+
+    const word densitymodelType_;
+    
+    volScalarField rho_;
 
 //    volScalarField Aee_;
 
@@ -167,6 +166,11 @@ class phreeqcRM : public basicGeochemicalModel
     virtual void updateMineralDistribution();
 
     virtual void updatePorosity();
+
+    virtual tmp<volScalarField> rho() const;
+
+    virtual void updateDensity();
+
 };
 
 

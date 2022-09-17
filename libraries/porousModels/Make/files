@@ -1,7 +1,7 @@
 fluidProperties/densityModels/densityModel/densityModel.C
 fluidProperties/densityModels/densityModel/densityModelNew.C
 fluidProperties/densityModels/constantDensity/constantDensity.C
-fluidProperties/densityModels/fromGeoChemicalPackage/fromGeoChemicalPackage.C
+fluidProperties/densityModels/fromPhreeqc/fromPhreeqc.C
 
 fluidProperties/fluidProperties.C
 

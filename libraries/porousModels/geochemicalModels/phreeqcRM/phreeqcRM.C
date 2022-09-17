@@ -110,6 +110,21 @@ Foam::geochemicalModels::phreeqcRM::phreeqcRM
           dimensionedScalar("pH",dimless,0.0),
           "zeroGradient"
       ),
+      densitymodelType_(dict.subDict("fluidProperties").lookup("densityModel")),
+      rho_
+      (
+          IOobject
+          (
+            "rho",
+            mesh_.time().timeName(),
+            mesh_,
+            IOobject::READ_IF_PRESENT,
+            IOobject::AUTO_WRITE
+          ),
+          mesh_,
+          dimensionedScalar("rho",dimDensity,1e3),
+          "zeroGradient"
+      ),
       phreeqc_(mesh_.cells().size(), nthread_)
 
 
@@ -1014,18 +1029,43 @@ void Foam::geochemicalModels::phreeqcRM::activateSelectedOutput()
 
 // -------------------------------------------------------------------------//
 
-/*
-
-void Foam::geochemicalModels::phreeqcRM::update()
+Foam::tmp<Foam::volScalarField>
+Foam::geochemicalModels::phreeqcRM::rho() const
 {
-      updatePorosity();
-      updateSurfaceArea();
-      updatePermeability();
-//      updatePorousMediaProperties();
-      updateFluidComposition();
-      updateMineralDistribution();
+      if(densitymodelType_ == "fromPhreeqc")
+      {
+            return rho_;
+      }
+      else
+      {
+            return Foam::basicGeochemicalModel::rho();
+      }
 }
-*/
+
+
+
+void Foam::geochemicalModels::phreeqcRM::updateDensity()
+{
+
+    if(densitymodelType_ == "fromPhreeqc")
+    {
+
+        std::vector<double> density_;
+
+      	status = phreeqc_.GetDensity(density_);
+      	//status = phreeqc_.SetDensity(density_);
+
+        forAll(rho_,cellI)
+        {
+            rho_[cellI] =  density_[cellI]*1000;
+        }
+    }
+    else
+    {
+          Foam::basicGeochemicalModel::updateDensity();
+    }
+
+}
 
 // -------------------------------------------------------------------------//
 /*
