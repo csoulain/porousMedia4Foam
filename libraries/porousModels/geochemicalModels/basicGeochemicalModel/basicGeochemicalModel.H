@@ -88,14 +88,7 @@ class basicGeochemicalModel
 
     PtrList<porousModel> porousMedia_;
 
-//    tmp<volScalarField> Ae_;
-//    volScalarField Ae_;
-
     autoPtr<densityModel> densityModelPtr_;
-
-//    volScalarField rho_;
-
-//    volScalarField rho_;
 
     autoPtr<absolutePermeabilityModel> absolutePermeabilityModelPtr_;
 
@@ -226,8 +219,6 @@ class basicGeochemicalModel
     }
 
     virtual void updatedMinvdRho();
-
-
 
     virtual void updateFluidComposition() = 0;
 

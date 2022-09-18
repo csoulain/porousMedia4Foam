@@ -110,6 +110,7 @@ Foam::geochemicalModels::phreeqcRM::phreeqcRM
           dimensionedScalar("pH",dimless,0.0),
           "zeroGradient"
       ),
+      saturationIndex_(mineralList_.size() ),
       densitymodelType_(dict.subDict("fluidProperties").lookup("densityModel")),
       rho_
       (
@@ -244,6 +245,8 @@ Foam::geochemicalModels::phreeqcRM::phreeqcRM
   activateSelectedOutput();
 
   initializeMineralDistribution();
+
+  initializeSaturationIndex();
 
   initializeFluidComposition();
 
@@ -531,6 +534,37 @@ void Foam::geochemicalModels::phreeqcRM::updatePorosity()
 }
 
 // -------------------------------------------------------------------------//
+
+void Foam::geochemicalModels::phreeqcRM::initializeSaturationIndex()
+{
+
+  forAll(mineralList_,s)
+  {
+
+    word currentMineral = mineralList_[s];
+    Info << " Doing stuff for mineral: " << currentMineral << endl;
+
+    saturationIndex_.set
+    (
+      s,
+      new volScalarField
+      (
+        IOobject
+        (
+          "saturationIndex."+mineralList_[s],
+          mesh_.time().timeName(),
+          mesh_,
+          IOobject::READ_IF_PRESENT,
+          IOobject::AUTO_WRITE
+        ),
+        mesh_,
+        dimensionedScalar(currentMineral,dimless,0.0),
+        "zeroGradient"
+      )
+    );
+
+  }
+}
 
 // -------------------------------------------------------------------------//
 
@@ -945,6 +979,7 @@ void Foam::geochemicalModels::phreeqcRM::updateMineralDistribution()
     }
     updatePorosityPhreeqc();
 //    Info<<"Ok" << endl;
+    updateSaturationIndex();
 }
 
 // -------------------------------------------------------------------------//
@@ -968,6 +1003,35 @@ void Foam::geochemicalModels::phreeqcRM::updatepH()
 
 //    Info<<"Ok" << endl;
 }
+
+// -------------------------------------------------------------------------//
+
+void Foam::geochemicalModels::phreeqcRM::updateSaturationIndex()
+{
+    int n_user = 4;
+
+    status = phreeqc_.SetCurrentSelectedOutputUserNumber(n_user);
+    std::vector<double> so;
+    status = phreeqc_.GetSelectedOutput(so);
+
+    for (int i = 0; i < phreeqc_.GetSelectedOutputRowCount(); i++)
+    {
+        forAll(mineralList_,s)
+        {
+            saturationIndex_[s][i] = so[s*nxyz_ + i];
+        }
+    }
+
+    forAll(mineralList_,s)
+    {
+        saturationIndex_[s].correctBoundaryConditions();
+    }
+}
+
+
+
+// -------------------------------------------------------------------------//
+
 
 // -------------------------------------------------------------------------//
 
@@ -1022,6 +1086,30 @@ void Foam::geochemicalModels::phreeqcRM::activateSelectedOutput()
 
     status = phreeqc_.RunString(true, true, true, input.c_str());
 
+
+    // to ouput solution mass value
+    input =
+    " SELECTED_OUTPUT 3; \
+        -reset       false; \
+        -water       true;  \
+      END";
+    status = phreeqc_.RunString(true, true, true, input.c_str());
+
+    // to ouput the minerals saturation index
+    input =
+    " SELECTED_OUTPUT 4; \
+        -reset        false; \
+        -si \
+    ";
+
+    forAll(mineralList_,s)
+    {
+      input +=  mineralList_[s] + " " ;
+    }
+
+    input += "; END";
+    Info << "input = " << input << nl;
+    status = phreeqc_.RunString(true, true, true, input.c_str());
 
 
     Info << "OK" << nl << endl;

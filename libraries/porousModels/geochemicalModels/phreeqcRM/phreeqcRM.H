@@ -102,11 +102,11 @@ class phreeqcRM : public basicGeochemicalModel
 
     volScalarField pH_;
 
-    const word densitymodelType_;
-    
-    volScalarField rho_;
+    PtrList<volScalarField> saturationIndex_;
 
-//    volScalarField Aee_;
+    const word densitymodelType_;
+
+    volScalarField rho_;
 
     PhreeqcRM  phreeqc_;
 
@@ -122,11 +122,15 @@ class phreeqcRM : public basicGeochemicalModel
 
     void initializeMineralDistribution();
 
+    void initializeSaturationIndex();
+
     void initializeFluidComposition();
 
     void activateSelectedOutput();
 
     void updatepH();
+
+    void updateSaturationIndex();
 
     void updatePorosityPhreeqc();
 
