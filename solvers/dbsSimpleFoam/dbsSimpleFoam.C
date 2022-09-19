@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     | Website:  https://openfoam.org
-    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2021 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -31,9 +31,12 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
-#include "singlePhaseTransportModel.H"
+#include "viscosityModel.H"
+#include "incompressibleMomentumTransportModels.H"
 #include "simpleControl.H"
-#include "fvOptions.H"
+#include "pressureReference.H"
+#include "fvModels.H"
+#include "fvConstraints.H"
 #include "porousModel.H"
 #include "HeleShaw.H"
 
@@ -51,13 +54,17 @@ int main(int argc, char *argv[])
     #include "createFields.H"
     #include "initContinuityErrs.H"
 
+    turbulence->validate();
+
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     Info<< "\nStarting time loop\n" << endl;
 
     while (simple.loop(runTime))
     {
-        Info<< "Time = " << runTime.timeName() << nl << endl;
+        Info<< "Time = " << runTime.userTimeName() << nl << endl;
+
+        fvModels.correct();
 
         // --- Pressure-velocity SIMPLE corrector
         {
@@ -65,7 +72,8 @@ int main(int argc, char *argv[])
             #include "pEqn.H"
         }
 
-        laminarTransport.correct();
+        viscosity->correct();
+        turbulence->correct();
 
         runTime.write();
 

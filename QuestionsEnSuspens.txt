@@ -77,3 +77,13 @@
 - dans les tests flowOnly/heterogeneousPermeability (darcyFoam et dbsFoam), il y
   a un léger décalage par rapport à la solution analytique sur la valeur de la
   vitesse. Même décalage dans les 2 cas.
+
+
+
+- Trouver une façon d'activer/déactiver les sorties de pH, saturationIndex etc..
+  dans PhreeqcRM.
+
+
+
+- Dans PhreeqcRM: updatePorosityPhreeqc peut être remplacer par updatePorosity si
+  updatePorosity est definie comme virtual

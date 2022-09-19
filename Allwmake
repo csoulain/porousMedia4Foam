@@ -8,8 +8,8 @@ set -x
 ##wmake libso libraries/porousInterfaceProperties/
 ##wmake libso libraries/porousImmiscibleIncompressibleTwoPhaseMixture/
 ##wmake libraries/fluidProperties
-wmake libraries/porousModels
 wmake libraries/otherModels
+wmake libraries/porousModels
 ##wmake libraries/toolsGIS
 wmake libraries/porousBoundaryConditions
 ##wmake libraries/geochemicalModels
@@ -18,7 +18,7 @@ wmake libraries/porousBoundaryConditions
 # Compiling solvers
 wmake solvers/darcyFoam
 wmake solvers/impesFoam
-#wmake solvers/dbsSimpleFoam
+wmake solvers/dbsSimpleFoam
 wmake solvers/dbsFoam
 wmake solvers/constantVelocityFoam
 #wmake solvers/anisoImpesFoam

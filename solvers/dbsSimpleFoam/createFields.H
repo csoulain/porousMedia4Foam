@@ -28,12 +28,6 @@ volVectorField U
 
 #include "createPhi.H"
 
-
-label pRefCell = 0;
-scalar pRefValue = 0.0;
-setRefCell(p, simple.dict(), pRefCell, pRefValue);
-mesh.setFluxRequired(p.name());
-
 Info<< "Reading field sourceTerm\n" << endl;
 volScalarField sourceTerm
 (
@@ -42,15 +36,30 @@ volScalarField sourceTerm
         "sourceTerm",
         runTime.timeName(),
         mesh,
-        IOobject::MUST_READ,
+        IOobject::READ_IF_PRESENT,
         IOobject::AUTO_WRITE
     ),
-    mesh
+    mesh,
+    dimensionedScalar("sourceTerm",dimensionSet(0,0,-1,0,0,0,0),0.0)
 );
 
-Info << "Reading transportProperties\n" << endl;
 
-singlePhaseTransportModel laminarTransport(U, phi);
+pressureReference pressureReference(p, simple.dict());
+
+mesh.schemes().setFluxRequired(p.name());
+
+autoPtr<viscosityModel> viscosity(viscosityModel::New(mesh));
+
+autoPtr<incompressible::momentumTransportModel> turbulence
+(
+    incompressible::momentumTransportModel::New(U, phi, viscosity)
+);
+
+#include "createMRF.H"
+#include "createFvModels.H"
+#include "createFvConstraints.H"
+
+
 
 
 IOdictionary transportProperties
@@ -75,7 +84,7 @@ const volScalarField & eps = porousMedia.porosity();
 Info << nl << "Reading/generating permeability field eps" << endl;
 const volScalarField& invK = porousMedia.invK();
 
-#include "createFvOptions.H"
+
 
 
 Switch activateHeleShaw

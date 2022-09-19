@@ -1,0 +1,3 @@
+rm -r constant/polyMesh log.*
+
+foamListTimes -rm

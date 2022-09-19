@@ -1,0 +1,15 @@
+cp 0/eps.org 0/eps
+cp 0/K.org   0/K
+
+
+blockMesh > log.blockMesh
+
+##topoSet > log.blockMesh
+##refineMesh -overwrite
+##refineMesh -overwrite
+##refineMesh -overwrite
+
+setFields > log.setFields
+
+
+dbsSimpleFoam > log.dbsSimpleFoam

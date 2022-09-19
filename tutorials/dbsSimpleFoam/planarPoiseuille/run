@@ -1,0 +1,4 @@
+blockMesh > log.blockMesh
+
+
+dbsSimpleFoam > log.dbsSimpleFoam
