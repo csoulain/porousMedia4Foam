@@ -263,7 +263,8 @@ void Foam::absolutePermeabilityModels::KozenyCarman::updatePermeability()
   }
 */
 
-  Kf_ = fvc::interpolate(K_,"harmonic");
+  //Kf_ = fvc::interpolate(K_,"harmonic");
 
+  Kf_ = fvc::interpolate(K_);
 }
 // -------------------------------------------------------------------------//
