@@ -178,93 +178,16 @@ void Foam::absolutePermeabilityModels::KozenyCarman::updatePermeability()
 
   invK_.max(0.0);
 
-
+  invK_.correctBoundaryConditions();
 
   dimensionedScalar smallInvK_("smallInvK",dimensionSet(0,-2,0,0,0),SMALL);
 
   K_ = 1./(invK_+smallInvK_);
-  /*Extrapolating K_ value on the boundary faces*/
-
-/*
-  label patchInlet = mesh_.boundaryMesh().findPatchID("inlet");
-  if (patchInlet == -1)
-  {
-   FatalError << "Inlet patch not found." << exit(FatalError);
-  }
-*/
-  /* SaPa comment - outlet patch not required for extrapolation */
-/*
-  label patchOutlet = mesh_.boundaryMesh().findPatchID("outlet");
-  if (patchOutlet == -1)
-  {
-   FatalError << "Outlet patch not found." << exit(FatalError);
-  }
-*/
-  /*SaPa comment ends here*/
-
-/*
-  label patchWalls = mesh_.boundaryMesh().findPatchID("walls");
-  if (patchWalls == -1)
-  {
-   FatalError << "Walls patch not found." << exit(FatalError);
-  }
-*/
-
-/*  forAll(mesh_.boundary()[patchInlet],faceI)
-  {
-   if (eps_[mesh_.boundary()[patchInlet].faceCells()[faceI]] - eps_.oldTime()[mesh_.boundary()[patchInlet].faceCells()[faceI]] >= 0.)
-    {
-     K_.boundaryFieldRef()[patchInlet][faceI] =
-     K_[mesh_.boundary()[patchInlet].faceCells()[faceI]] +
-    (Foam::pow(Foam::mag(eps_[mesh_.boundary()[patchInlet].faceCells()[faceI]] - eps_.oldTime()[mesh_.boundary()[patchInlet].faceCells()[faceI]]),extrapolateKOnPatchn_)*K_[mesh_.boundary()[patchInlet].faceCells()[faceI]]);
-    }
-
-    else
-    {
-     K_.boundaryFieldRef()[patchInlet][faceI] =
-     K_[mesh_.boundary()[patchInlet].faceCells()[faceI]] -
-    (Foam::pow(Foam::mag(eps_[mesh_.boundary()[patchInlet].faceCells()[faceI]]-eps_.oldTime()[mesh_.boundary()[patchInlet].faceCells()[faceI]]),extrapolateKOnPatchn_)*K_[mesh_.boundary()[patchInlet].faceCells()[faceI]]);
-    }
-  }
-
-  forAll(mesh_.boundary()[patchOutlet],faceI)
-  {
-   if (eps_[mesh_.boundary()[patchOutlet].faceCells()[faceI]] - eps_.oldTime()[mesh_.boundary()[patchOutlet].faceCells()[faceI]] >= 0.)
-   {
-    K_.boundaryFieldRef()[patchOutlet][faceI] =
-    K_[mesh_.boundary()[patchOutlet].faceCells()[faceI]] +
-    (Foam::pow(Foam::mag(eps_[mesh_.boundary()[patchOutlet].faceCells()[faceI]]-eps_.oldTime()[mesh_.boundary()[patchOutlet].faceCells()[faceI]]),extrapolateKOnPatchn_)*K_[mesh_.boundary()[patchOutlet].faceCells()[faceI]]);
-   }
-
-   else
-   {
-    K_.boundaryFieldRef()[patchOutlet][faceI] =
-    K_[mesh_.boundary()[patchOutlet].faceCells()[faceI]] -
-    (Foam::pow(Foam::mag(eps_[mesh_.boundary()[patchOutlet].faceCells()[faceI]]-eps_.oldTime()[mesh_.boundary()[patchOutlet].faceCells()[faceI]]),extrapolateKOnPatchn_)*K_[mesh_.boundary()[patchOutlet].faceCells()[faceI]]);
-   }
-  }
-*/
-/*
-  forAll(mesh_.boundary()[patchWalls],faceI)
-  {
-   if (eps_[mesh_.boundary()[patchWalls].faceCells()[faceI]] - eps_.oldTime()[mesh_.boundary()[patchWalls].faceCells()[faceI]] >= 0.)
-   {
-    K_.boundaryFieldRef()[patchWalls][faceI] =
-    K_[mesh_.boundary()[patchWalls].faceCells()[faceI]] +
-    (Foam::pow(Foam::mag(eps_[mesh_.boundary()[patchWalls].faceCells()[faceI]]-eps_.oldTime()[mesh_.boundary()[patchWalls].faceCells()[faceI]]),extrapolateKOnPatchn_)*K_[mesh_.boundary()[patchWalls].faceCells()[faceI]]);
-   }
-
-   else
-   {
-    K_.boundaryFieldRef()[patchWalls][faceI] =
-    K_[mesh_.boundary()[patchWalls].faceCells()[faceI]] -
-    (Foam::pow(Foam::mag(eps_[mesh_.boundary()[patchWalls].faceCells()[faceI]]-eps_.oldTime()[mesh_.boundary()[patchWalls].faceCells()[faceI]]),extrapolateKOnPatchn_)*K_[mesh_.boundary()[patchWalls].faceCells()[faceI]]);
-   }
-  }
-*/
+  K_.correctBoundaryConditions();
 
   //Kf_ = fvc::interpolate(K_,"harmonic");
 
   Kf_ = fvc::interpolate(K_);
+
 }
 // -------------------------------------------------------------------------//
