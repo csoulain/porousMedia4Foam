@@ -87,7 +87,6 @@ class KozenyCarman : public absolutePermeabilityModel
 
     volScalarField K_;
     volScalarField initK_;
-    scalar extrapolateKOnPatchn_;
     volScalarField invK_;
 
     surfaceScalarField Kf_;

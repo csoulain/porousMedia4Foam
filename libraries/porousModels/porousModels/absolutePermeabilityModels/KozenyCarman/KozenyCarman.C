@@ -93,7 +93,6 @@ Foam::absolutePermeabilityModels::KozenyCarman::KozenyCarman
         ),
         K_
     ),
-    extrapolateKOnPatchn_( KozenyCarmanDict_.lookupOrDefault("n", 0.66)),
     invK_
     (
         IOobject
