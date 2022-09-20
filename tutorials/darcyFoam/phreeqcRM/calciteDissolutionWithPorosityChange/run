@@ -1,0 +1,24 @@
+#Script to mesh, run the benchmark case (B1. M Xie - Calcite dissolution), post process output data, plot results
+
+#Remove any previous output files and run the case from 0
+#foamListTimes -rm
+
+echo Building mesh
+blockMesh > log.blockMesh
+
+echo Running the case
+darcyFoam > log.darcyFoam
+echo End of the run
+
+#Output cell center data at 10, 100, 120 years
+#Data written for - porosity, calcite volume fraction and pressure
+echo Postprocessing output data - check postProcess folder
+postProcess -time 3.149928e+08,3.1499928e+09,3.78e+09 -func graphCell
+
+#Output flux
+postProcess -time 0:6e+09 -func 'patchFlowRate(patch=outlet)'
+
+
+gnuplot plot.gp
+
+echo END
