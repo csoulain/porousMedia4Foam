@@ -210,6 +210,7 @@ void Foam::basicGeochemicalModel::updatePorosity()
         eps_+=Ys_[s];
     }
     eps_ = 1.-eps_-inertMineral_;
+    eps_.correctBoundaryConditions(); //necessary??
 }
 
 

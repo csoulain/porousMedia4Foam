@@ -12,12 +12,6 @@
      la condition fixedFluxPressure
 
 
-- Attention, probleme dans darcyFoam lors de la simulation de la dissolution de
-  la calcite avec un dP constant (voir case 1 de Soulaine et al. 2021). Il n'y a
-  pas de problème lorsque l'on utilise dbsFoam. Saideep avait déjà eu le problème
-  auparavant. Comment l'avait-il résolu ?
-
-
 - reprogrammer les classes perm, surface, perm relative, cap pressure selon les
   les classes de la v10.
 
