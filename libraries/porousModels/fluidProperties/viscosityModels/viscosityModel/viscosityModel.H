@@ -22,32 +22,24 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::fluidProperties
+    Foam::twoPhaseMixture
 
 Description
-    fluidProperties module for fluid properties in pM4F including
-      - density models
-      - viscosity models
-      - ... models
-
+    viscosityModel module
 
 SourceFiles
-    fluidProperties.C
-
-Authors
-    - 12/9/2022 C. Soulaine
+    phreeqc.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef fluidProperties_H
-#define fluidProperties_H
+#ifndef viscosityModel_H
+#define viscosityModel_H
 
+#include "dictionary.H"
+#include "volFieldsFwd.H"
 #include "volFields.H"
+#include "runTimeSelectionTables.H"
 #include "surfaceInterpolate.H"
-#include "densityModel.H"
-//#include "autoPtr.H"
-//#include "viscosity.H"
-#include "viscosityModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -58,106 +50,75 @@ namespace Foam
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class fluidProperties
+class viscosityModel
 {
-
 
   protected:
 
     // Protected data
 
-    const fvMesh &mesh_;
-
-    word fluidName_;
-
-    dictionary fluidDict_;
-
-    autoPtr<densityModel> densityModelPtr_;
-
-    autoPtr<viscosityModel> viscosityModelPtr_;
-
-//    autoPtr<surfaceAreaModel> surfaceAreaModelPtr_;
-
+    const fvMesh& mesh_;
 
   // Private Member Functions
 
     //- Disallow copy construct
-    fluidProperties(const fluidProperties&);
+    viscosityModel(const viscosityModel&);
 
 
-  public:
+public:
+
+  //- Runtime type information
+    TypeName("viscosityModel");
+
+
+    // Declare run-time constructor selection table
+
+      declareRunTimeSelectionTable
+      (
+          autoPtr,
+          viscosityModel,
+          dictionary,
+          (
+              const fvMesh& mesh,
+              const dictionary& dict
+          ),
+          (mesh, dict)
+      );
+
+
+  // Selectors
+
+      //- Return a reference to the selected viscosity model
+      static autoPtr<viscosityModel> New
+      (
+          const fvMesh& mesh,
+          const dictionary& dict
+      );
 
   // Constructors
 
     //- Construct from components
 
-    fluidProperties
+    viscosityModel
     (
         const fvMesh& mesh,
         const dictionary& dict
     );
-/*
-    fluidProperties
-    (
-        const fvMesh& mesh,
-        const word & name,
-        const dictionary& dict
-    );
-*/
+
+//    viscosityModel();
+
     //- Destructor
-    ~fluidProperties()
+    virtual ~viscosityModel()
     {}
 
 
     // Member Functions
 
-    //- Return the composition of the multi-component mixture
-//    virtual basicMultiComponentMixture& composition() = 0;
 
-    //- Return the composition of the multi-component mixture
-//    virtual const basicMultiComponentMixture& composition() const = 0;
+      virtual tmp<volScalarField> nu() const =0;
 
-    tmp<volScalarField> rho() const
-    {
-        return densityModelPtr_->rho();
-    }
 
-    void updateDensity()
-    {
-          densityModelPtr_->updateDensity();
-//        return absolutePermeabilityModelPtr_->updatePermeability();
-    }
-
-    tmp<volScalarField> nu() const
-    {
-        return viscosityModelPtr_->nu();
-    }
-
-    void updateViscosity()
-    {
-          viscosityModelPtr_->updateViscosity();
-//        return absolutePermeabilityModelPtr_->updatePermeability();
-    }
-
-/*
-    const viscosityModel & viscosity()
-    {
-        return viscosityModelPtr_();
-    }
-*/
-/*
-    viscosity viscosity() const
-    {
-        return viscosityModelPtr_->nu();
-    }
-*/
-
-    void update()
-    {
-        updateDensity();
-        updateViscosity();
-//        updateSurfaceArea();
-    }
+      virtual void updateViscosity() = 0;
 
 };
 

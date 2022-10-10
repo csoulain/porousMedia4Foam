@@ -22,147 +22,119 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::fluidProperties
+    Foam::twoPhaseMixture
 
 Description
-    fluidProperties module for fluid properties in pM4F including
-      - density models
-      - viscosity models
-      - ... models
-
+    thermoReactiveSerpentinization module
 
 SourceFiles
-    fluidProperties.C
-
-Authors
-    - 12/9/2022 C. Soulaine
+    phreeqc.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef fluidProperties_H
-#define fluidProperties_H
+#ifndef thermoReactiveSerpentinization_H
+#define thermoReactiveSerpentinization_H
 
+//#include "dictionary.H"
+//#include "volFieldsFwd.H"
 #include "volFields.H"
-#include "surfaceInterpolate.H"
-#include "densityModel.H"
+#include "speciesTable.H"
+#include "runTimeSelectionTables.H"
+#include "basicGeochemicalModel.H"
 //#include "autoPtr.H"
-//#include "viscosity.H"
-#include "viscosityModel.H"
-
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
+{
+namespace geochemicalModels
 {
 
 /*---------------------------------------------------------------------------*\
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class fluidProperties
+class thermoReactiveSerpentinization : public basicGeochemicalModel
 {
 
 
-  protected:
+    //  dictionary  thermoReactiveSerpentinizationDict_;
+
+
+protected:
 
     // Protected data
 
-    const fvMesh &mesh_;
+    word mineral_;
 
-    word fluidName_;
+    dictionary geochemicalModelDict_;
 
-    dictionary fluidDict_;
+    dictionary thermoReactiveSerpentinizationDict_;
 
-    autoPtr<densityModel> densityModelPtr_;
+    PtrList<dictionary> mineralSubDict_;
 
-    autoPtr<viscosityModel> viscosityModelPtr_;
+    PtrList<dimensionedScalar> Vm_;
 
-//    autoPtr<surfaceAreaModel> surfaceAreaModelPtr_;
+    PtrList<dimensionedScalar> ki_;
+    PtrList<dimensionedScalar> Acti_;
+    PtrList<dimensionedScalar> aKin_;
+    PtrList<dimensionedScalar> bKin_;
+    PtrList<dimensionedScalar> cKin_;
 
+    volScalarField T_;
+    dimensionedScalar Cpf_;
+    dimensionedScalar Cps_;
+    dimensionedScalar lambda_;
+    dimensionedScalar latentHeat_;
 
-  // Private Member Functions
+    Switch initializeTemperatureGradient_;
+    Switch solveTemperature_;
+    Switch solveChemistry_;
+
+    // Private Member Functions
+
+    void readMineralProperties();
 
     //- Disallow copy construct
-    fluidProperties(const fluidProperties&);
+    thermoReactiveSerpentinization(const thermoReactiveSerpentinization&);
 
 
-  public:
+public:
 
-  // Constructors
+    //- Runtime type information
+    TypeName("thermoReactiveSerpentinization");
+
+
+    // Declare run-time constructor selection table
+
+    // Constructors
 
     //- Construct from components
 
-    fluidProperties
+    thermoReactiveSerpentinization
     (
         const fvMesh& mesh,
         const dictionary& dict
     );
-/*
-    fluidProperties
-    (
-        const fvMesh& mesh,
-        const word & name,
-        const dictionary& dict
-    );
-*/
+
     //- Destructor
-    ~fluidProperties()
+    virtual ~thermoReactiveSerpentinization()
     {}
 
 
-    // Member Functions
+        // Member Functions
 
-    //- Return the composition of the multi-component mixture
-//    virtual basicMultiComponentMixture& composition() = 0;
+        void updateTemperature();
 
-    //- Return the composition of the multi-component mixture
-//    virtual const basicMultiComponentMixture& composition() const = 0;
+        virtual void updateFluidComposition();
 
-    tmp<volScalarField> rho() const
-    {
-        return densityModelPtr_->rho();
-    }
+        virtual void updateMineralDistribution();
 
-    void updateDensity()
-    {
-          densityModelPtr_->updateDensity();
-//        return absolutePermeabilityModelPtr_->updatePermeability();
-    }
-
-    tmp<volScalarField> nu() const
-    {
-        return viscosityModelPtr_->nu();
-    }
-
-    void updateViscosity()
-    {
-          viscosityModelPtr_->updateViscosity();
-//        return absolutePermeabilityModelPtr_->updatePermeability();
-    }
-
-/*
-    const viscosityModel & viscosity()
-    {
-        return viscosityModelPtr_();
-    }
-*/
-/*
-    viscosity viscosity() const
-    {
-        return viscosityModelPtr_->nu();
-    }
-*/
-
-    void update()
-    {
-        updateDensity();
-        updateViscosity();
-//        updateSurfaceArea();
-    }
 
 };
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+} // End namespace geochemicalModels
 
 } // End namespace Foam
 

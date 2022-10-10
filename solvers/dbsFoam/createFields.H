@@ -51,23 +51,11 @@ volScalarField sourceTerm
 );
 
 
-
-
-autoPtr<viscosityModel> viscosity(viscosityModel::New(mesh));
-
-autoPtr<incompressible::momentumTransportModel> turbulence
-(
-    incompressible::momentumTransportModel::New(U, phi, viscosity)
-);
-
-
-
-
 IOdictionary transportProperties
 (
     IOobject
     (
-        "transportProperties",
+        "physicalProperties",
         runTime.constant(),
         mesh,
         IOobject::MUST_READ_IF_MODIFIED,
@@ -103,7 +91,20 @@ if (activateHeleShaw)
     Info << "HeleShaw correction is activated" << nl << endl;
 }
 
+const volScalarField & nu = geochemistry.nu();
 
+
+/*
+Info << nl << "Reading/generating momentumTransportModel";
+//autoPtr<viscosityModel> viscosity(viscosityModel::New(mesh));
+
+
+autoPtr<incompressible::momentumTransportModel> turbulence
+(
+    incompressible::momentumTransportModel::New(U, phi, geochemistry.viscosity())
+);
+Info << " ... OK" << endl;
+*/
 
 
 #include "createMRF.H"

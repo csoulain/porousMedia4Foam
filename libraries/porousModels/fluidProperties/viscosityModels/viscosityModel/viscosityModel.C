@@ -23,55 +23,28 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "fluidProperties.H"
+#include "viscosityModel.H"
+#include "volFields.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
-
+namespace Foam
+{
+    defineTypeNameAndDebug(viscosityModel, 0);
+    defineRunTimeSelectionTable(viscosityModel, dictionary);
+}
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::fluidProperties::fluidProperties
+Foam::viscosityModel::viscosityModel
 (
     const fvMesh& mesh,
     const dictionary& dict
 )
 :
-        mesh_(mesh),
-        fluidName_("fluid"),
-        fluidDict_(dict.subDict(fluidName_+"Properties")),
-        densityModelPtr_
-        (
-            densityModel::New(mesh, fluidDict_)
-        ),
-        viscosityModelPtr_
-        (
-            viscosityModel::New(mesh, fluidDict_)
-        )
+      mesh_(mesh)
 {}
-
-/*
-Foam::fluidProperties::fluidProperties
-(
-    const fvMesh& mesh,
-    const word & name,
-    const dictionary& dict
-)
-:
-        mesh_(mesh),
-        porousMediaName_(name),
-        porousMediaDict_(dict.subDict(porousMediaName_+"Properties")),
-        absolutePermeabilityModelPtr_(NULL),
-//        dispersionModelPtr_(NULL),
-        dispersionTensorModelPtr_(NULL),
-        surfaceAreaModelPtr_
-        (
-            surfaceAreaModel::New(mesh, Yss_, porousMediaDict_)
-        )
-{}
-*/
 
 // -------------------------------------------------------------------------//
-
 
 // ************************************************************************* //

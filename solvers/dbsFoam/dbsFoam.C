@@ -33,8 +33,8 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
-#include "viscosityModel.H"
-#include "incompressibleMomentumTransportModels.H"
+//#include "viscosityModel.H"
+//#include "incompressibleMomentumTransportModels.H"
 #include "pimpleControl.H"
 #include "pressureReference.H"
 #include "CorrectPhi.H"
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
     #include "createFields.H"
     #include "createUfIfPresent.H"
 
-    turbulence->validate();
+//    turbulence->validate();
 
     if (!LTS)
     {
@@ -131,8 +131,8 @@ int main(int argc, char *argv[])
 
             if (pimple.turbCorr())
             {
-                viscosity->correct();
-                turbulence->correct();
+            //    viscosity->correct();
+            //    turbulence->correct();
                 geochemistry.update();
             }
         }

@@ -2,6 +2,13 @@ fluidProperties/densityModels/densityModel/densityModel.C
 fluidProperties/densityModels/densityModel/densityModelNew.C
 fluidProperties/densityModels/constantDensity/constantDensity.C
 fluidProperties/densityModels/fromPhreeqc/fromPhreeqc.C
+fluidProperties/densityModels/boussinesq/boussinesq.C
+
+
+fluidProperties/viscosityModels/viscosityModel/viscosityModel.C
+fluidProperties/viscosityModels/viscosityModel/viscosityModelNew.C
+fluidProperties/viscosityModels/constantViscosity/constantViscosity.C
+
 
 fluidProperties/fluidProperties.C
 
@@ -74,6 +81,7 @@ geochemicalModels/basicGeochemicalModel/basicGeochemicalModelNew.C
 geochemicalModels/flowOnly/flowOnly.C
 geochemicalModels/simpleFirstOrderKinetic/simpleFirstOrderKinetic.C
 geochemicalModels/simpleFirstOrderKineticMole/simpleFirstOrderKineticMole.C
+geochemicalModels/thermoReactiveSerpentinization/thermoReactiveSerpentinization.C
 geochemicalModels/transportOnly/transportOnly.C
 geochemicalModels/phreeqcRM/phreeqcRM.C
 

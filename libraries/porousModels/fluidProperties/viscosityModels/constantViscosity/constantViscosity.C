@@ -23,55 +23,67 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "fluidProperties.H"
+#include "constantViscosity.H"
+#include "addToRunTimeSelectionTable.H"
+
+
+//#include "fvCFD.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
+namespace Foam
+{
+namespace viscosityModels
+{
+    defineTypeNameAndDebug(constantViscosity, 0);
 
-
+    addToRunTimeSelectionTable
+    (
+        viscosityModel,
+        constantViscosity,
+        dictionary
+    );
+}
+}
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::fluidProperties::fluidProperties
+Foam::viscosityModels::constantViscosity::constantViscosity
 (
     const fvMesh& mesh,
     const dictionary& dict
 )
 :
-        mesh_(mesh),
-        fluidName_("fluid"),
-        fluidDict_(dict.subDict(fluidName_+"Properties")),
-        densityModelPtr_
+    viscosityModel(mesh, dict),
+    constantViscosityDict_(dict.subDict(typeName+"Coeffs")),
+    nu0_(constantViscosityDict_.lookup("nu0")),
+    nu_
+    (
+        IOobject
         (
-            densityModel::New(mesh, fluidDict_)
+          "nu",
+          mesh_.time().timeName(),
+          mesh_,
+          IOobject::READ_IF_PRESENT,
+          IOobject::NO_WRITE
         ),
-        viscosityModelPtr_
-        (
-            viscosityModel::New(mesh, fluidDict_)
-        )
+        mesh_,
+        nu0_,
+        "zeroGradient"
+    )
 {}
 
-/*
-Foam::fluidProperties::fluidProperties
-(
-    const fvMesh& mesh,
-    const word & name,
-    const dictionary& dict
-)
-:
-        mesh_(mesh),
-        porousMediaName_(name),
-        porousMediaDict_(dict.subDict(porousMediaName_+"Properties")),
-        absolutePermeabilityModelPtr_(NULL),
-//        dispersionModelPtr_(NULL),
-        dispersionTensorModelPtr_(NULL),
-        surfaceAreaModelPtr_
-        (
-            surfaceAreaModel::New(mesh, Yss_, porousMediaDict_)
-        )
-{}
-*/
+// * * * * * * * * * * * * * * member functions  * * * * * * * * * * * * * * //
+
+Foam::tmp<Foam::volScalarField>
+Foam::viscosityModels::constantViscosity::nu() const
+{
+      return nu_;
+}
+
+void Foam::viscosityModels::constantViscosity::updateViscosity()
+{
+    //do nothing
+
+}
 
 // -------------------------------------------------------------------------//
-
-
-// ************************************************************************* //

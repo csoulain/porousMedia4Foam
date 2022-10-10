@@ -1,4 +1,5 @@
 EXE_INC = \
+    -I$(LIB_SRC)/physicalProperties/lnInclude \
     -I$(LIB_SRC)/finiteVolume/lnInclude \
     -I$(LIB_SRC)/meshTools/lnInclude  \
     -I$(LIB_SRC)/thermophysicalModels/specie/lnInclude \
@@ -9,6 +10,7 @@ EXE_INC = \
 
 
 EXE_LIBS = \
+    -lphysicalProperties \
     -lfiniteVolume \
     -lspecie \
     -L$(FOAM_USER_LIBBIN) \

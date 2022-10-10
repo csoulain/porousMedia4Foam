@@ -37,7 +37,7 @@ IOdictionary transportProperties
 (
     IOobject
     (
-        "transportProperties",
+        "physicalProperties",
         runTime.constant(),
         mesh,
         IOobject::MUST_READ_IF_MODIFIED,
@@ -64,6 +64,10 @@ geochemicalModel porousMedia(mesh,transportProperties);
 
 const volScalarField& rho = porousMedia.rho();
 
+
+const volScalarField& nu = porousMedia.nu();
+
+
 Info << "Reading field K\n" << endl;
 const surfaceScalarField& Kf = porousMedia.Kf();
 
@@ -72,7 +76,10 @@ surfaceScalarField phiG("phiG",((fvc::interpolate(rho) * Mf) * g) & mesh.Sf());
 surfaceScalarField phiPc("phiPc", 0 * phiG); //- required for porousBoundaryConditions
 
 
+const volScalarField& sourceTerm = porousMedia.dMinvdRho();
 //- For constant or event source injection/extraction
+
+/*
 volScalarField sourceTerm
 (
     IOobject
@@ -84,5 +91,6 @@ volScalarField sourceTerm
         IOobject::NO_WRITE
     ),
     mesh,
-    dimensionedScalar("",dimless/dimTime,0)
+    dimensionedScalar("",dimless/dimTime,0.0)
 );
+*/

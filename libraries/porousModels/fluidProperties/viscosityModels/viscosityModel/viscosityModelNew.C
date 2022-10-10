@@ -23,55 +23,37 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "fluidProperties.H"
+#include "viscosityModel.H"
+#include "volFields.H"
 
-// * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
+// ************************************************************************* //
 
-
-
-// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
-
-Foam::fluidProperties::fluidProperties
+Foam::autoPtr<Foam::viscosityModel> Foam::viscosityModel::New
 (
     const fvMesh& mesh,
     const dictionary& dict
 )
-:
-        mesh_(mesh),
-        fluidName_("fluid"),
-        fluidDict_(dict.subDict(fluidName_+"Properties")),
-        densityModelPtr_
-        (
-            densityModel::New(mesh, fluidDict_)
-        ),
-        viscosityModelPtr_
-        (
-            viscosityModel::New(mesh, fluidDict_)
-        )
-{}
+{
+    const word modelType(dict.lookup("viscosityModel"));
 
-/*
-Foam::fluidProperties::fluidProperties
-(
-    const fvMesh& mesh,
-    const word & name,
-    const dictionary& dict
-)
-:
-        mesh_(mesh),
-        porousMediaName_(name),
-        porousMediaDict_(dict.subDict(porousMediaName_+"Properties")),
-        absolutePermeabilityModelPtr_(NULL),
-//        dispersionModelPtr_(NULL),
-        dispersionTensorModelPtr_(NULL),
-        surfaceAreaModelPtr_
-        (
-            surfaceAreaModel::New(mesh, Yss_, porousMediaDict_)
-        )
-{}
-*/
+    Info<< "Selecting viscosity model " << modelType << endl;
 
-// -------------------------------------------------------------------------//
+    dictionaryConstructorTable::iterator cstrIter =
+        dictionaryConstructorTablePtr_->find(modelType);
+
+    if (cstrIter == dictionaryConstructorTablePtr_->end())
+    {
+        FatalErrorInFunction
+            << "Unknown viscosityModel type "
+            << modelType << nl << nl
+            << "Valid viscosityModel are : " << endl
+            << dictionaryConstructorTablePtr_->sortedToc()
+            << exit(FatalError);
+    }
+
+    return autoPtr<viscosityModel>
+        (cstrIter()(mesh, dict));
+}
 
 
 // ************************************************************************* //

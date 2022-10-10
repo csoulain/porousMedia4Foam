@@ -68,6 +68,8 @@ int main(int argc, char *argv[])
 
         Mf = Kf / mu;
 
+        phiG = ((fvc::interpolate(rho) * Mf) * g) & mesh.Sf();
+
         fvScalarMatrix pEqn
         (
             fvm::laplacian(-Mf,p) + fvc::div(phiG) - sourceTerm
@@ -81,6 +83,10 @@ int main(int argc, char *argv[])
         U.correctBoundaryConditions();
 
         runTime.write();
+        if(runTime.outputTime())
+        {
+            sourceTerm.write();
+        }
 
         Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"

@@ -185,18 +185,10 @@ class geochemicalModel
         return basicGeochemicalModelPtr_->dMinvdRho();
     }
 
-/*
-    const volScalarField & effectiveDispersion()  const
-    {
-        return basicGeochemicalModelPtr_->effectiveDispersion();
-    }
-*/
     const volTensorField & effectiveDispersionTensor()  const
     {
         return basicGeochemicalModelPtr_->effectiveDispersionTensor();
     }
-
-
 
 
     const volScalarField & rho()  const
@@ -209,7 +201,22 @@ class geochemicalModel
         return fvc::interpolate(basicGeochemicalModelPtr_->rho());
     }
 
-
+/*
+    const viscosityModel & viscosity()  const
+    {
+        return basicGeochemicalModelPtr_->viscosity();
+    }
+*/
+    const volScalarField & nu()  const
+    {
+        return basicGeochemicalModelPtr_->nu();
+    }
+/*
+    const viscosityModel & viscosity()
+    {
+        return basicGeochemicalModelPtr_->viscosity();
+    }
+*/
     void update()
     {
         basicGeochemicalModelPtr_->updateFluidComposition();
@@ -217,7 +224,6 @@ class geochemicalModel
         basicGeochemicalModelPtr_->updatePorosity();
         basicGeochemicalModelPtr_->updateSurfaceArea();
         basicGeochemicalModelPtr_->updatePermeability();
-      //  basicGeochemicalModelPtr_->updateDispersion();
         basicGeochemicalModelPtr_->updateDispersionTensor();
         basicGeochemicalModelPtr_->updatedMinvdRho();
         basicGeochemicalModelPtr_->updateDensity();

@@ -109,11 +109,14 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
       (
           densityModel::New(mesh, fluidPropertiesDict_)
       ),
+      viscosityModelPtr_
+      (
+          viscosityModel::New(mesh, fluidPropertiesDict_)
+      ),
       absolutePermeabilityModelPtr_
       (
           absolutePermeabilityModel::New(mesh, geochemicalModelDict_)
       ),
-
       dispersionTensorModelPtr_
       (
           dispersionTensorModel::New(mesh, geochemicalModelDict_)
@@ -222,6 +225,7 @@ void Foam::basicGeochemicalModel::updatedMinvdRho()
         //dMinvdRho_+= -rhos_[s]*fvc::ddt(Ys_[s])*(1./rhol_-1./rhos_[s]);
         dMinvdRho_+= -rhos_[s]*fvc::ddt(Ys_[s])*(1./this->rho()-1./rhos_[s]);
     }
+    dMinvdRho_.correctBoundaryConditions(); //necessary??
 }
 
 

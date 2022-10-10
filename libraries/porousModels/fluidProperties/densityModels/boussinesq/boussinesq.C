@@ -23,55 +23,72 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "fluidProperties.H"
+#include "boussinesq.H"
+#include "addToRunTimeSelectionTable.H"
+
+
+//#include "fvCFD.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
+namespace Foam
+{
+namespace densityModels
+{
+    defineTypeNameAndDebug(boussinesq, 0);
 
-
+    addToRunTimeSelectionTable
+    (
+        densityModel,
+        boussinesq,
+        dictionary
+    );
+}
+}
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::fluidProperties::fluidProperties
+Foam::densityModels::boussinesq::boussinesq
 (
     const fvMesh& mesh,
     const dictionary& dict
 )
 :
-        mesh_(mesh),
-        fluidName_("fluid"),
-        fluidDict_(dict.subDict(fluidName_+"Properties")),
-        densityModelPtr_
+    densityModel(mesh, dict),
+    boussinesqDict_(dict.subDict(typeName+"Coeffs")),
+    rho0_(boussinesqDict_.lookup("rho0")),
+    beta_(boussinesqDict_.lookup("beta")),
+    T0_(boussinesqDict_.lookup("T0")),
+    TName_(boussinesqDict_.lookupOrDefault<word>("T", "T")),
+    rho_
+    (
+        IOobject
         (
-            densityModel::New(mesh, fluidDict_)
+          "rho",
+          mesh_.time().timeName(),
+          mesh_,
+          IOobject::READ_IF_PRESENT,
+          IOobject::AUTO_WRITE
         ),
-        viscosityModelPtr_
-        (
-            viscosityModel::New(mesh, fluidDict_)
-        )
+        mesh_,
+        rho0_,
+        "zeroGradient"
+    )
 {}
 
-/*
-Foam::fluidProperties::fluidProperties
-(
-    const fvMesh& mesh,
-    const word & name,
-    const dictionary& dict
-)
-:
-        mesh_(mesh),
-        porousMediaName_(name),
-        porousMediaDict_(dict.subDict(porousMediaName_+"Properties")),
-        absolutePermeabilityModelPtr_(NULL),
-//        dispersionModelPtr_(NULL),
-        dispersionTensorModelPtr_(NULL),
-        surfaceAreaModelPtr_
-        (
-            surfaceAreaModel::New(mesh, Yss_, porousMediaDict_)
-        )
-{}
-*/
+// * * * * * * * * * * * * * * member functions  * * * * * * * * * * * * * * //
+
+Foam::tmp<Foam::volScalarField>
+Foam::densityModels::boussinesq::rho() const
+{
+      return rho_;
+}
+
+void Foam::densityModels::boussinesq::updateDensity()
+{
+
+    tmp<volScalarField> T = mesh_.lookupObject<volScalarField>(TName_);
+    //do nothing
+    rho_=rho0_*(1.-beta_*(T-T0_));
+}
 
 // -------------------------------------------------------------------------//
-
-
-// ************************************************************************* //

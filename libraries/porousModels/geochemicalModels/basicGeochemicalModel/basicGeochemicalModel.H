@@ -90,6 +90,8 @@ class basicGeochemicalModel
 
     autoPtr<densityModel> densityModelPtr_;
 
+    autoPtr<viscosityModel> viscosityModelPtr_;
+
     autoPtr<absolutePermeabilityModel> absolutePermeabilityModelPtr_;
 
     autoPtr<dispersionTensorModel> dispersionTensorModelPtr_;
@@ -217,6 +219,23 @@ class basicGeochemicalModel
     {
         return dMinvdRho_;
     }
+
+    virtual tmp<volScalarField> nu() const
+    {
+        return viscosityModelPtr_->nu();
+    }
+
+    virtual void updateViscosity()
+    {
+        viscosityModelPtr_->updateViscosity();
+    }
+
+/*
+    const viscosityModel & viscosity()
+    {
+        return viscosityModelPtr_();
+    }
+*/
 
     virtual void updatedMinvdRho();
 
