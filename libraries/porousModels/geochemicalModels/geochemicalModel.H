@@ -211,6 +211,32 @@ class geochemicalModel
     {
         return basicGeochemicalModelPtr_->nu();
     }
+
+    tmp<volScalarField> mu() const
+    {
+
+        dimensionedScalar nu00 ("nu", dimensionSet(1,-1,-1,0,0,0,0), 0.0);
+
+        volScalarField mu
+        (
+            IOobject
+            (
+              "nu",
+              mesh_.time().timeName(),
+              mesh_,
+              IOobject::READ_IF_PRESENT,
+              IOobject::NO_WRITE
+            ),
+            mesh_,
+            nu00,
+            "zeroGradient"
+        );
+        mu = (this->nu())*(this->rho());
+        mu.correctBoundaryConditions();
+
+
+        return mu;
+    }
 /*
     const viscosityModel & viscosity()
     {
@@ -227,6 +253,7 @@ class geochemicalModel
         basicGeochemicalModelPtr_->updateDispersionTensor();
         basicGeochemicalModelPtr_->updatedMinvdRho();
         basicGeochemicalModelPtr_->updateDensity();
+        basicGeochemicalModelPtr_->updateViscosity();
         Info << "geochemistry updated" <<nl <<endl;
     }
 

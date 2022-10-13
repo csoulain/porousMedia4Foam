@@ -139,6 +139,11 @@ class fluidProperties
 //        return absolutePermeabilityModelPtr_->updatePermeability();
     }
 
+    tmp<volScalarField> mu() const
+    {
+        return (this->nu())*(this->rho());
+    }
+
 /*
     const viscosityModel & viscosity()
     {

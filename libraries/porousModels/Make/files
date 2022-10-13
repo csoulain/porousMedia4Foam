@@ -19,7 +19,7 @@ porousModels/absolutePermeabilityModels/absolutePermeabilityModel/absolutePermea
 porousModels/absolutePermeabilityModels/HeleShaw/HeleShaw.C
 porousModels/absolutePermeabilityModels/KozenyCarman/KozenyCarman.C
 porousModels/absolutePermeabilityModels/heterogeneousScalarConstant/heterogeneousScalarConstant.C
-
+porousModels/absolutePermeabilityModels/ColebrookWhite/ColebrookWhite.C
 
 
 porousModels/dispersionModels/dispersionModel/dispersionModel.C

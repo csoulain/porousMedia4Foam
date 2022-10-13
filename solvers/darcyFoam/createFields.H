@@ -50,6 +50,21 @@ IOdictionary transportProperties
 dimensionedScalar mu (transportProperties.lookup("mu"));
 
 
+Info << nl << "Reading field U\n" << endl;
+volScalarField mu0
+(
+    IOobject
+    (
+        "mu0",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh,
+    mu
+);
+
 //autoPtr<incompressiblePhase> phase = incompressiblePhase::New(mesh,transportProperties,phaseName);
 //volVectorField& UphaseName = phase->U();
 //const dimensionedScalar& rho = phase->rho();
@@ -65,13 +80,16 @@ geochemicalModel porousMedia(mesh,transportProperties);
 const volScalarField& rho = porousMedia.rho();
 
 
-const volScalarField& nu = porousMedia.nu();
+//const volScalarField& mu0 = porousMedia.mu();
 
 
 Info << "Reading field K\n" << endl;
 const surfaceScalarField& Kf = porousMedia.Kf();
 
 surfaceScalarField Mf ("Mf",Kf/mu);
+
+//surfaceScalarField Mf ("Mf",Kf/fvc::interpolate(mu0));
+
 surfaceScalarField phiG("phiG",((fvc::interpolate(rho) * Mf) * g) & mesh.Sf());
 surfaceScalarField phiPc("phiPc", 0 * phiG); //- required for porousBoundaryConditions
 
@@ -94,3 +112,5 @@ volScalarField sourceTerm
     dimensionedScalar("",dimless/dimTime,0.0)
 );
 */
+
+porousMedia.update();
