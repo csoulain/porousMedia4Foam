@@ -79,6 +79,9 @@ namespace Foam
             word phreeqcInputFile_;
             word phreeqcDataBase_;
 
+            word inletPatchName_;
+
+
             //  speciesTable mineralList_;
 
             PtrList<dictionary> mineralSubDict_;
@@ -100,10 +103,16 @@ namespace Foam
 
             volScalarField pH_;
 
+            volScalarField T_;
+            Switch solveTemperature_;
+
+            volScalarField p_;
+
             PtrList<volScalarField> saturationIndex_;
 
             const word densitymodelType_;
 
+            word rhoName_;
             volScalarField rho_;
 
             PhreeqcRM  phreeqc_;
@@ -127,6 +136,10 @@ namespace Foam
             void activateSelectedOutput();
 
             void updatepH();
+
+            void updateTemperature();
+
+            void updatePressure();
 
             void updateSaturationIndex();
 

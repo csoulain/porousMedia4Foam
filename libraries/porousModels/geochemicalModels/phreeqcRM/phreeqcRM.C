@@ -74,6 +74,7 @@ nxyz_(mesh_.cells().size()),
 strangSteps_(2),
 phreeqcInputFile_( phreeqcDict_.lookup("PhreeqcInputFile") ),
 phreeqcDataBase_( phreeqcDict_.lookup("PhreeqcDataBase") ),
+inletPatchName_( phreeqcDict_.lookupOrDefault<word>("inletBoundary","inlet") ),
 mineralSubDict_( mineralList_.size() ),
 activatePhaseEquilibrium_( mineralList_.size() ),
 Vm_( mineralList_.size() ),
@@ -111,8 +112,36 @@ pH_
     dimensionedScalar("pH",dimless,0.0),
     "zeroGradient"
 ),
+T_
+(
+    IOobject
+    (
+        "T",
+        mesh_.time().timeName(),
+        mesh_,
+        IOobject::READ_IF_PRESENT,
+        IOobject::AUTO_WRITE
+    ),
+    mesh_,
+    dimensionedScalar("T",dimTemperature,293.0)
+),
+solveTemperature_(phreeqcDict_.lookupOrDefault("solveTemperature",false)),
+p_
+(
+    IOobject
+    (
+        "p",
+        mesh_.time().timeName(),
+        mesh_,
+        IOobject::READ_IF_PRESENT,
+        IOobject::AUTO_WRITE
+    ),
+    mesh_,
+    dimensionedScalar("p",dimPressure,1e5)
+),
 saturationIndex_(mineralList_.size() ),
 densitymodelType_(dict.subDict("fluidProperties").lookup("densityModel")),
+rhoName_(phreeqcDict_.lookupOrDefault<word>("rho", "rho")),
 rho_
 (
     IOobject
@@ -127,6 +156,8 @@ rho_
     dimensionedScalar("rho",dimDensity,1e3),
     "zeroGradient"
 ),
+//rho_(mesh.lookupObject<volScalarField>(rhoName_)),
+//rho_(basicGeochemicalModel.rho()),
 phreeqc_(mesh_.cells().size(), nthread_)
 
 
@@ -189,6 +220,10 @@ phreeqc_(mesh_.cells().size(), nthread_)
     status = phreeqc_.SetPorosity(por);
     // Set initial saturation
     status = phreeqc_.SetSaturation(sat);
+
+    updateTemperature();
+    updatePressure();
+
 
     Info << "OK"<< nl <<endl;
 
@@ -652,7 +687,7 @@ void Foam::geochemicalModels::phreeqcRM::initializeFluidComposition()
     Y_.resize(componentNames.size());
 
     // ----- Define boundary condition type
-    label patchInlet = mesh_.boundaryMesh().findPatchID("inlet");
+    label patchInlet = mesh_.boundaryMesh().findPatchID(inletPatchName_);
     if(patchInlet < 0)
     {
         Info << "ERROR: \"inlet\" is not defined as a boundary condition "
@@ -704,8 +739,8 @@ void Foam::geochemicalModels::phreeqcRM::initializeFluidComposition()
         Y_[s].write();
 
     }
-    updatepH();
-    pH_.write();
+//    updatepH();
+//    pH_.write();
 
     Info << "OK"<< nl <<endl;
 
@@ -807,6 +842,7 @@ void Foam::geochemicalModels::phreeqcRM::updateFluidComposition()
                     {
                         Y_[s][cellI]=c[nxyz_*s+cellI];
                     }
+                    //Y_[s].correctBoundaryConditions();
                 }
                 Info << " OK" << endl;
             //    phreeqc_.CloseFiles();
@@ -815,6 +851,8 @@ void Foam::geochemicalModels::phreeqcRM::updateFluidComposition()
 
     }
     updatepH();
+    updateTemperature();
+    updatePressure();
 }
 
 
@@ -884,6 +922,44 @@ void Foam::geochemicalModels::phreeqcRM::updatepH()
     }
 
     pH_.correctBoundaryConditions();
+}
+
+// -------------------------------------------------------------------------//
+
+void Foam::geochemicalModels::phreeqcRM::updateTemperature()
+{
+    if(solveTemperature_)
+    {
+        solve(fvm::laplacian(T_));
+
+        std::vector<double> temp_;
+        temp_.resize(nxyz_);
+    	forAll(T_,cellI)
+        {
+             temp_[cellI] = T_[cellI] - 273.15;
+        }
+
+    	status = phreeqc_.SetTemperature(temp_);
+
+    }
+
+
+}
+
+// -------------------------------------------------------------------------//
+
+void Foam::geochemicalModels::phreeqcRM::updatePressure()
+{
+    std::vector<double> pressure_;
+    pressure_.resize(nxyz_);
+
+    forAll(p_,cellI)
+    {
+        pressure_[cellI] = p_[cellI]/101325.;  // 101325 ou 1e5 ??
+//        pressure_[cellI] = p_[cellI]/1e5;  // 101325 ou 1e5 ??
+    }
+
+    status = phreeqc_.SetPressure(pressure_);
 }
 
 // -------------------------------------------------------------------------//
@@ -1022,10 +1098,21 @@ void Foam::geochemicalModels::phreeqcRM::updateDensity()
         status = phreeqc_.GetDensity(density_);
         //status = phreeqc_.SetDensity(density_);
 
+        forAll(density_,cellI)
+        {
+            Info << "density" << density_[cellI] << nl << endl;
+        }
+
         forAll(rho_,cellI)
         {
-            rho_[cellI] =  density_[cellI]*1000;
+            rho_[cellI] = 44.; // density_[cellI]*1000;
         }
+
+        forAll(rho_,cellI)
+        {
+            Info << "rho" << rho_[cellI] << nl << endl;
+        }
+
     }
     else
     {

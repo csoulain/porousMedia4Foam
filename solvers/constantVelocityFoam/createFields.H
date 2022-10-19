@@ -24,7 +24,7 @@ IOdictionary transportProperties
 (
     IOobject
     (
-        "transportProperties",
+        "physicalProperties",
         runTime.constant(),
         mesh,
         IOobject::MUST_READ_IF_MODIFIED,

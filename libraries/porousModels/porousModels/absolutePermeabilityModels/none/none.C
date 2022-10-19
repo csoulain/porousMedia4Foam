@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "fromPhreeqc.H"
+#include "none.H"
 #include "addToRunTimeSelectionTable.H"
 
 
@@ -33,45 +33,84 @@ License
 
 namespace Foam
 {
-namespace densityModels
+namespace absolutePermeabilityModels
 {
-    defineTypeNameAndDebug(fromPhreeqc, 0);
+    defineTypeNameAndDebug(none, 0);
 
     addToRunTimeSelectionTable
     (
-        densityModel,
-        fromPhreeqc,
+        absolutePermeabilityModel,
+        none,
         dictionary
     );
 }
 }
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::densityModels::fromPhreeqc::fromPhreeqc
+Foam::absolutePermeabilityModels::none::none
 (
     const fvMesh& mesh,
     const dictionary& dict
 )
 :
-    densityModel(mesh, dict)/*,
-    rho_
+    absolutePermeabilityModel(mesh, dict),
+    K_
     (
         IOobject
         (
-            "rho",
-            mesh.time().timeName(),
-            mesh,
-            IOobject::READ_IF_PRESENT,
-            IOobject::AUTO_WRITE
+          "K",
+          mesh_.time().timeName(),
+          mesh_,
+          IOobject::NO_READ,
+          IOobject::NO_WRITE
         ),
-        mesh,
-        dimensionedScalar("rho",dimDensity,1e3),
+        mesh_,
+        dimensionedScalar("K0",dimensionSet(0,2,0,0,0,0,0),1e8),
         "zeroGradient"
-    )*/
+    ),
+    invK_
+    (
+        IOobject
+        (
+          "invK",
+          mesh_.time().timeName(),
+          mesh_,
+          IOobject::NO_READ,
+          IOobject::NO_WRITE
+        ),
+        mesh_,
+        dimensionedScalar("invK0",dimensionSet(0,-2,0,0,0,0,0),0.0),
+        "zeroGradient"
+    ),
+    Kf_("Kf", fvc::interpolate(K_,"K"))
 {}
 
 // * * * * * * * * * * * * * * member functions  * * * * * * * * * * * * * * //
 
+Foam::tmp<Foam::volScalarField>
+Foam::absolutePermeabilityModels::none::absolutePermeability() const
+{
+      return K_;
+}
 
+Foam::tmp<Foam::volScalarField>
+Foam::absolutePermeabilityModels::none::inversePermeability() const
+{
+      return invK_;
+}
+
+Foam::tmp<Foam::surfaceScalarField>
+Foam::absolutePermeabilityModels::none::Kf() const
+{
+      return Kf_;
+}
+
+
+
+void Foam::absolutePermeabilityModels::none::updatePermeability()
+{
+    //do nothing
+
+}
 
 // -------------------------------------------------------------------------//

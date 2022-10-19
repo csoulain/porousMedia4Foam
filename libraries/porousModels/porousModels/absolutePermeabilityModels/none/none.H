@@ -32,45 +32,50 @@ SourceFiles
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef fromPhreeqc_H
-#define fromPhreeqc_H
+#ifndef none_H
+#define none_H
 
 #include "volFields.H"
 #include "speciesTable.H"
 //#include "basicMultiComponentMixture.H"
 //#include "runTimeSelectionTables.H"
 
-#include "densityModel.H"
+#include "absolutePermeabilityModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
 {
-namespace densityModels
+namespace absolutePermeabilityModels
 {
 /*---------------------------------------------------------------------------*\
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class fromPhreeqc : public densityModel
+class none : public absolutePermeabilityModel
 {
 
   protected:
 
     // Protected data
 
-//    volScalarField rho_;
+    volScalarField K_;
+
+    volScalarField invK_;
+
+    surfaceScalarField Kf_;
+
 
   // Private Member Functions
 
     //- Disallow copy construct
-    fromPhreeqc(const fromPhreeqc&);
+    none(const none&);
 
 
 public:
 
   //- Runtime type information
-    TypeName("fromPhreeqc");
+    TypeName("none");
 
 
   // Declare run-time constructor selection table
@@ -79,7 +84,7 @@ public:
   // Selectors
 
     //- Construct from components
-    fromPhreeqc
+    none
     (
       const fvMesh& mesh,
       const dictionary& dict
@@ -87,22 +92,24 @@ public:
 
 
     //- Destructor
-    virtual ~fromPhreeqc()
+    virtual ~none()
     {}
 
 
     // Member Functions
-    virtual tmp<volScalarField> rho() const
-    {}
+    virtual tmp<volScalarField> absolutePermeability() const;
 
-    virtual void updateDensity()
-    {}
+    virtual tmp<volScalarField> inversePermeability() const;
+
+    virtual tmp<surfaceScalarField> Kf() const;
+
+    virtual void updatePermeability();
 
 };
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-} // End namespace densityModel
+} // End namespace absolutePermeabilityModel
 } // End namespace Foam
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

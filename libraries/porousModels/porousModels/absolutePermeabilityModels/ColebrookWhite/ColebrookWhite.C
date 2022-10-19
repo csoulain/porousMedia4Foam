@@ -130,6 +130,12 @@ void Foam::absolutePermeabilityModels::ColebrookWhite::updatePermeability()
 {
     volScalarField Re ("Re", rho_*mag(U_)*2.*Rw_/mu_);
 
+    forAll(rho_,cellI)
+    {
+        Info << "rho in Colebrook" << rho_[cellI] << nl << endl;
+    }
+
+
     volScalarField f ("f", 0*Re);
 
     forAll(Re,cellID)
