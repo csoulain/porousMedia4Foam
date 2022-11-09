@@ -60,6 +60,8 @@ class densityModel
     const fvMesh& mesh_;
 //    const volScalarField &eps_;
 
+    volScalarField rho_;
+
   // Private Member Functions
 
     //- Disallow copy construct

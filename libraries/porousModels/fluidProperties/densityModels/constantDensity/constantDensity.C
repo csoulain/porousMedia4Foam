@@ -55,7 +55,7 @@ Foam::densityModels::constantDensity::constantDensity
 :
     densityModel(mesh, dict),
     constantDensityDict_(dict.subDict(typeName+"Coeffs")),
-    rho0_(constantDensityDict_.lookup("rho0")),
+    rho0_(constantDensityDict_.lookup("rho0"))/*,
     rho_
     (
         IOobject
@@ -69,14 +69,18 @@ Foam::densityModels::constantDensity::constantDensity
         mesh_,
         rho0_,
         "zeroGradient"
-    )
-{}
+    )*/
+{
+    rho_ = oneField()*rho0_;
+//    rho_.correctBoundaryConditions();
+}
 
 // * * * * * * * * * * * * * * member functions  * * * * * * * * * * * * * * //
 
 Foam::tmp<Foam::volScalarField>
 Foam::densityModels::constantDensity::rho() const
 {
+//    Info << "fonction rho() de constantDensity1" << nl <<endl;
       return rho_;
 }
 

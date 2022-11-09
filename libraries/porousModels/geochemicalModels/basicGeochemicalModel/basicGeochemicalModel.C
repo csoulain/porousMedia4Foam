@@ -42,9 +42,11 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
     const dictionary& dict
 )
 :
+      fluidProperties(mesh,dict),
       mesh_(mesh),
       geochemicalModelDict_(dict.subDict("geochemicalProperties")),
       fluidPropertiesDict_(dict.subDict("fluidProperties")),
+//      fluidProperties_(mesh,dict),
       mineralList_(geochemicalModelDict_.lookup("mineral")),
       Ys_(mineralList_.size() ),
       inertMineral_
@@ -105,6 +107,7 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
           "zeroGradient"
       ),
       porousMedia_(mineralList_.size()),
+      /*
       densityModelPtr_
       (
           densityModel::New(mesh, fluidPropertiesDict_)
@@ -113,6 +116,7 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
       (
           viscosityModel::New(mesh, fluidPropertiesDict_)
       ),
+      */
       absolutePermeabilityModelPtr_
       (
           absolutePermeabilityModel::New(mesh, geochemicalModelDict_)

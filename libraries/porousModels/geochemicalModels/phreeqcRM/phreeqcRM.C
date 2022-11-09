@@ -142,7 +142,7 @@ p_
 saturationIndex_(mineralList_.size() ),
 densitymodelType_(dict.subDict("fluidProperties").lookup("densityModel")),
 rhoName_(phreeqcDict_.lookupOrDefault<word>("rho", "rho")),
-rho_
+rhoPhreeqc_
 (
     IOobject
     (
@@ -853,6 +853,7 @@ void Foam::geochemicalModels::phreeqcRM::updateFluidComposition()
     updatepH();
     updateTemperature();
     updatePressure();
+//    updateDensity();
 }
 
 
@@ -1071,13 +1072,17 @@ void Foam::geochemicalModels::phreeqcRM::activateSelectedOutput()
 }
 
 // -------------------------------------------------------------------------//
-
+// pas sur que cette fonction soit utile....
 Foam::tmp<Foam::volScalarField>
 Foam::geochemicalModels::phreeqcRM::rho() const
 {
+//    Info << "fonction rho() de phreeqcRM" << nl <<endl;
+
     if(densitymodelType_ == "fromPhreeqc")
     {
-        return rho_;
+//        Info << "ICI OK" << nl << endl;
+
+        return rhoPhreeqc_;
     }
     else
     {
@@ -1090,33 +1095,41 @@ Foam::geochemicalModels::phreeqcRM::rho() const
 void Foam::geochemicalModels::phreeqcRM::updateDensity()
 {
 
+//    Info << "LA OK" << nl << endl;
+
+
     if(densitymodelType_ == "fromPhreeqc")
     {
+//        Info << "LA OK" << nl << endl;
 
         std::vector<double> density_;
 
         status = phreeqc_.GetDensity(density_);
-        //status = phreeqc_.SetDensity(density_);
-
+//        status = phreeqc_.SetDensity(density_);
+/*
         forAll(density_,cellI)
         {
             Info << "density" << density_[cellI] << nl << endl;
         }
-
-        forAll(rho_,cellI)
+*/
+        forAll(rhoPhreeqc_,cellI)
         {
-            rho_[cellI] = 44.; // density_[cellI]*1000;
+            rhoPhreeqc_[cellI] = density_[cellI]*1000;
         }
-
+        rho_ = rhoPhreeqc_;
+/*
         forAll(rho_,cellI)
         {
             Info << "rho" << rho_[cellI] << nl << endl;
         }
-
+*/
     }
     else
     {
+    //    this->updateDensity();
         Foam::basicGeochemicalModel::updateDensity();
+//        Foam::densityModel::updateDensity();
+
     }
 
 }

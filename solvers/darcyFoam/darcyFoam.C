@@ -52,6 +52,9 @@ int main(int argc, char *argv[])
     #include "createFields.H"
 //    #include "readEvent.H"
 
+Info<< "init OK " << nl << endl; //
+
+
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     Info<< "\nStarting time loop\n" << endl;
@@ -65,8 +68,10 @@ int main(int argc, char *argv[])
 
         porousMedia.update();
 
+        Info<< "update OK " << nl << endl; //
 
         Mf = Kf / mu;
+
 
         phiG = ((fvc::interpolate(rho) * Mf) * g) & mesh.Sf();
 

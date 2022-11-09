@@ -58,7 +58,7 @@ Foam::densityModels::boussinesq::boussinesq
     rho0_(boussinesqDict_.lookup("rho0")),
     beta_(boussinesqDict_.lookup("beta")),
     T0_(boussinesqDict_.lookup("T0")),
-    TName_(boussinesqDict_.lookupOrDefault<word>("T", "T")),
+    TName_(boussinesqDict_.lookupOrDefault<word>("T", "T"))/*,
     rho_
     (
         IOobject
@@ -72,7 +72,7 @@ Foam::densityModels::boussinesq::boussinesq
         mesh_,
         rho0_,
         "zeroGradient"
-    )
+    )*/
 {}
 
 // * * * * * * * * * * * * * * member functions  * * * * * * * * * * * * * * //

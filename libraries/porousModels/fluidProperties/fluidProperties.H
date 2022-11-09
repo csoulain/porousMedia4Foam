@@ -78,6 +78,7 @@ class fluidProperties
 
 //    autoPtr<surfaceAreaModel> surfaceAreaModelPtr_;
 
+    volScalarField rho_;
 
   // Private Member Functions
 
@@ -105,7 +106,7 @@ class fluidProperties
     );
 */
     //- Destructor
-    ~fluidProperties()
+    virtual ~fluidProperties()
     {}
 
 
@@ -117,15 +118,20 @@ class fluidProperties
     //- Return the composition of the multi-component mixture
 //    virtual const basicMultiComponentMixture& composition() const = 0;
 
-    tmp<volScalarField> rho() const
+    virtual tmp<volScalarField> rho() const
     {
+//        Info << "fonction rho() de fluidProperties" << nl <<endl;
+
         return densityModelPtr_->rho();
     }
 
-    void updateDensity()
+    virtual void updateDensity()
     {
+//         Info << "dans fluidProperties" << nl << endl;
+
+         rho_=densityModelPtr_->rho();
+
           densityModelPtr_->updateDensity();
-//        return absolutePermeabilityModelPtr_->updatePermeability();
     }
 
     tmp<volScalarField> nu() const

@@ -39,8 +39,10 @@ SourceFiles
 #include "speciesTable.H"
 //#include "basicMultiComponentMixture.H"
 //#include "runTimeSelectionTables.H"
-
 #include "densityModel.H"
+#include "phreeqcRM.H"
+//#include "basicGeochemicalModel.H"
+
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -59,7 +61,6 @@ class fromPhreeqc : public densityModel
 
     // Protected data
 
-//    volScalarField rho_;
 
   // Private Member Functions
 
@@ -93,10 +94,14 @@ public:
 
     // Member Functions
     virtual tmp<volScalarField> rho() const
-    {}
+    {
+        return rho_;
+    }
 
     virtual void updateDensity()
-    {}
+    {
+//        Info << "dans fromPhreeqc" << nl << endl;
+    }
 
 };
 

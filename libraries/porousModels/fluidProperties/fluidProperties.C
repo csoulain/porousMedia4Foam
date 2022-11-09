@@ -47,8 +47,25 @@ Foam::fluidProperties::fluidProperties
         viscosityModelPtr_
         (
             viscosityModel::New(mesh, fluidDict_)
+        ),
+        rho_
+        (
+            IOobject
+            (
+              "rho",
+              mesh_.time().timeName(),
+              mesh_,
+              IOobject::READ_IF_PRESENT,
+              IOobject::AUTO_WRITE
+            ),
+            mesh_,
+            dimensionedScalar("rho",dimensionSet(1,-3,0,0,0),1001.),
+            "zeroGradient"
+            //densityModelPtr_->rho()
         )
-{}
+{
+    densityModelPtr_->updateDensity();
+}
 
 /*
 Foam::fluidProperties::fluidProperties

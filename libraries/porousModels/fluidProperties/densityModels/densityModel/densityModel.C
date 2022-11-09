@@ -42,7 +42,21 @@ Foam::densityModel::densityModel
     const dictionary& dict
 )
 :
-      mesh_(mesh)
+      mesh_(mesh),
+      rho_
+      (
+          IOobject
+          (
+            "rho00",
+            mesh_.time().timeName(),
+            mesh_,
+            IOobject::READ_IF_PRESENT,
+            IOobject::NO_WRITE
+          ),
+          mesh_,
+          dimensionedScalar("rho",dimensionSet(1,-3,0,0,0),1000.),
+          "zeroGradient"
+      )
 {}
 
 // -------------------------------------------------------------------------//

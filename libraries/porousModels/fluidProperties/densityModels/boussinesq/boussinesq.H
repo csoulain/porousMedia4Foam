@@ -69,7 +69,7 @@ class boussinesq : public densityModel
 
     word TName_;
 
-    volScalarField rho_;
+//    volScalarField rho_;
 
   // Private Member Functions
 

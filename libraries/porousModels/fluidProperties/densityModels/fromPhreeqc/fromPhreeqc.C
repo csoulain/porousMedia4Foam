@@ -53,21 +53,7 @@ Foam::densityModels::fromPhreeqc::fromPhreeqc
     const dictionary& dict
 )
 :
-    densityModel(mesh, dict)/*,
-    rho_
-    (
-        IOobject
-        (
-            "rho",
-            mesh.time().timeName(),
-            mesh,
-            IOobject::READ_IF_PRESENT,
-            IOobject::AUTO_WRITE
-        ),
-        mesh,
-        dimensionedScalar("rho",dimDensity,1e3),
-        "zeroGradient"
-    )*/
+    densityModel(mesh, dict)
 {}
 
 // * * * * * * * * * * * * * * member functions  * * * * * * * * * * * * * * //

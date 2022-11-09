@@ -56,7 +56,7 @@ namespace Foam
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class basicGeochemicalModel
+class basicGeochemicalModel : public fluidProperties
 {
 
 
@@ -69,6 +69,9 @@ class basicGeochemicalModel
     dictionary geochemicalModelDict_;
 
     dictionary fluidPropertiesDict_;
+
+    //fluidProperties fluidProperties_;
+
 
     speciesTable mineralList_;
 
@@ -88,9 +91,9 @@ class basicGeochemicalModel
 
     PtrList<porousModel> porousMedia_;
 
-    autoPtr<densityModel> densityModelPtr_;
+//    autoPtr<densityModel> densityModelPtr_;
 
-    autoPtr<viscosityModel> viscosityModelPtr_;
+//    autoPtr<viscosityModel> viscosityModelPtr_;
 
     autoPtr<absolutePermeabilityModel> absolutePermeabilityModelPtr_;
 
@@ -203,39 +206,43 @@ class basicGeochemicalModel
     {
         dispersionTensorModelPtr_->updateDispersionTensor();
     }
-
-
+/*
     virtual tmp<volScalarField> rho() const
     {
-        return densityModelPtr_->rho();
+        return fluidProperties.rho();
     }
 
     virtual void updateDensity()
     {
-        densityModelPtr_->updateDensity();
-    }
+        this->updateDensity();
 
-    tmp<volScalarField> dMinvdRho() const
-    {
-        return dMinvdRho_;
     }
+    */
+/*
 
     virtual tmp<volScalarField> nu() const
     {
-        return viscosityModelPtr_->nu();
+//        return viscosityModelPtr_->nu();
+        return fluidProperties_.nu();
     }
 
     virtual void updateViscosity()
     {
-        viscosityModelPtr_->updateViscosity();
+//        viscosityModelPtr_->updateViscosity();
+        fluidProperties_.updateViscosity();
     }
-
+*/
 /*
     const viscosityModel & viscosity()
     {
         return viscosityModelPtr_();
     }
 */
+
+    tmp<volScalarField> dMinvdRho() const
+    {
+        return dMinvdRho_;
+    }
 
     virtual void updatedMinvdRho();
 

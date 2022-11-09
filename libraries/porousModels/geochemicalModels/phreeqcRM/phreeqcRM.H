@@ -113,7 +113,7 @@ namespace Foam
             const word densitymodelType_;
 
             word rhoName_;
-            volScalarField rho_;
+            volScalarField rhoPhreeqc_;
 
             PhreeqcRM  phreeqc_;
 

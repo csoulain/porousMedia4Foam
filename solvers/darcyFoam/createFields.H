@@ -77,6 +77,7 @@ volScalarField mu0
 geochemicalModel porousMedia(mesh,transportProperties);
 
 
+Info << "Reading field rho\n" << endl;
 const volScalarField& rho = porousMedia.rho();
 
 
@@ -92,7 +93,6 @@ surfaceScalarField Mf ("Mf",Kf/mu);
 
 surfaceScalarField phiG("phiG",((fvc::interpolate(rho) * Mf) * g) & mesh.Sf());
 surfaceScalarField phiPc("phiPc", 0 * phiG); //- required for porousBoundaryConditions
-
 
 const volScalarField& sourceTerm = porousMedia.dMinvdRho();
 //- For constant or event source injection/extraction

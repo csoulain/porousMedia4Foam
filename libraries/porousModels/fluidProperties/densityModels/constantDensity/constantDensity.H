@@ -63,7 +63,7 @@ class constantDensity : public densityModel
 
     dimensionedScalar rho0_;
 
-    volScalarField rho_;
+//    volScalarField rho_;
 
   // Private Member Functions
 
