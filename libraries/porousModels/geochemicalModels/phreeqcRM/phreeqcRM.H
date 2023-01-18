@@ -68,6 +68,8 @@ namespace Foam
 
             Switch activateUpdatePorosity_ ;
 
+            Switch useSolutionDensityVolume_;
+
             Switch setComponentH2O_ ;
 
             scalar numThreads_; // for openmp. Default 1.
@@ -103,6 +105,9 @@ namespace Foam
 
             volScalarField pH_;
 
+            volScalarField water_;
+
+
             volScalarField T_;
             Switch solveTemperature_;
 
@@ -137,6 +142,8 @@ namespace Foam
 
             void updatepH();
 
+            void water();
+            
             void updateTemperature();
 
             void updatePressure();

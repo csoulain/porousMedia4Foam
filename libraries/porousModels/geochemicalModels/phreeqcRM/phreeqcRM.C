@@ -63,6 +63,7 @@ basicGeochemicalModel(mesh, dict),
 geochemicalModelDict_(dict.subDict("geochemicalProperties")),
 phreeqcDict_(geochemicalModelDict_.subDict(typeName)),
 activateUpdatePorosity_(phreeqcDict_.lookup("activateUpdatePorosity")),
+useSolutionDensityVolume_( phreeqcDict_.lookupOrDefault("useSolutionDensityVolume",false)),
 setComponentH2O_
 (
     phreeqcDict_.lookupOrDefault<Switch>("setComponentH2O", false)
@@ -110,6 +111,20 @@ pH_
     ),
     mesh_,
     dimensionedScalar("pH",dimless,0.0),
+    "zeroGradient"
+),
+water_
+(
+    IOobject
+    (
+        "water",
+        mesh_.time().timeName(),
+        mesh_,
+        IOobject::READ_IF_PRESENT,
+        IOobject::AUTO_WRITE
+    ),
+    mesh_,
+    dimensionedScalar("water",dimMass/dimVolume,1.),
     "zeroGradient"
 ),
 T_
@@ -201,28 +216,41 @@ phreeqc_(mesh_.cells().size(), nthread_)
     status = phreeqc_.SetUnitsKinetics(1);           // 0, mol/L cell; 1, mol/L water; 2 mol/L rock
     Info << "OK"<< nl <<endl;
 
-    Info << "Set volume, initial porosity and saturation... ";
-    std::vector<double> rv,por,sat;
-    rv.resize(nxyz_, 1.0); // 1.0=1 L
-    por.resize(nxyz_, 0);
-    sat.resize(nxyz_, 1.0);
-
-    forAll(eps_,cellI)
-    {
-        por[cellI]=eps_[cellI];
-        //		rv[cellI]=mesh.V()[cellI]*1e3;
-        //		sat[cellI]=alpha[cellI];
-    }
-
-    // Set representative volume
-    status = phreeqc_.SetRepresentativeVolume(rv);
-    // Set initial porosity
-    status = phreeqc_.SetPorosity(por);
-    // Set initial saturation
-    status = phreeqc_.SetSaturation(sat);
 
     updateTemperature();
     updatePressure();
+    //updateDensity();
+
+    if(useSolutionDensityVolume_)
+    {
+        std::vector<double> initial_density;
+        initial_density.resize(nxyz_, 1.1);
+        phreeqc_.SetDensity(initial_density);
+    }
+    else
+    {
+        Info << "Set volume, initial porosity and saturation... ";
+        std::vector<double> rv,por,sat;
+        rv.resize(nxyz_, 1.0); // 1.0=1 L
+        por.resize(nxyz_, 0);
+        sat.resize(nxyz_, 1.0);
+
+        forAll(eps_,cellI)
+        {
+            por[cellI]=eps_[cellI];
+            //		rv[cellI]=mesh.V()[cellI]*1e3;
+            //		sat[cellI]=alpha[cellI];
+        }
+
+        // Set representative volume
+        status = phreeqc_.SetRepresentativeVolume(rv);
+        // Set initial porosity
+        status = phreeqc_.SetPorosity(por);
+        // Set initial saturation
+        status = phreeqc_.SetSaturation(sat);
+    }
+
+
 
 
     Info << "OK"<< nl <<endl;
@@ -669,6 +697,12 @@ void Foam::geochemicalModels::phreeqcRM::initializeFluidComposition()
     phreeqc_.InitialPhreeqc2Concentrations(bc_conc,bc1);
     Info << "OK"<<nl<<endl;
 
+
+    for (int i=0; i<=bc_conc.size(); i++)
+    {
+        Info << "bc_conc["<<i<<"] = " << bc_conc[i]<<endl;
+    }
+
     // -------------------------------------------------------------------------//
     // Transfer to OpenFOAM
 
@@ -853,7 +887,8 @@ void Foam::geochemicalModels::phreeqcRM::updateFluidComposition()
     updatepH();
     updateTemperature();
     updatePressure();
-//    updateDensity();
+    updateDensity();
+    water();
 }
 
 
@@ -923,6 +958,24 @@ void Foam::geochemicalModels::phreeqcRM::updatepH()
     }
 
     pH_.correctBoundaryConditions();
+}
+
+// -------------------------------------------------------------------------//
+
+void Foam::geochemicalModels::phreeqcRM::water()
+{
+    int n_user = 3;
+
+    status = phreeqc_.SetCurrentSelectedOutputUserNumber(n_user);
+    std::vector<double> so;
+    status = phreeqc_.GetSelectedOutput(so);
+
+    for (int i = 0; i < phreeqc_.GetSelectedOutputRowCount(); i++)
+    {
+        water_[i] = so[0.*nxyz_ + i];
+    }
+
+    water_.correctBoundaryConditions();
 }
 
 // -------------------------------------------------------------------------//
@@ -1043,7 +1096,7 @@ void Foam::geochemicalModels::phreeqcRM::activateSelectedOutput()
     status = phreeqc_.RunString(true, true, true, input.c_str());
 
 
-    // to ouput solution mass value
+    // to ouput water mass value
     input =
     " SELECTED_OUTPUT 3; \
     -reset       false; \
