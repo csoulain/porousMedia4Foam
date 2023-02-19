@@ -78,6 +78,7 @@ phreeqcDataBase_( phreeqcDict_.lookup("PhreeqcDataBase") ),
 inletPatchName_( phreeqcDict_.lookupOrDefault<word>("inletBoundary","inlet") ),
 mineralSubDict_( mineralList_.size() ),
 activatePhaseEquilibrium_( mineralList_.size() ),
+activateKinetics_( mineralList_.size() ),
 Vm_( mineralList_.size() ),
 linkDomainZonesToPhreeqcSol_
 (
@@ -141,6 +142,9 @@ T_
     dimensionedScalar("T",dimTemperature,293.0)
 ),
 solveTemperature_(phreeqcDict_.lookupOrDefault("solveTemperature",false)),
+pName_(phreeqcDict_.lookupOrDefault<word>("p", "p")),
+p_(mesh.lookupObject<volScalarField>(pName_)),
+/*
 p_
 (
     IOobject
@@ -154,6 +158,7 @@ p_
     mesh_,
     dimensionedScalar("p",dimPressure,1e5)
 ),
+*/
 saturationIndex_(mineralList_.size() ),
 densitymodelType_(dict.subDict("fluidProperties").lookup("densityModel")),
 rhoName_(phreeqcDict_.lookupOrDefault<word>("rho", "rho")),
@@ -201,7 +206,10 @@ phreeqc_(mesh_.cells().size(), nthread_)
     status = phreeqc_.SetComponentH2O(setComponentH2O_);
     status = phreeqc_.SetRebalanceFraction(0.5);
     status = phreeqc_.SetRebalanceByCell(true);
-    phreeqc_.UseSolutionDensityVolume(false);
+//    phreeqc_.UseSolutionDensityVolume(true);
+    phreeqc_.UseSolutionDensityVolume(useSolutionDensityVolume_);
+//    phreeqc_.UseSolutionDensityVolume(true);
+
     phreeqc_.SetPartitionUZSolids(false);
     Info << "OK"<< nl <<endl;
 
@@ -216,16 +224,20 @@ phreeqc_(mesh_.cells().size(), nthread_)
     status = phreeqc_.SetUnitsKinetics(1);           // 0, mol/L cell; 1, mol/L water; 2 mol/L rock
     Info << "OK"<< nl <<endl;
 
-
+    Info << "set Temperature ...";
     updateTemperature();
+        Info << "OK" << nl <<endl;
+    Info << "set Pressure ...";
     updatePressure();
+    Info << "OK" << nl <<endl;
     //updateDensity();
 
     if(useSolutionDensityVolume_)
     {
         std::vector<double> initial_density;
-        initial_density.resize(nxyz_, 1.1);
+        initial_density.resize(nxyz_, 1.0);
         phreeqc_.SetDensity(initial_density);
+        Info << "ICI" << nl << endl;
     }
     else
     {
@@ -249,8 +261,6 @@ phreeqc_(mesh_.cells().size(), nthread_)
         // Set initial saturation
         status = phreeqc_.SetSaturation(sat);
     }
-
-
 
 
     Info << "OK"<< nl <<endl;
@@ -379,6 +389,7 @@ std::string Foam::geochemicalModels::phreeqcRM::generateKineticsInputString()
         forAll(mineralList_,s)
         {
             if(activatePhaseEquilibrium_[s] == false)
+//            if(activateKinetics_[s] == true)
             {
                 double mineralMoleI
                 = Ys_[s][i]/Vm_[s].value()*1e-3/(eps_[i]+VSMALL);
@@ -476,7 +487,7 @@ void Foam::geochemicalModels::phreeqcRM::updateKineticsParameters()
                 {
                     AeMi = Ae_[i];
                 }
-                /*Saideep: to curtail add. precip. at low porosity*/
+                //Saideep: to curtail add. precip. at low porosity
                 // CS: should not be there. Should be moved to surfaceAreaModel
 
                 std::ostringstream strs_AeMi;
@@ -488,6 +499,7 @@ void Foam::geochemicalModels::phreeqcRM::updateKineticsParameters()
                 ;
             }
             //              input += " END; \n";
+
         }
 
         input += " END; \n";
@@ -698,11 +710,40 @@ void Foam::geochemicalModels::phreeqcRM::initializeFluidComposition()
     Info << "OK"<<nl<<endl;
 
 
+/*
+    std::vector<double> volume_;
+
+    volume_ = phreeqc_.GetSolutionVolume();
+    for (int i=0; i<=volume_.size(); i++)
+    {
+        Info << "volume["<<i<<"] = " << volume_[i] << " in  " <<endl;
+    }
+    Info << "OK"<<nl<<endl;
+
     for (int i=0; i<=bc_conc.size(); i++)
     {
-        Info << "bc_conc["<<i<<"] = " << bc_conc[i]<<endl;
+        Info << "bc_conc["<<i<<"] = " << bc_conc[i] << " in mol/L" <<endl;
     }
+    Info << "OK"<<nl<<endl;
 
+    for (int i=0; i<=c.size(); i++)
+    {
+        Info << "c["<<i<<"] = " <<c[i] << " in mol/L" <<endl;
+    }
+    Info << "OK"<<nl<<endl;
+
+
+
+    Info << "\n units = " << phreeqc_.GetUnitsSolution() << nl <<endl;
+    std::vector<double> density_;
+
+    status = phreeqc_.GetDensity(density_);
+
+    for (int i=0; i<=bc_conc.size(); i++)
+    {
+        Info << "density_["<<i<<"] = " << density_[i] <<endl;
+    }
+*/
     // -------------------------------------------------------------------------//
     // Transfer to OpenFOAM
 
@@ -887,7 +928,7 @@ void Foam::geochemicalModels::phreeqcRM::updateFluidComposition()
     updatepH();
     updateTemperature();
     updatePressure();
-    updateDensity();
+//    updateDensity();
     water();
 }
 
@@ -991,6 +1032,8 @@ void Foam::geochemicalModels::phreeqcRM::updateTemperature()
     	forAll(T_,cellI)
         {
              temp_[cellI] = T_[cellI] - 273.15;
+  //           Info << "T["<< cellI <<"] = " << T_[cellI] <<endl;
+
         }
 
     	status = phreeqc_.SetTemperature(temp_);
@@ -1011,6 +1054,7 @@ void Foam::geochemicalModels::phreeqcRM::updatePressure()
     {
         pressure_[cellI] = p_[cellI]/101325.;  // 101325 ou 1e5 ??
 //        pressure_[cellI] = p_[cellI]/1e5;  // 101325 ou 1e5 ??
+//        Info << "p["<< cellI <<"] = " << p_[cellI] <<endl;
     }
 
     status = phreeqc_.SetPressure(pressure_);
@@ -1057,7 +1101,7 @@ void Foam::geochemicalModels::phreeqcRM::activateSelectedOutput()
     -reset 		false; \
     -pH       true;  \
     END";
-    status = phreeqc_.RunString(true, true, true, input.c_str());
+    status = phreeqc_.RunString(true, false, true, input.c_str());
 
     // to ouput the minerals distribution with equilibrium phases
     input =

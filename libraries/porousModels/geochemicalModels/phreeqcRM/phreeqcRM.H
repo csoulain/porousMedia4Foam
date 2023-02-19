@@ -90,6 +90,8 @@ namespace Foam
 
             PtrList<Switch> activatePhaseEquilibrium_ ;
 
+            PtrList<Switch> activateKinetics_ ;
+
             PtrList<dimensionedScalar> Vm_;
 
             volScalarField linkDomainZonesToPhreeqcSol_;
@@ -111,7 +113,9 @@ namespace Foam
             volScalarField T_;
             Switch solveTemperature_;
 
-            volScalarField p_;
+            word pName_;
+            const volScalarField & p_;
+//            volScalarField p_;
 
             PtrList<volScalarField> saturationIndex_;
 
@@ -143,7 +147,7 @@ namespace Foam
             void updatepH();
 
             void water();
-            
+
             void updateTemperature();
 
             void updatePressure();

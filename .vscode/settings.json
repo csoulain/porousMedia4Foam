@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "MonodGrowth.C": "cpp",
+        "phreeqcRM.C": "cpp",
+        "simpleFirstOrderKineticMole.C": "cpp"
+    }
+}
