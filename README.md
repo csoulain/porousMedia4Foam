@@ -29,7 +29,7 @@ toolbox developed and maintained by Pierre Horgue.
 
 * Install
 
-- This toolbox has been tested on OpenFOAM v7 only
+- This toolbox has been tested on OpenFOAM v11 only (use the v11legacy branch)
 
 - It only needs a standard OpenFOAM installation from www.openfoam.org
 
