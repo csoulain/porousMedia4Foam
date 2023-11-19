@@ -2,6 +2,13 @@
     "files.associations": {
         "MonodGrowth.C": "cpp",
         "phreeqcRM.C": "cpp",
-        "simpleFirstOrderKineticMole.C": "cpp"
+        "simpleFirstOrderKineticMole.C": "cpp",
+        "darcyFoam.C": "cpp",
+        "constantVelocityFoam.C": "cpp",
+        "impesFoam.C": "cpp",
+        "dbsFoam.C": "cpp",
+        "PDRFoam.C": "cpp",
+        "ostream": "cpp",
+        "KozenyCarman.C": "cpp"
     }
 }

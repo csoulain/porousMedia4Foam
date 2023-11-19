@@ -1,6 +1,22 @@
 //word phaseName("");
 //if (args.optionFound("phase")) phaseName = args.option("phase");
 
+Info << nl << "Reading field p\n" << endl;
+volScalarField p
+(
+    IOobject
+    (
+        "p",
+        runTime.timeName(),
+        mesh,
+        IOobject::READ_IF_PRESENT,
+        IOobject::NO_WRITE
+    ),
+    mesh,
+    dimensionedScalar("p",dimPressure,1e5)
+);
+
+
 Info << nl << "Reading field U\n" << endl;
 volVectorField U
 (

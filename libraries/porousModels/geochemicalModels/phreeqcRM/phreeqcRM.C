@@ -949,7 +949,7 @@ void Foam::geochemicalModels::phreeqcRM::updateMineralDistribution()
         {
             forAll(mineralList_,s)
             {
-                Ys_[s].storeOldTime();
+                Ys_[s].storeOldTimes();
                 if(activatePhaseEquilibrium_[s] == true)
                 {
                     Ys_[s][i] = so[2*s*nxyz_ + i]*Vm_[s].value()*1e3;

@@ -1,8 +1,0 @@
-
-blockMesh > log.blockMesh
-
-
-setFields > log.setFields
-
-
-dbsFoam > log.dbsFoam

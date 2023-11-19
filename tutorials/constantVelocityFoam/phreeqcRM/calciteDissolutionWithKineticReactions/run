@@ -1,8 +1,0 @@
-blockMesh > log.blockMesh
-
-constantVelocityFoam > log.constantVelocityFoam
-
-postProcess -func graphCell  > log.postProcess
-
-
-gnuplot plot.gp

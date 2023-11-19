@@ -1,6 +1,0 @@
-rm -r postProcessing constant/polyMesh
-
-foamListTimes -rm
-
-
-rm log.* *.eps

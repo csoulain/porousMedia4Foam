@@ -1,26 +1,21 @@
-// Solve the Momentum equation
+    fvVectorMatrix UEqn
+    (
+        1./(eps+SMALL)*(fvm::ddt(U) + fvm::div(phi, U))
+    //  - fvm::laplacian(turbulence->nu()/(eps+SMALL),U, "laplacian(nu,U)")
+    //  + fvm::Sp(turbulence->nu()*invK,U)
+    - fvm::laplacian(nu/(eps+SMALL),U, "laplacian(nu,U)")
+    + fvm::Sp(nu*invK,U)
+    ==
+        fvModels.source(U)
+    );
 
-MRF.correctBoundaryVelocity(U);
+    UEqn.relax();
 
-tmp<fvVectorMatrix> tUEqn
-(
-    1./(eps+SMALL)*(fvm::ddt(U) + fvm::div(phi, U))
-//  - fvm::laplacian(turbulence->nu()/(eps+SMALL),U, "laplacian(nu,U)")
-//  + fvm::Sp(turbulence->nu()*invK,U)
-  - fvm::laplacian(nu/(eps+SMALL),U, "laplacian(nu,U)")
-  + fvm::Sp(nu*invK,U)
- ==
-    fvModels.source(U)
-);
-fvVectorMatrix& UEqn = tUEqn.ref();
+    fvConstraints.constrain(UEqn);
 
-UEqn.relax();
+    if (pimple.momentumPredictor())
+    {
+        solve(UEqn == -fvc::grad(p));
 
-fvConstraints.constrain(UEqn);
-
-if (pimple.momentumPredictor())
-{
-    solve(UEqn == -fvc::grad(p));
-
-    fvConstraints.constrain(U);
-}
+        fvConstraints.constrain(U);
+    }

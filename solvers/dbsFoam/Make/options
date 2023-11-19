@@ -1,18 +1,27 @@
 EXE_INC = \
-    -I$(LIB_SRC)/finiteVolume/lnInclude \
-    -I$(LIB_SRC)/sampling/lnInclude \
-    -I$(LIB_SRC)/meshTools/lnInclude \
+    -I$(LIB_SRC)/physicalProperties/lnInclude \
     -I$(LIB_SRC)/thermophysicalModels/specie/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/basic/lnInclude \
+    -I$(LIB_SRC)/MomentumTransportModels/momentumTransportModels/lnInclude \
+    -I$(LIB_SRC)/MomentumTransportModels/compressible/lnInclude \
+    -I$(LIB_SRC)/ThermophysicalTransportModels/thermophysicalTransportModel/lnInclude \
+    -I$(LIB_SRC)/ThermophysicalTransportModels/fluid/lnInclude \
+    -I$(LIB_SRC)/ThermophysicalTransportModels/fluidThermo/lnInclude \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/meshTools/lnInclude \
+    -I$(LIB_SRC)/triSurface/lnInclude \
     -I../../libraries/porousModels/lnInclude \
     -I../../libraries/otherModels/lnInclude \
     -I../../ThirdParty/phreeqcrm/include \
 
 EXE_LIBS = \
+    -lmeshTools \
+    -lspecie \
+    -lmomentumTransportModels \
+    -lcompressibleMomentumTransportModels \
     -lfiniteVolume \
     -lfvModels \
     -lfvConstraints \
-    -lsampling \
-    -lmeshTools \
     -lspecie \
     -L$(FOAM_USER_LIBBIN) \
     -lporousModels \

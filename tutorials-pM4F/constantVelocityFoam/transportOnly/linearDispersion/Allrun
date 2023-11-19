@@ -1,0 +1,23 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+application=$(getApplication)
+
+runApplication blockMesh
+
+runApplication $application
+
+runApplication postProcess -func "probes(points=((10 0 0)), fields=(Ci))"
+
+## postProcess -func "boundaryProbes(points=((10 0 0)),maxDistance=1e-3 fields=(Ci))"
+
+runApplication gnuplot plot.gp
+
+runApplication evince *.eps
+
+
+
+#------------------------------------------------------------------------------

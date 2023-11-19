@@ -40,7 +40,7 @@ Developers
 
 \*---------------------------------------------------------------------------*/
 
-#include "fvCFD.H"
+#include "argList.H"
 #include "harmonic.H"
 #include "incompressiblePhase.H"
 #include "unsaturatedPorousModel.H"
@@ -51,8 +51,22 @@ Developers
 //#include "patchEventFile.H"
 //#include "eventInfiltration.H"
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+#include "uniformDimensionedFields.H"
+
+#include "fvcSnGrad.H"
+#include "fvcFlux.H"
+#include "fvcSurfaceIntegrate.H"
+#include "fvcReconstruct.H"
+
+#include "fvmDdt.H"
+//#include "fvmDiv.H"
+#include "fvmLaplacian.H"
+
+#include "fixedValueFvPatchField.H"
+
 using namespace Foam;
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 int main(int argc, char *argv[])
 {
@@ -92,7 +106,7 @@ int main(int argc, char *argv[])
 
   //      #include "eventWrite.H"
 
-        if(runTime.outputTime())
+        if(runTime.writeTime())
         {
           runTime.write();
         }

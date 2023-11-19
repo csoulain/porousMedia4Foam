@@ -1,0 +1,91 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.2                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      transportProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// unit : length = m ; mole = mol ; time = s ; weight = kg
+
+
+fluidProperties
+{
+	densityModel constantDensity;
+
+	constantDensityCoeffs
+	{
+		rho0         rho0   [ 1 -3 0 0 0 0 0 ] 1000;
+	}
+
+	viscosityModel constantViscosity;
+
+	constantViscosityCoeffs
+	{
+		nu0         nu0   [ 0 2 -1 0 0 0 0 ] 1e-6;
+	}
+
+
+}
+
+
+transportModel  Newtonian;
+//mu             mu  [ 1 -1 -1 0 0 0 0 ] 1e-3;
+//nu 		nu [ 0 2 -1 0 0 0 0 ] 1e-6;
+
+
+geochemicalModel simpleFirstOrderKineticMole;
+
+
+
+geochemicalProperties
+{
+
+	mineral (Calcite);
+
+	CalciteProperties
+	{
+
+		surfaceAreaModel volumeOfSolid;
+
+		Vm     Vm   [ 0 3 0 0 -1 0 0 ] 36.9e-6;		// 36.9 cm3/mol
+		ki     ki   [0 -2 -1 0 1 0 0] -8.9e-1; 		//
+
+		Acti   Acti [0 3 0 0 -1 0 0] 1e-3;
+		//M      M    [1 0 0 0 -1 0 0] 1e-1;
+		rhos   rhos [ 1 -3 0 0 0 0 0 ] 2710;
+	}
+
+
+
+	absolutePermeabilityModel KozenyCarman;
+	KozenyCarmanCoeffs
+	{
+		K0              K0 [ 0 2 0 0 0 0 0 ] 1e-11;
+		updateFromInitialValue on;
+	}
+
+	dispersionModel archiesLaw;
+	archiesLawCoeffs
+	{
+		Di   		Di  [0 2 -1 0 0 0 0] 1e-9;
+		n 2;	
+	}
+
+}
+
+
+
+
+
+
+// ************************************************************************* //

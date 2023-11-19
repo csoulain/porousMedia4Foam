@@ -22,14 +22,6 @@ porousModels/absolutePermeabilityModels/heterogeneousScalarConstant/heterogeneou
 porousModels/absolutePermeabilityModels/ColebrookWhite/ColebrookWhite.C
 porousModels/absolutePermeabilityModels/none/none.C
 
-porousModels/dispersionModels/dispersionModel/dispersionModel.C
-porousModels/dispersionModels/dispersionModel/dispersionModelNew.C
-porousModels/dispersionModels/linearDispersion/linearDispersion.C
-porousModels/dispersionModels/archiesLaw/archiesLaw.C
-porousModels/dispersionModels/taylorAris/taylorAris.C
-porousModels/dispersionModels/diffusionOnly/diffusionOnly.C
-porousModels/dispersionModels/dispersionNone/dispersionNone.C
-
 
 porousModels/dispersionTensorModels/dispersionTensorModel/dispersionTensorModel.C
 porousModels/dispersionTensorModels/dispersionTensorModel/dispersionTensorModelNew.C

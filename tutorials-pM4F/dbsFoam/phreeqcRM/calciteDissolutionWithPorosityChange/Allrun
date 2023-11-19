@@ -1,0 +1,23 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+application=$(getApplication)
+
+runApplication blockMesh
+
+runApplication $application
+
+runApplication postProcess -time 3.149928e+08,3.1499928e+09,3.78e+09 -func graphCell
+
+postProcess -time 0:6e+09 -func 'patchFlowRate(patch=outlet)'
+
+runApplication gnuplot plot.gp
+
+runApplication evince *.eps
+
+
+
+#------------------------------------------------------------------------------
