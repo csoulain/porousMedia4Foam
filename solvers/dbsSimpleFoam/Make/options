@@ -1,22 +1,21 @@
 EXE_INC = \
     -I$(LIB_SRC)/MomentumTransportModels/momentumTransportModels/lnInclude \
     -I$(LIB_SRC)/MomentumTransportModels/incompressible/lnInclude \
-    -I$(LIB_SRC)/transportModels/lnInclude \
+    -I$(LIB_SRC)/physicalProperties/lnInclude \
     -I$(LIB_SRC)/finiteVolume/lnInclude \
     -I$(LIB_SRC)/meshTools/lnInclude \
     -I$(LIB_SRC)/sampling/lnInclude \
     -I../../libraries/porousModels/lnInclude \
     -I../../ThirdParty/phreeqcrm/include
 
-
-
 EXE_LIBS = \
     -lmomentumTransportModels \
     -lincompressibleMomentumTransportModels \
-    -lincompressibleTransportModels \
+    -lphysicalProperties \
     -lfiniteVolume \
     -lmeshTools \
-    -lfvOptions \
+    -lfvModels \
+    -lfvConstraints \
     -lsampling \
     -L$(FOAM_USER_LIBBIN) \
     -lporousModels  \

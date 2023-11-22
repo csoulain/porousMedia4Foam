@@ -66,7 +66,7 @@ class simpleFirstOrderKineticMole : public basicGeochemicalModel
 
     word mineral_;
 
-    dictionary transportPropertiesDict_;
+    dictionary geochemicalModelDict_;
 
     PtrList<dictionary> mineralSubDict_;
 

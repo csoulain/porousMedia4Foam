@@ -1,0 +1,131 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.2                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  plus                                  |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+solvers
+{
+    p
+    {
+        solver          GAMG;
+        smoother        DIC;
+        tolerance       1e-7;
+        relTol          0.05;
+    }
+
+    Ci
+    {
+        solver          PBiCG;
+        preconditioner  DILU;
+        tolerance       1e-8;
+        relTol          0.001;
+    }
+
+    U
+    {
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+        tolerance       1e-6;
+        relTol          0.01;
+    }
+
+    pFinal
+    {
+        $p;
+        relTol          0;
+    }
+
+    UFinal
+    {
+        $U;
+        relTol          0;
+    }
+
+    CiFinal
+    {
+	$Ci;
+	relTol		0;
+    }
+
+    "Ys.*" 
+    {
+        solver          diagonal;
+    }
+
+}
+
+
+PIMPLE
+{
+    momentumPredictor   off;
+    nOuterCorrectors    300;  // if = 1 then PISO or SIMPLE mode according to the transient or steadyStage mode
+    nCorrectors         2;
+    nNonOrthogonalCorrectors 0;
+    pRefCell            0;
+    pRefValue           0;
+    turbOnFinalIterOnly yes; //yes;
+
+/*
+    residualControl   //for SIMPLE mode?
+    {
+        p               1e-5;
+        U               1e-5;
+     }
+*/
+   outerCorrectorResidualControl
+   {
+       p
+       {
+            tolerance    1e-5;
+            relTol       1e-6;
+       }
+   }
+
+}
+
+relaxationFactors
+{
+    equations
+    {
+        U               0.9; // 0.9 is more stable but 0.95 more convergent
+	Ci		1;
+//        ".*"            0.9; // 0.9 is more stable but 0.95 more convergent
+    }
+
+    fields
+    {
+
+        p               0.2;
+    }
+}
+// ************************************************************************* //
+
+// ************************************************************************* //

@@ -1,0 +1,9 @@
+densityModels/densityModel/densityModel.C
+densityModels/densityModel/densityModelNew.C
+densityModels/constantDensity/constantDensity.C
+densityModels/fromPhreeqc/fromPhreeqc.C
+densityModels/boussinesq/boussinesq.C
+
+fluidProperties.C
+
+LIB = $(FOAM_USER_LIBBIN)/libfluidProperties

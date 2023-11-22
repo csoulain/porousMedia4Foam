@@ -1,27 +1,29 @@
 EXE_INC = \
-    -I$(LIB_SRC)/MomentumTransportModels/momentumTransportModels/lnInclude \
-    -I$(LIB_SRC)/MomentumTransportModels/incompressible/lnInclude \
-    -I$(LIB_SRC)/transportModels/lnInclude \
-    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/physicalProperties/lnInclude \
     -I$(LIB_SRC)/thermophysicalModels/specie/lnInclude \
-    -I$(LIB_SRC)/sampling/lnInclude \
-    -I$(LIB_SRC)/dynamicFvMesh/lnInclude \
-    -I$(LIB_SRC)/dynamicMesh/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/basic/lnInclude \
+    -I$(LIB_SRC)/MomentumTransportModels/momentumTransportModels/lnInclude \
+    -I$(LIB_SRC)/MomentumTransportModels/compressible/lnInclude \
+    -I$(LIB_SRC)/ThermophysicalTransportModels/thermophysicalTransportModel/lnInclude \
+    -I$(LIB_SRC)/ThermophysicalTransportModels/fluid/lnInclude \
+    -I$(LIB_SRC)/ThermophysicalTransportModels/fluidThermo/lnInclude \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
     -I$(LIB_SRC)/meshTools/lnInclude \
+    -I$(LIB_SRC)/triSurface/lnInclude \
     -I../../libraries/porousModels/lnInclude \
-    -I../../ThirdParty/phreeqcrm/include
-
+    -I../../libraries/otherModels/lnInclude \
+    -I../../ThirdParty/phreeqcrm/include \
 
 EXE_LIBS = \
-    -lmomentumTransportModels \
-    -lincompressibleMomentumTransportModels \
-    -lincompressibleTransportModels \
-    -lspecie \
-    -lsampling \
-    -ldynamicFvMesh \
-    -ltopoChangerFvMesh \
-    -ldynamicMesh \
     -lmeshTools \
+    -lspecie \
+    -lmomentumTransportModels \
+    -lcompressibleMomentumTransportModels \
+    -lfiniteVolume \
+    -lfvModels \
+    -lfvConstraints \
+    -lspecie \
     -L$(FOAM_USER_LIBBIN) \
     -lporousModels \
+    -lotherModels \
     -L../../ThirdParty/phreeqcrm/lib/ -lphreeqcrm-3.6.2

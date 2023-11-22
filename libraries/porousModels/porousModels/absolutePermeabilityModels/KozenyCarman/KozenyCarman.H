@@ -30,7 +30,7 @@ Description
     1. K_(t+dt) = K(t)*( (eps(t+dt)^3)/((1-eps(t+dt))^2) )*( ((1-eps(t))^2)/(eps(t)^3) )
 
     Ref: Implementation and evaluation of permeability-porosity and tortuosity-porosity relationships linked to mineral dissolution-precipitation. Mingliang Xie et.al. (2015) -> Eq. 2
-    
+
     2. K_(t+dt) = K(0)*( ((1-eps(0))/(1-eps))^2*(eps/eps(0))^3 )
 
     Ref.: Benchmarking of reactive transport codes for 2D simulations with mineral dissolution-precipitation reactions and feedback on transport parameters. J. Poonoosamy et.al.(2018) -> Eq. 10
@@ -81,14 +81,12 @@ class KozenyCarman : public absolutePermeabilityModel
 
     dimensionedScalar K0_;
 
-//    Switch updateFromInitialValue_;
+    Switch updateFromInitialValue_;
     Switch modifiedKozenyCarman_;
-    Switch updateFromInitialPoroPerm_;
 
 
     volScalarField K_;
     volScalarField initK_;
-    scalar extrapolateKOnPatchn_;
     volScalarField invK_;
 
     surfaceScalarField Kf_;

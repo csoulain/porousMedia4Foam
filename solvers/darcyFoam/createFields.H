@@ -37,7 +37,7 @@ IOdictionary transportProperties
 (
     IOobject
     (
-        "transportProperties",
+        "physicalProperties",
         runTime.constant(),
         mesh,
         IOobject::MUST_READ_IF_MODIFIED,
@@ -46,10 +46,24 @@ IOdictionary transportProperties
 );
 
 
-dimensionedScalar rho (transportProperties.lookup("rho"));
-
+//dimensionedScalar rho (transportProperties.lookup("rho"));
 dimensionedScalar mu (transportProperties.lookup("mu"));
 
+
+Info << nl << "Reading field U\n" << endl;
+volScalarField mu0
+(
+    IOobject
+    (
+        "mu0",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh,
+    mu
+);
 
 //autoPtr<incompressiblePhase> phase = incompressiblePhase::New(mesh,transportProperties,phaseName);
 //volVectorField& UphaseName = phase->U();
@@ -63,15 +77,27 @@ dimensionedScalar mu (transportProperties.lookup("mu"));
 geochemicalModel porousMedia(mesh,transportProperties);
 
 
+Info << "Reading field rho\n" << endl;
+const volScalarField& rho = porousMedia.rho();
+
+
+//const volScalarField& mu0 = porousMedia.mu();
+
+
 Info << "Reading field K\n" << endl;
 const surfaceScalarField& Kf = porousMedia.Kf();
 
 surfaceScalarField Mf ("Mf",Kf/mu);
-surfaceScalarField phiG("phiG",(rho * Mf * g) & mesh.Sf());
+
+//surfaceScalarField Mf ("Mf",Kf/fvc::interpolate(mu0));
+
+surfaceScalarField phiG("phiG",((fvc::interpolate(rho) * Mf) * g) & mesh.Sf());
 surfaceScalarField phiPc("phiPc", 0 * phiG); //- required for porousBoundaryConditions
 
-
+const volScalarField& sourceTerm = porousMedia.dMinvdRho();
 //- For constant or event source injection/extraction
+
+/*
 volScalarField sourceTerm
 (
     IOobject
@@ -83,5 +109,8 @@ volScalarField sourceTerm
         IOobject::NO_WRITE
     ),
     mesh,
-    dimensionedScalar("",dimless/dimTime,0)
+    dimensionedScalar("",dimless/dimTime,0.0)
 );
+*/
+
+porousMedia.update();

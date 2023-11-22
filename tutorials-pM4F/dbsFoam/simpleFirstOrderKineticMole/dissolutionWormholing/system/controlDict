@@ -1,0 +1,56 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.2                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     dbsFoam;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         6200;
+
+deltaT          10;
+
+writeControl    adjustableRunTime;
+
+writeInterval   60;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  4;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision  7; 
+
+runTimeModifiable true;
+
+maxCo 1.5; // Or other Courant number you wish
+
+adjustTimeStep no; // Or no
+
+maxDeltaT 10; //0.001; //Maximum deltaT in seconds
+
+///libs ( "libphreeqcrm-3.3.12.so" );
+
+// ************************************************************************* //

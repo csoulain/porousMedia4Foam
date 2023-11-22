@@ -84,7 +84,7 @@ Foam::absolutePermeabilityModels::heterogeneousScalarConstant::heterogeneousScal
           IOobject::READ_IF_PRESENT,
           IOobject::NO_WRITE
         ),
-        1/K_,
+        1./K_,
         "zeroGradient"
     ),
     Kf_("Kf", fvc::interpolate(K_,"K"))

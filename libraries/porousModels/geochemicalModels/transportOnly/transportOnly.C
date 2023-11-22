@@ -110,7 +110,7 @@ void Foam::geochemicalModels::transportOnly::updateFluidComposition()
         tmp<fvScalarMatrix> YiEqn
         (
                   fvm::ddt(eps_,Yi) + fvm::div(phi_,Yi,divPhiYiScheme)
-                - fvm::laplacian(DispT,Yi,"laplacian(Di,Yi)")
+                - fvm::laplacian(eps_*DispT,Yi,"laplacian(Di,Yi)")
 //                - fvm::laplacian(Deff,Yi,"laplacian(Di,Yi)")
         );
 

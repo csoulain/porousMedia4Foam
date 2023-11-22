@@ -4,7 +4,6 @@ EXE_INC = \
     -I../../libraries/porousBoundaryConditions/lnInclude \
     -I../../libraries/porousModels/lnInclude \
     -I../../libraries/otherModels/lnInclude \
-    -I../../libraries/toolsGIS/lnInclude \
     -I../../ThirdParty/phreeqcrm/include
 
 
@@ -14,5 +13,4 @@ EXE_LIBS = \
     -lporousBoundaryConditions \
     -lporousModels \
     -lotherModels \
-    -ltoolsGIS  \
     -L../../ThirdParty/phreeqcrm/lib/ -lphreeqcrm-3.6.2

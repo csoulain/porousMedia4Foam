@@ -39,7 +39,8 @@ Foam::geochemicalModel::geochemicalModel
 )
 :
         mesh_(mesh),
-        geochemicalModelDict_(dict.subDict("geochemicalProperties")),
+//        geochemicalModelDict_(dict.subDict("geochemicalProperties")),
+//        fluidPropertiesDict_(dict.subDict("fluidProperties")),
 /*        Ys_
         (
             IOobject
@@ -69,8 +70,15 @@ Foam::geochemicalModel::geochemicalModel
         ),*/
         basicGeochemicalModelPtr_
         (
-            basicGeochemicalModel::New(mesh, geochemicalModelDict_)
+//            basicGeochemicalModel::New(mesh, geochemicalModelDict_)
+            basicGeochemicalModel::New(mesh, dict)
         )
+        /*,
+        densityModelPtr_
+        (
+            densityModel::New(mesh, fluidPropertiesDict_)
+        )
+        */
 {}
 
 // -------------------------------------------------------------------------//

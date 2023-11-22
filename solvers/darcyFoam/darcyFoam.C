@@ -30,13 +30,28 @@ Description
 Developers
     - Pierre Horgue
     - 10/02/2020 - CS : modified with the porousModel class
+    - 17/11/2023 - CS : upgrade to v11
+
 \*---------------------------------------------------------------------------*/
 
-#include "fvCFD.H"
+
+#include "argList.H"
 #include "incompressiblePhase.H"
 #include "geochemicalModel.H"
+
+#include "uniformDimensionedFields.H"
+//#include "fvcDdt.H"
+//#include "fvcGrad.H"
+#include "fvcFlux.H"
+#include "fvcReconstruct.H"
+
+#include "fvmDdt.H"
+//#include "fvmDiv.H"
+#include "fvmLaplacian.H"
+
+using namespace Foam;
 //#include "porousModel.H"
-#include "sourceEventFile.H"
+//#include "sourceEventFile.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -45,12 +60,15 @@ int main(int argc, char *argv[])
 
 //    argList::addOption("phase","a","specify the phase name");
 //    Foam::argList args(argc,argv);
-    #include "setRootCaseLists.H"
+    #include "setRootCase.H"
     #include "createTime.H"
     #include "createMesh.H"
     #include "readGravitationalAcceleration.H"
     #include "createFields.H"
-    #include "readEvent.H"
+//    #include "readEvent.H"
+
+Info<< "init OK " << nl << endl; //
+
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -65,8 +83,12 @@ int main(int argc, char *argv[])
 
         porousMedia.update();
 
+        Info<< "update OK " << nl << endl; //
 
         Mf = Kf / mu;
+
+
+        phiG = ((fvc::interpolate(rho) * Mf) * g) & mesh.Sf();
 
         fvScalarMatrix pEqn
         (
@@ -81,6 +103,10 @@ int main(int argc, char *argv[])
         U.correctBoundaryConditions();
 
         runTime.write();
+        if(runTime.writeTime())
+        {
+            sourceTerm.write();
+        }
 
         Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"

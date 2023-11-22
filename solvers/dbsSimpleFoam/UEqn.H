@@ -1,25 +1,25 @@
     // Momentum predictor
 
+    MRF.correctBoundaryVelocity(U);
+
     tmp<fvVectorMatrix> tUEqn
     (
         1./(eps+SMALL)*fvm::div(phi, U)
-      - fvm::laplacian(laminarTransport.nu()/(eps+SMALL),U)
-      + fvm::Sp(laminarTransport.nu()*invK,U)
-      + fvm::Sp(laminarTransport.nu()*HeleShawCorrection,U)
+      - fvm::laplacian(turbulence->nu()/(eps+SMALL),U)
+      + fvm::Sp(turbulence->nu()*invK,U)
+      + fvm::Sp(turbulence->nu()*HeleShawCorrection,U)
      ==
-        fvOptions(U)
+    fvModels.source(U)
     );
     fvVectorMatrix& UEqn = tUEqn.ref();
 
-
     UEqn.relax();
 
-    fvOptions.constrain(UEqn);
-
+    fvConstraints.constrain(UEqn);
 
     if (simple.momentumPredictor())
     {
         solve(UEqn == -fvc::grad(p));
 
-        fvOptions.correct(U);
+        fvConstraints.constrain(U);
     }

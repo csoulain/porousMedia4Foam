@@ -1,4 +1,3 @@
-#include "createRDeltaT.H"
 
 Info<< "Reading field p\n" << endl;
 volScalarField p
@@ -14,13 +13,13 @@ volScalarField p
     mesh
 );
 
-Info<< "Reading field U\n" << endl;
+Info<< "\nReading field U\n" << endl;
 volVectorField U
 (
     IOobject
     (
         "U",
-        runTime.timeName(),
+        runTime.name(),
         mesh,
         IOobject::MUST_READ,
         IOobject::AUTO_WRITE
@@ -30,11 +29,7 @@ volVectorField U
 
 #include "createPhi.H"
 
-
-label pRefCell = 0;
-scalar pRefValue = 0.0;
-setRefCell(p, pimple.dict(), pRefCell, pRefValue);
-mesh.setFluxRequired(p.name());
+mesh.schemes().setFluxRequired(p.name());
 
 
 Info<< "Reading field sourceTerm\n" << endl;
@@ -53,16 +48,31 @@ volScalarField sourceTerm
 );
 
 
-Info << "Reading transportProperties\n" << endl;
 
-singlePhaseTransportModel laminarTransport(U, phi);
-
-
-IOdictionary transportProperties
+/*
+Info<< "Creating field dpdt\n" << endl;
+volScalarField dpdt
 (
     IOobject
     (
-        "transportProperties",
+        "dpdt",
+        runTime.name(),
+        mesh
+    ),
+    mesh,
+    dimensionedScalar(p.dimensions()/dimTime, 0)
+);
+
+Info<< "Creating field kinetic energy K\n" << endl;
+volScalarField K("K", 0.5*magSqr(U));
+*/
+
+
+IOdictionary physicalProperties
+(
+    IOobject
+    (
+        "physicalProperties",
         runTime.constant(),
         mesh,
         IOobject::MUST_READ_IF_MODIFIED,
@@ -70,10 +80,7 @@ IOdictionary transportProperties
     )
 );
 
-//autoPtr<geochemicalModel> geochemistry
-//  = geochemicalModel::New(mesh,transportProperties);
-
-geochemicalModel geochemistry(mesh,transportProperties);
+geochemicalModel geochemistry(mesh,physicalProperties);
 
 
 Info << nl << "Reading/generating porosity field eps" << endl;
@@ -85,7 +92,7 @@ const volScalarField & invK = geochemistry.inversePermeability();
 
 Switch activateHeleShaw
 (
-    transportProperties.lookupOrDefault<Switch>("activateHeleShaw",false)
+    physicalProperties.lookupOrDefault<Switch>("activateHeleShaw",false)
 );
 
 
@@ -93,7 +100,14 @@ volScalarField HeleShawCorrection ("HeleShawCorrection", 0.0*invK);
 
 if (activateHeleShaw)
 {
-    Foam::absolutePermeabilityModels::HeleShaw HeleShaw(mesh,transportProperties);
+    Foam::absolutePermeabilityModels::HeleShaw HeleShaw(mesh,physicalProperties);
     HeleShawCorrection = HeleShaw.inversePermeability();
     Info << "HeleShaw correction is activated" << nl << endl;
 }
+
+const volScalarField & nu = geochemistry.nu();
+
+
+#include "createMRF.H"
+#include "createFvModels.H"
+#include "createFvConstraints.H"

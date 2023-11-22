@@ -31,9 +31,15 @@ Developers
     - Cyprien Soulaine
 \*---------------------------------------------------------------------------*/
 
-#include "fvCFD.H"
+#include "argList.H"
 #include "incompressiblePhase.H"
 #include "geochemicalModel.H"
+
+#include "fvcFlux.H"
+#include "fvcSurfaceIntegrate.H"
+
+
+using namespace Foam;
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -42,7 +48,7 @@ int main(int argc, char *argv[])
 
 //    argList::addOption("phase","a","specify the phase name");
 //    Foam::argList args(argc,argv);
-    #include "setRootCaseLists.H"
+    #include "setRootCase.H"
     #include "createTime.H"
     #include "createMesh.H"
     #include "createFields.H"

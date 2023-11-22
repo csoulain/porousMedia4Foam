@@ -46,6 +46,7 @@ Authors
 #include "surfaceInterpolate.H"
 //#include "speciesTable.H"
 //#include "runTimeSelectionTables.H"
+//#include "fluidProperties.H"
 #include "basicGeochemicalModel.H"
 //#include "autoPtr.H"
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -67,7 +68,9 @@ class geochemicalModel
 
     const fvMesh &mesh_;
 
-    dictionary geochemicalModelDict_;
+//    dictionary geochemicalModelDict_;
+
+//    dictionary fluidPropertiesDict_;
 
 //    volScalarField Ys_;
 
@@ -75,6 +78,7 @@ class geochemicalModel
 
     autoPtr<basicGeochemicalModel> basicGeochemicalModelPtr_;
 
+  //  autoPtr<densityModel> densityModelPtr_;
 
 /*
     tmp<volScalarField> invK_;
@@ -181,17 +185,64 @@ class geochemicalModel
         return basicGeochemicalModelPtr_->dMinvdRho();
     }
 
-/*
-    const volScalarField & effectiveDispersion()  const
-    {
-        return basicGeochemicalModelPtr_->effectiveDispersion();
-    }
-*/
     const volTensorField & effectiveDispersionTensor()  const
     {
         return basicGeochemicalModelPtr_->effectiveDispersionTensor();
     }
 
+
+    const volScalarField & rho()  const
+    {
+        return basicGeochemicalModelPtr_->rho();
+    }
+
+    const surfaceScalarField & rhof()  const
+    {
+        return fvc::interpolate(basicGeochemicalModelPtr_->rho());
+    }
+
+/*
+    const viscosityModel & viscosity()  const
+    {
+        return basicGeochemicalModelPtr_->viscosity();
+    }
+*/
+    const volScalarField & nu()  const
+    {
+        return basicGeochemicalModelPtr_->nu();
+    }
+
+    tmp<volScalarField> mu() const
+    {
+
+        dimensionedScalar nu00 ("nu", dimensionSet(1,-1,-1,0,0,0,0), 0.0);
+
+        volScalarField mu
+        (
+            IOobject
+            (
+              "nu",
+              mesh_.time().timeName(),
+              mesh_,
+              IOobject::READ_IF_PRESENT,
+              IOobject::NO_WRITE
+            ),
+            mesh_,
+            nu00,
+            "zeroGradient"
+        );
+        mu = (this->nu())*(this->rho());
+        mu.correctBoundaryConditions();
+
+
+        return mu;
+    }
+/*
+    const viscosityModel & viscosity()
+    {
+        return basicGeochemicalModelPtr_->viscosity();
+    }
+*/
     void update()
     {
         basicGeochemicalModelPtr_->updateFluidComposition();
@@ -199,9 +250,10 @@ class geochemicalModel
         basicGeochemicalModelPtr_->updatePorosity();
         basicGeochemicalModelPtr_->updateSurfaceArea();
         basicGeochemicalModelPtr_->updatePermeability();
-      //  basicGeochemicalModelPtr_->updateDispersion();
         basicGeochemicalModelPtr_->updateDispersionTensor();
         basicGeochemicalModelPtr_->updatedMinvdRho();
+        basicGeochemicalModelPtr_->updateDensity();
+        basicGeochemicalModelPtr_->updateViscosity();
         Info << "geochemistry updated" <<nl <<endl;
     }
 

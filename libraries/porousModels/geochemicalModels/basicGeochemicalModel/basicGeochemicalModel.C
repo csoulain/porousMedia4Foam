@@ -42,8 +42,12 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
     const dictionary& dict
 )
 :
+      fluidProperties(mesh,dict),
       mesh_(mesh),
-      mineralList_(dict.lookup("mineral")),
+      geochemicalModelDict_(dict.subDict("geochemicalProperties")),
+      fluidPropertiesDict_(dict.subDict("fluidProperties")),
+//      fluidProperties_(mesh,dict),
+      mineralList_(geochemicalModelDict_.lookup("mineral")),
       Ys_(mineralList_.size() ),
       inertMineral_
       (
@@ -87,10 +91,6 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
           dimensionedScalar("eps0",dimless,1.0),
           "zeroGradient"
       ),
-      rhol_
-      (
-          dict.lookup("rhol")
-      ),
       rhos_(mineralList_.size() ),
       dMinvdRho_
       (
@@ -107,23 +107,26 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
           "zeroGradient"
       ),
       porousMedia_(mineralList_.size()),
+      /*
+      densityModelPtr_
+      (
+          densityModel::New(mesh, fluidPropertiesDict_)
+      ),
+      viscosityModelPtr_
+      (
+          viscosityModel::New(mesh, fluidPropertiesDict_)
+      ),
+      */
       absolutePermeabilityModelPtr_
       (
-          absolutePermeabilityModel::New(mesh, dict)
+          absolutePermeabilityModel::New(mesh, geochemicalModelDict_)
       ),
-/*
-      dispersionModelPtr_
-      (
-          dispersionModel::New(mesh, dict)
-      ),
-*/
       dispersionTensorModelPtr_
       (
-          dispersionTensorModel::New(mesh, dict)
+          dispersionTensorModel::New(mesh, geochemicalModelDict_)
       ),
-      phiName_(dict.lookupOrDefault<word>("phi","phi")),
+      phiName_(geochemicalModelDict_.lookupOrDefault<word>("phi","phi")),
       phi_(mesh.lookupObject<surfaceScalarField>(phiName_))
-///      rhol_(dict.lookup("rhol"))
 {
 
     forAll(mineralList_,s)
@@ -156,7 +159,7 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
           s,
           new dimensionedScalar
           (
-              dict.subDict(currentMineral+"Properties").lookup("rhos")
+              geochemicalModelDict_.subDict(currentMineral+"Properties").lookup("rhos")
           )
       );
 
@@ -168,11 +171,37 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
           mesh,
           mineralList_[s],
           Ys_[s],
-          dict
+          geochemicalModelDict_
         )
       );
     }
     updatePorosity();
+
+
+
+// -----------------------------------------------------------------------------
+    const word densitymodelType
+    (
+      fluidPropertiesDict_.lookup("densityModel")
+    );
+
+    const word geochemicalmodelType
+    (
+      dict.lookup("geochemicalModel")
+    );
+
+    if
+    (
+      (densitymodelType == "fromPhreeqc") && (geochemicalmodelType != "phreeqcRM")
+    )
+    {
+      FatalErrorInFunction
+          << "fromPhreeqc densityModel type must be used "
+          << "with phreeqcRM geochemical package" <<nl
+          << exit(FatalError);
+    }
+
+// -----------------------------------------------------------------------------
 
 
 }
@@ -188,6 +217,7 @@ void Foam::basicGeochemicalModel::updatePorosity()
         eps_+=Ys_[s];
     }
     eps_ = 1.-eps_-inertMineral_;
+    eps_.correctBoundaryConditions(); //necessary??
 }
 
 
@@ -196,8 +226,10 @@ void Foam::basicGeochemicalModel::updatedMinvdRho()
     dMinvdRho_ = 0.0*dMinvdRho_;
     forAll(mineralList_,s)
     {
-        dMinvdRho_+= -rhos_[s]*fvc::ddt(Ys_[s])*(1./rhol_-1./rhos_[s]);
+        //dMinvdRho_+= -rhos_[s]*fvc::ddt(Ys_[s])*(1./rhol_-1./rhos_[s]);
+        dMinvdRho_+= -rhos_[s]*fvc::ddt(Ys_[s])*(1./this->rho()-1./rhos_[s]);
     }
+    dMinvdRho_.correctBoundaryConditions(); //necessary??
 }
 
 

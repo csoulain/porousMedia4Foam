@@ -1,0 +1,69 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.2                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+valueAlpha 0.99; //0.9999;
+
+
+defaultFieldValues
+(
+//    volScalarFieldValue eps 0.001//0.9999
+    volScalarFieldValue Ys.Calcite 0.999//0.9999
+    volScalarFieldValue K 1e-20//0.9999
+);
+
+
+regions
+(
+	// Select based on surface
+	surfaceToCell
+	{
+		file "geometry.stl";
+		outsidePoints ((-0.193 0 0)); // definition of outside
+		includeCut false; // cells cut by surface
+		includeInside no; // cells not on outside of surf
+		includeOutside yes; // cells on outside of surf
+		nearDistance -1; // cells with centre near surf
+		curvature 0.9; // cells within nearDistance
+		fieldValues
+		(
+		//	volScalarFieldValue eps 1
+		    volScalarFieldValue Ys.Calcite 0.//0.9999
+			volScalarFieldValue K 1
+		);
+	}
+
+/*
+	// Select based on surface
+	surfaceToCell
+	{
+		file "geometry.stl";
+		outsidePoints ((-0.193 -0.009 0)); // definition of outside
+		includeCut true; // cells cut by surface
+		includeInside no; // cells not on outside of surf
+		includeOutside no; // cells on outside of surf
+		nearDistance -1; // cells with centre near surf
+		curvature 0.9; // cells within nearDistance
+		fieldValues
+		(
+			volScalarFieldValue epsSolid 0.5
+		);
+	}
+*/
+
+);
+
+
+// ************************************************************************* //

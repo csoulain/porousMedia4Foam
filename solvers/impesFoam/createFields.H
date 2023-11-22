@@ -95,8 +95,8 @@ IOdictionary transportProperties
 );
 
 //- list that receives event files of event-based boundary conditions
-List<patchEventFile*> patchEventList;
-eventInfiltration::setEventFileRegistry(&patchEventList, Sb.name());
+//List<patchEventFile*> patchEventList;
+//eventInfiltration::setEventFileRegistry(&patchEventList, Sb.name());
 
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////// PHASE MODEL CREATION ////////////////////////////

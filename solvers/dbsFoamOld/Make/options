@@ -1,0 +1,20 @@
+EXE_INC = \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/sampling/lnInclude \
+    -I$(LIB_SRC)/meshTools/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/specie/lnInclude \
+    -I../../libraries/porousModels/lnInclude \
+    -I../../libraries/otherModels/lnInclude \
+    -I../../ThirdParty/phreeqcrm/include \
+
+EXE_LIBS = \
+    -lfiniteVolume \
+    -lfvModels \
+    -lfvConstraints \
+    -lsampling \
+    -lmeshTools \
+    -lspecie \
+    -L$(FOAM_USER_LIBBIN) \
+    -lporousModels \
+    -lotherModels \
+    -L../../ThirdParty/phreeqcrm/lib/ -lphreeqcrm-3.6.2

@@ -59,8 +59,7 @@ Foam::geochemicalModels::simpleFirstOrderKineticMole::simpleFirstOrderKineticMol
 )
 :
     basicGeochemicalModel(mesh, dict),
-//    simpleFirstOrderKineticMoleDict_(dict.subDict(typeName)),
-    transportPropertiesDict_(dict),
+    geochemicalModelDict_(dict.subDict("geochemicalProperties")),
     mineralSubDict_( mineralList_.size() ),
     Vm_( mineralList_.size() ),
     ki_( mineralList_.size() ),
@@ -106,7 +105,7 @@ void Foam::geochemicalModels::simpleFirstOrderKineticMole::readMineralProperties
         s,
         new dictionary
         (
-              transportPropertiesDict_.subDict(currentMineral+"Properties")
+              geochemicalModelDict_.subDict(currentMineral+"Properties")
         )
     );
 
@@ -148,7 +147,6 @@ void Foam::geochemicalModels::simpleFirstOrderKineticMole::updateFluidCompositio
 
     word divPhiYiScheme = "div(phi,Yi)";
 
-//    const volScalarField &Deff = effectiveDispersion();
     const volTensorField &Deff = effectiveDispersionTensor();
 
 
