@@ -21,61 +21,46 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
-Application
-    constantVelocityFoam
-
 Description
-    Solve geochemistry using a constant velocity field
+    Timestep for IMPES solver 
 
-Developers
-    - Cyprien Soulaine
 \*---------------------------------------------------------------------------*/
 
-#include "argList.H"
-#include "incompressiblePhase.H"
-#include "geochemicalModel.H"
+//- Timestep Saturation equation
+scalarField dSdt= mag(-fvc::div(phib)+sourceTerm)().internalField()/eps.internalField();
+scalar dSdTmax = gMax(dSdt);
+scalar dtForS = dSmax/(dSdTmax+SMALL);
 
-#include "fvcFlux.H"
-#include "fvcSurfaceIntegrate.H"
-
-
-using namespace Foam;
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-int main(int argc, char *argv[])
+//- Choose between Coats and Courant number as driving number
+scalar CFLUse = -1;
+scalar maxDeltaTFact = -1;
+switch(static_cast<int>(CFLint))
 {
-
-//    argList::addOption("phase","a","specify the phase name");
-//    Foam::argList args(argc,argv);
-    #include "setRootCase.H"
-    #include "createTime.H"
-    #include "createMesh.H"
-    #include "createFields.H"
-
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-    Info<< "\nStarting time loop\n" << endl;
-
-    while (runTime.loop())
-    {
-
-        Info << "Time = " << runTime.timeName() << nl << endl;
-
+    case 0:
+        #include "CoatsNo.H"
+        break;
+    case 1:
+        #include "ToddNo.H"
+        break;
+    case 2:
         #include "CourantNo.H"
-        porousMedia.update();
+        break;
+};
 
-        runTime.write();
+scalar deltaTFact = min(min(maxDeltaTFact, 1.0 + 0.1*maxDeltaTFact), 1.2);
 
-        Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
-            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
-            << nl << endl;
+//- Computing timestep 
+runTime.setDeltaT
+(
+    min(
+        dtForS,
+        min(
+            deltaTFact*runTime.deltaTValue(),
+            maxDeltaT
+        )
+    )
+);
 
-    }
-
-    Info<< "End\n" << endl;
-
-    return 0;
-}
+Info<< "deltaT = " <<  runTime.deltaTValue() << endl;
 
 // ************************************************************************* //

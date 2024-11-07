@@ -25,15 +25,15 @@ Class
     Foam::twoPhaseMixture
 
 Description
-    transportOnly module
+    unsaturatedFlowOnly module
 
 SourceFiles
     phreeqc.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef transportOnly_H
-#define transportOnly_H
+#ifndef unsaturatedFlowOnly_H
+#define unsaturatedFlowOnly_H
 
 //#include "dictionary.H"
 //#include "volFieldsFwd.H"
@@ -53,34 +53,26 @@ namespace geochemicalModels
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class transportOnly : public basicGeochemicalModel
+class unsaturatedFlowOnly : public basicGeochemicalModel
 {
-
-
-//  dictionary  transportOnlyDict_;
 
 
   protected:
 
     // Protected data
 
-    word mineral_;
-
-    dictionary transportPropertiesDict_;
-
-    PtrList<volScalarField> Y_;
 
 
   // Private Member Functions
 
     //- Disallow copy construct
-    transportOnly(const transportOnly&);
+    unsaturatedFlowOnly(const unsaturatedFlowOnly&);
 
 
   public:
 
     //- Runtime type information
-      TypeName("transportOnly");
+      TypeName("unsaturatedFlowOnly");
 
 
     // Declare run-time constructor selection table
@@ -89,23 +81,24 @@ class transportOnly : public basicGeochemicalModel
 
     //- Construct from components
 
-    transportOnly
+    unsaturatedFlowOnly
     (
         const fvMesh& mesh,
         const dictionary& dict
     );
 
     //- Destructor
-    virtual ~transportOnly()
+    virtual ~unsaturatedFlowOnly()
     {}
 
 
     // Member Functions
 
-    virtual void updateFluidComposition();
+    virtual void updateFluidComposition()
+    {}
 
-    virtual void updateMineralDistribution();
-
+    virtual void updateMineralDistribution()
+    {}
 
 };
 

@@ -64,7 +64,7 @@ class simpleFirstOrderKineticMole : public basicGeochemicalModel
 
     // Protected data
 
-    word mineral_;
+//    word mineralName_;
 
     dictionary geochemicalModelDict_;
 
@@ -75,6 +75,7 @@ class simpleFirstOrderKineticMole : public basicGeochemicalModel
     PtrList<dimensionedScalar> ki_;
     PtrList<dimensionedScalar> Acti_;
 
+    PtrList<volScalarField> Y_;
 
 
   // Private Member Functions

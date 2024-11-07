@@ -22,96 +22,110 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::twoPhaseMixture
+    Foam::mineralModel
 
 Description
-    transportOnly module
+    mineralModel module for geometric porous media properties including
+      - porosity
+      - absolute permeability models
+      - surface area models
+
 
 SourceFiles
-    phreeqc.C
+    mineralModel.C
+
+Authors
+    - 4/2/2020 C. Soulaine
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef transportOnly_H
-#define transportOnly_H
+#ifndef mineralModel_H
+#define mineralModel_H
 
-//#include "dictionary.H"
-//#include "volFieldsFwd.H"
 #include "volFields.H"
-#include "speciesTable.H"
-#include "runTimeSelectionTables.H"
-#include "basicGeochemicalModel.H"
+#include "surfaceInterpolate.H"
+#include "surfaceAreaModel.H"
 //#include "autoPtr.H"
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
-{
-namespace geochemicalModels
 {
 
 /*---------------------------------------------------------------------------*\
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class transportOnly : public basicGeochemicalModel
+class mineralModel
 {
-
-
-//  dictionary  transportOnlyDict_;
 
 
   protected:
 
     // Protected data
 
-    word mineral_;
+    const fvMesh &mesh_;
 
-    dictionary transportPropertiesDict_;
+    word mineralName_;
 
-    PtrList<volScalarField> Y_;
+    dictionary mineralDict_;
 
 
+    autoPtr<surfaceAreaModel> surfaceAreaModelPtr_;
+
+
+/*
+    tmp<volScalarField> invK_;
+*/
   // Private Member Functions
 
     //- Disallow copy construct
-    transportOnly(const transportOnly&);
+    mineralModel(const mineralModel&);
 
 
   public:
-
-    //- Runtime type information
-      TypeName("transportOnly");
-
-
-    // Declare run-time constructor selection table
 
   // Constructors
 
     //- Construct from components
 
-    transportOnly
+    mineralModel
     (
         const fvMesh& mesh,
+        const word & name,
+        const volScalarField& Ys,
         const dictionary& dict
     );
 
     //- Destructor
-    virtual ~transportOnly()
+    ~mineralModel()
     {}
 
 
     // Member Functions
 
-    virtual void updateFluidComposition();
+    //- Return the composition of the multi-component mixture
+//    virtual basicMultiComponentMixture& composition() = 0;
 
-    virtual void updateMineralDistribution();
+    //- Return the composition of the multi-component mixture
+//    virtual const basicMultiComponentMixture& composition() const = 0;
+
+
+    tmp<volScalarField> surfaceArea() const
+    {
+        return surfaceAreaModelPtr_->surfaceArea();
+    }
+
+    void updateSurfaceArea()
+    {
+        surfaceAreaModelPtr_->updateSurfaceArea();
+//        return surfaceAreaModelPtr_->updateSurfaceArea();
+    }
 
 
 };
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-} // End namespace geochemicalModels
 
 } // End namespace Foam
 

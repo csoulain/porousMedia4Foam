@@ -23,53 +23,65 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "flowOnly.H"
-#include "addToRunTimeSelectionTable.H"
-
+#include "unsaturatedGeochemicalModel.H"
+#include "fvcDdt.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
-namespace Foam
-{
-    namespace geochemicalModels
-    {
-        defineTypeNameAndDebug(flowOnly, 0);
 
-        addToRunTimeSelectionTable
-        (
-            basicGeochemicalModel,
-            flowOnly,
-            dictionary
-        );
-    }
-}
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::geochemicalModels::flowOnly::flowOnly
+Foam::unsaturatedGeochemicalModel::unsaturatedGeochemicalModel
 (
     const fvMesh& mesh,
     const dictionary& dict
 )
 :
-      basicGeochemicalModel(mesh, dict)
+        mesh_(mesh),
+//        unsaturatedGeochemicalModelDict_(dict.subDict("geochemicalProperties")),
+//        fluidPropertiesDict_(dict.subDict("fluidProperties")),
+/*        Ys_
+        (
+            IOobject
+            (
+                "Ys",
+                mesh.time().timeName(),
+                mesh,
+                IOobject::NO_READ,
+                IOobject::NO_WRITE
+            ),
+            mesh,
+            dimensionedScalar("Ys",dimless,0.0),
+            "zeroGradient"
+        ),
+        eps_
+        (
+            IOobject
+            (
+                "eps",
+                mesh.time().timeName(),
+                mesh,
+                IOobject::READ_IF_PRESENT,
+                IOobject::AUTO_WRITE
+            ),
+            mesh,
+            porousMediaDict_.lookupOrDefault("eps",dimensionedScalar("",dimless,1.))
+        ),*/
+        basicUnsaturatedGeochemicalModelPtr_
+        (
+//            basicUnsaturatedGeochemicalModel::New(mesh, unsaturatedGeochemicalModelDict_)
+            basicUnsaturatedGeochemicalModel::New(mesh, dict)
+        )
+        /*,
+        densityModelPtr_
+        (
+            densityModel::New(mesh, fluidPropertiesDict_)
+        )
+        */
 {}
-
 
 // -------------------------------------------------------------------------//
 
-/*
-Foam::volScalarField Foam::flowOnly::dMl() const
-{
-
-    volScalarField dMl_(0.0*fvc::ddt(Y_[0])/this->rhol());
-    forAll(Y_,s)
-    {
-        dMl_ = dMl_ + fvc::ddt(Y_[s])/this->rhol();
-    }
-
-    return dMl_;
-}
-*/
 
 // ************************************************************************* //

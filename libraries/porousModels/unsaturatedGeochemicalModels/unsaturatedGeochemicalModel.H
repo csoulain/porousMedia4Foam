@@ -22,32 +22,32 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::geochemicalModel
+    Foam::unsaturatedGeochemicalModel
 
 Description
-    geochemicalModel module for geometric porous media properties including
+    unsaturatedGeochemicalModel module for geometric porous media properties including
       - porosity
       - absolute permeability models
       - surface area models
 
 
 SourceFiles
-    geochemicalModel.C
+    unsaturatedGeochemicalModel.C
 
 Authors
     - 18/2/2020 C. Soulaine
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef geochemicalModel_H
-#define geochemicalModel_H
+#ifndef unsaturatedGeochemicalModel_H
+#define unsaturatedGeochemicalModel_H
 
 #include "volFields.H"
 #include "surfaceInterpolate.H"
 //#include "speciesTable.H"
 //#include "runTimeSelectionTables.H"
 //#include "fluidProperties.H"
-#include "basicGeochemicalModel.H"
+#include "basicUnsaturatedGeochemicalModel.H"
 //#include "autoPtr.H"
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -58,7 +58,7 @@ namespace Foam
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class geochemicalModel
+class unsaturatedGeochemicalModel
 {
 
 
@@ -68,7 +68,7 @@ class geochemicalModel
 
     const fvMesh &mesh_;
 
-//    dictionary geochemicalModelDict_;
+//    dictionary unsaturatedGeochemicalModelDict_;
 
 //    dictionary fluidPropertiesDict_;
 
@@ -76,7 +76,7 @@ class geochemicalModel
 
 //    volScalarField eps_;
 
-    autoPtr<basicGeochemicalModel> basicGeochemicalModelPtr_;
+    autoPtr<basicUnsaturatedGeochemicalModel> basicUnsaturatedGeochemicalModelPtr_;
 
   //  autoPtr<densityModel> densityModelPtr_;
 
@@ -86,7 +86,7 @@ class geochemicalModel
   // Private Member Functions
 
     //- Disallow copy construct
-    geochemicalModel(const geochemicalModel&);
+    unsaturatedGeochemicalModel(const unsaturatedGeochemicalModel&);
 
 
   public:
@@ -95,13 +95,13 @@ class geochemicalModel
 
     //- Construct from components
 
-    geochemicalModel
+    unsaturatedGeochemicalModel
     (
         const fvMesh& mesh,
         const dictionary& dict
     );
 
-    geochemicalModel
+    unsaturatedGeochemicalModel
     (
         const fvMesh& mesh,
         const volScalarField& Ys,
@@ -109,7 +109,7 @@ class geochemicalModel
     );
 
     //- Destructor
-    ~geochemicalModel()
+    ~unsaturatedGeochemicalModel()
     {}
 
 
@@ -121,58 +121,95 @@ class geochemicalModel
     //- Return the composition of the multi-component mixture
 //    virtual const basicMultiComponentMixture& composition() const = 0;
 
+/*
+    tmp<volScalarField> surfaceArea() const
+    {
+        return surfaceAreaModelPtr_->surfaceArea();
+    }
+
+    void updateSurfaceArea()
+    {
+        return surfaceAreaModelPtr_->updateSurfaceArea();
+    }
+
+
+    tmp<volScalarField> absolutePermeability() const
+    {
+        return absolutePermeabilityModelPtr_->absolutePermeability();
+    }
+
+    tmp<volScalarField> invK() const
+    {
+        return absolutePermeabilityModelPtr_->inversePermeability();
+    }
+
+    void updatePermeability()
+    {
+        return absolutePermeabilityModelPtr_->updatePermeability();
+    }
+
+    tmp<surfaceScalarField> Kf() const
+    {
+        return absolutePermeabilityModelPtr_->Kf();
+//          return fvc::interpolate(absolutePermeability(),"K");
+
+    }
+
+
+
+*/
 
     const volScalarField & absolutePermeability()  const
     {
-        return basicGeochemicalModelPtr_->absolutePermeability();
+        return basicUnsaturatedGeochemicalModelPtr_->absolutePermeability();
     }
 
     tmp<volScalarField> inversePermeability() const
     {
-        return basicGeochemicalModelPtr_->inversePermeability();
+        return basicUnsaturatedGeochemicalModelPtr_->inversePermeability();
     }
 
     const surfaceScalarField & Kf() const
     {
-        return basicGeochemicalModelPtr_->Kf();
+        return basicUnsaturatedGeochemicalModelPtr_->Kf();
     }
 
     const volScalarField & porosity()  const
     {
-        return basicGeochemicalModelPtr_->porosity();
+        return basicUnsaturatedGeochemicalModelPtr_->porosity();
     }
 
 
     const volScalarField & dMinvdRho()  const
     {
-        return basicGeochemicalModelPtr_->dMinvdRho();
+        return basicUnsaturatedGeochemicalModelPtr_->dMinvdRho();
     }
 
     const volTensorField & effectiveDispersionTensor()  const
     {
-        return basicGeochemicalModelPtr_->effectiveDispersionTensor();
+        return basicUnsaturatedGeochemicalModelPtr_->effectiveDispersionTensor();
     }
 
 
     const volScalarField & rho()  const
     {
-        return basicGeochemicalModelPtr_->rho();
+        return basicUnsaturatedGeochemicalModelPtr_->rho();
     }
 
     const surfaceScalarField & rhof()  const
     {
-        return fvc::interpolate(basicGeochemicalModelPtr_->rho());
+        return fvc::interpolate(basicUnsaturatedGeochemicalModelPtr_->rho());
     }
 
 /*
     const viscosityModel & viscosity()  const
     {
-        return basicGeochemicalModelPtr_->viscosity();
+        return basicUnsaturatedGeochemicalModelPtr_->viscosity();
     }
 */
     const volScalarField & nu()  const
     {
-        return basicGeochemicalModelPtr_->nu();
+        return basicUnsaturatedGeochemicalModelPtr_->nu();
     }
 
     tmp<volScalarField> mu() const
@@ -203,20 +240,20 @@ class geochemicalModel
 /*
     const viscosityModel & viscosity()
     {
-        return basicGeochemicalModelPtr_->viscosity();
+        return basicUnsaturatedGeochemicalModelPtr_->viscosity();
     }
 */
     void update()
     {
-        basicGeochemicalModelPtr_->updateFluidComposition();
-        basicGeochemicalModelPtr_->updateMineralDistribution();
-        basicGeochemicalModelPtr_->updatePorosity();
-        basicGeochemicalModelPtr_->updateSurfaceArea();
-        basicGeochemicalModelPtr_->updatePermeability();
-        basicGeochemicalModelPtr_->updateDispersionTensor();
-        basicGeochemicalModelPtr_->updatedMinvdRho();
-        basicGeochemicalModelPtr_->updateDensity();
-        basicGeochemicalModelPtr_->updateViscosity();
+        basicUnsaturatedGeochemicalModelPtr_->updateFluidComposition();
+        basicUnsaturatedGeochemicalModelPtr_->updateMineralDistribution();
+        basicUnsaturatedGeochemicalModelPtr_->updatePorosity();
+        basicUnsaturatedGeochemicalModelPtr_->updateSurfaceArea();
+        basicUnsaturatedGeochemicalModelPtr_->updatePermeability();
+        basicUnsaturatedGeochemicalModelPtr_->updateDispersionTensor();
+        basicUnsaturatedGeochemicalModelPtr_->updatedMinvdRho();
+        basicUnsaturatedGeochemicalModelPtr_->updateDensity();
+        basicUnsaturatedGeochemicalModelPtr_->updateViscosity();
         Info << "geochemistry updated" <<nl <<endl;
     }
 

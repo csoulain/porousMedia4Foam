@@ -128,6 +128,9 @@ namespace Foam
 
             IRM_RESULT status;
 
+            PtrList<volScalarField> Y_;
+
+
             // Private Member Functions
 
             std::string generateEqPhasesInputString();

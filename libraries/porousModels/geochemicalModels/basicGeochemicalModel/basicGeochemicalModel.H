@@ -44,7 +44,8 @@ Authors
 #include "volFields.H"
 #include "speciesTable.H"
 #include "runTimeSelectionTables.H"
-#include "porousModel.H"
+//#include "porousModel.H"
+#include "porousAssemblage.H"
 #include "fluidProperties.H"
 //#include "autoPtr.H"
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -56,7 +57,7 @@ namespace Foam
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class basicGeochemicalModel : public fluidProperties
+class basicGeochemicalModel : public fluidProperties, public porousAssemblage
 {
 
 
@@ -70,41 +71,12 @@ class basicGeochemicalModel : public fluidProperties
 
     dictionary fluidPropertiesDict_;
 
-    //fluidProperties fluidProperties_;
-
-
-    speciesTable mineralList_;
-
-    PtrList<volScalarField> Ys_;
-
-    volScalarField inertMineral_;
-
-    volScalarField eps_;
-    volScalarField eps0_;
-
-    PtrList<dimensionedScalar> rhos_;
-
 
     volScalarField dMinvdRho_;
-
-
-
-    PtrList<porousModel> porousMedia_;
-
-//    autoPtr<densityModel> densityModelPtr_;
-
-//    autoPtr<viscosityModel> viscosityModelPtr_;
-
-    autoPtr<absolutePermeabilityModel> absolutePermeabilityModelPtr_;
-
-    autoPtr<dispersionTensorModel> dispersionTensorModelPtr_;
 
     word phiName_;
 
     const surfaceScalarField &phi_;
-
-    // concentration fields
-    PtrList<volScalarField> Y_;
 
 
   // Private Member Functions
@@ -163,81 +135,6 @@ class basicGeochemicalModel : public fluidProperties
     virtual void updatePorosity();
 
   //  virtual volScalarField dMs() const = 0;
-
-    tmp<volScalarField> porosity() const
-    {
-        return eps_;
-    }
-
-    tmp<volScalarField> absolutePermeability() const
-    {
-        return absolutePermeabilityModelPtr_->absolutePermeability();
-    }
-
-    tmp<volScalarField> inversePermeability() const
-    {
-        return absolutePermeabilityModelPtr_->inversePermeability();
-    }
-
-    tmp<surfaceScalarField> Kf() const
-    {
-        return absolutePermeabilityModelPtr_->Kf();
-    }
-
-    void updatePermeability()
-    {
-        absolutePermeabilityModelPtr_->updatePermeability();
-    }
-
-    void updateSurfaceArea()
-    {
-        forAll(porousMedia_,s)
-        {
-            porousMedia_[s].updateSurfaceArea();
-        }
-    }
-
-    tmp<volTensorField> effectiveDispersionTensor() const
-    {
-        return dispersionTensorModelPtr_->effectiveDispersionTensor();
-    }
-
-    void updateDispersionTensor()
-    {
-        dispersionTensorModelPtr_->updateDispersionTensor();
-    }
-/*
-    virtual tmp<volScalarField> rho() const
-    {
-        return fluidProperties.rho();
-    }
-
-    virtual void updateDensity()
-    {
-        this->updateDensity();
-
-    }
-    */
-/*
-
-    virtual tmp<volScalarField> nu() const
-    {
-//        return viscosityModelPtr_->nu();
-        return fluidProperties_.nu();
-    }
-
-    virtual void updateViscosity()
-    {
-//        viscosityModelPtr_->updateViscosity();
-        fluidProperties_.updateViscosity();
-    }
-*/
-/*
-    const viscosityModel & viscosity()
-    {
-        return viscosityModelPtr_();
-    }
-*/
 
     tmp<volScalarField> dMinvdRho() const
     {

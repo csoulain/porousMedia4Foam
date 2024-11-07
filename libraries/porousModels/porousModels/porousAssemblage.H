@@ -22,33 +22,34 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::porousModel
+    Foam::porousAssemblage
 
 Description
-    porousModel module for geometric porous media properties including
+    porousAssemblage module for geometric porous media properties including
       - porosity
       - absolute permeability models
       - surface area models
 
 
 SourceFiles
-    porousModel.C
+    porousAssemblage.C
 
 Authors
     - 4/2/2020 C. Soulaine
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef porousModel_H
-#define porousModel_H
+#ifndef porousAssemblage_H
+#define porousAssemblage_H
 
 #include "volFields.H"
 #include "surfaceInterpolate.H"
 #include "absolutePermeabilityModel.H"
-//#include "dispersionModel.H"
 #include "dispersionTensorModel.H"
 #include "surfaceAreaModel.H"
 //#include "autoPtr.H"
+#include "speciesTable.H"
+#include "mineralModel.H"
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
@@ -58,7 +59,7 @@ namespace Foam
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class porousModel
+class porousAssemblage
 {
 
 
@@ -68,32 +69,34 @@ class porousModel
 
     const fvMesh &mesh_;
 
-    word porousMediaName_;
+    speciesTable mineralList_;
 
-    dictionary porousMediaDict_;
+    PtrList<volScalarField> Ys_;
 
-    volScalarField Ys_;
 
-    const volScalarField &Yss_; //Cyp temp addition for Ys update
-                                //correctly in geochemicalModel
+    volScalarField inertMineral_;
 
     volScalarField eps_;
+    volScalarField eps0_;
+
+    PtrList<dimensionedScalar> rhos_;
+
+    PtrList<volScalarField> mineralSurfaceArea_;
+
+
+    PtrList<mineralModel> mineral_;
+
 
     autoPtr<absolutePermeabilityModel> absolutePermeabilityModelPtr_;
 
     autoPtr<dispersionTensorModel> dispersionTensorModelPtr_;
 
 
-    autoPtr<surfaceAreaModel> surfaceAreaModelPtr_;
 
-
-/*
-    tmp<volScalarField> invK_;
-*/
   // Private Member Functions
 
     //- Disallow copy construct
-    porousModel(const porousModel&);
+    porousAssemblage(const porousAssemblage&);
 
 
   public:
@@ -102,22 +105,14 @@ class porousModel
 
     //- Construct from components
 
-    porousModel
+    porousAssemblage
     (
         const fvMesh& mesh,
-        const dictionary& dict
-    );
-
-    porousModel
-    (
-        const fvMesh& mesh,
-        const word & name,
-        const volScalarField& Ys,
         const dictionary& dict
     );
 
     //- Destructor
-    ~porousModel()
+    ~porousAssemblage()
     {}
 
 
@@ -130,39 +125,25 @@ class porousModel
 //    virtual const basicMultiComponentMixture& composition() const = 0;
 
 
-    tmp<volScalarField> surfaceArea() const
-    {
-        return surfaceAreaModelPtr_->surfaceArea();
-    }
-
-    void updateSurfaceArea()
-    {
-        surfaceAreaModelPtr_->updateSurfaceArea();
-//        return surfaceAreaModelPtr_->updateSurfaceArea();
-    }
-
-
     tmp<volScalarField> absolutePermeability() const
     {
         return absolutePermeabilityModelPtr_->absolutePermeability();
     }
 
-    tmp<volScalarField> invK() const
+    tmp<volScalarField> inversePermeability() const
     {
         return absolutePermeabilityModelPtr_->inversePermeability();
     }
 
     void updatePermeability()
     {
-          Info << "avant updatePermeability dans porousModel" <<endl;
           absolutePermeabilityModelPtr_->updatePermeability();
-//        return absolutePermeabilityModelPtr_->updatePermeability();
-          Info << "après updatePermeability dans porousModel" <<endl;
     }
 
-    tmp<surfaceScalarField> Kf() const
+    //tmp<surfaceScalarField> Kf() const
+    const surfaceScalarField& Kf() const
     {
-        Info << "avant Kf dans porousModel" <<endl;
+        Info << "avant Kf dans porousAssemblage" <<endl;
         return absolutePermeabilityModelPtr_->Kf();
 //          return fvc::interpolate(absolutePermeability(),"K");
 
@@ -183,6 +164,16 @@ class porousModel
     {
         return eps_;
     }
+
+
+    void updateSurfaceArea()
+    {
+        forAll(mineralList_,s)
+        {
+            mineral_[s].updateSurfaceArea();
+        }
+    }
+
 
     void update()
     {

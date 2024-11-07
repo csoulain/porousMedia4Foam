@@ -43,55 +43,10 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
 )
 :
       fluidProperties(mesh,dict),
+      porousAssemblage(mesh,dict.subDict("geochemicalProperties")),
       mesh_(mesh),
       geochemicalModelDict_(dict.subDict("geochemicalProperties")),
       fluidPropertiesDict_(dict.subDict("fluidProperties")),
-//      fluidProperties_(mesh,dict),
-      mineralList_(geochemicalModelDict_.lookup("mineral")),
-      Ys_(mineralList_.size() ),
-      inertMineral_
-      (
-          IOobject
-          (
-              "inertMineral",
-              mesh.time().timeName(),
-              mesh,
-              IOobject::READ_IF_PRESENT,
-              IOobject::AUTO_WRITE
-          ),
-          mesh,
-          dimensionedScalar("inertMineral",dimless,0.0),
-          "zeroGradient"
-      ),
-      eps_
-      (
-          IOobject
-          (
-              "eps",
-              mesh.time().timeName(),
-              mesh,
-              IOobject::NO_READ,
-              IOobject::AUTO_WRITE
-          ),
-          mesh,
-          dimensionedScalar("eps",dimless,1.0),
-          "zeroGradient"
-      ),
-      eps0_
-      (
-          IOobject
-          (
-              "eps0",
-              mesh.time().timeName(),
-              mesh,
-              IOobject::READ_IF_PRESENT,
-              IOobject::NO_WRITE
-          ),
-          mesh,
-          dimensionedScalar("eps0",dimless,1.0),
-          "zeroGradient"
-      ),
-      rhos_(mineralList_.size() ),
       dMinvdRho_
       (
           IOobject
@@ -106,77 +61,9 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
           dimensionedScalar("dMinvdRho",dimless/dimTime,0.0),
           "zeroGradient"
       ),
-      porousMedia_(mineralList_.size()),
-      /*
-      densityModelPtr_
-      (
-          densityModel::New(mesh, fluidPropertiesDict_)
-      ),
-      viscosityModelPtr_
-      (
-          viscosityModel::New(mesh, fluidPropertiesDict_)
-      ),
-      */
-      absolutePermeabilityModelPtr_
-      (
-          absolutePermeabilityModel::New(mesh, geochemicalModelDict_)
-      ),
-      dispersionTensorModelPtr_
-      (
-          dispersionTensorModel::New(mesh, geochemicalModelDict_)
-      ),
       phiName_(geochemicalModelDict_.lookupOrDefault<word>("phi","phi")),
       phi_(mesh.lookupObject<surfaceScalarField>(phiName_))
 {
-
-    forAll(mineralList_,s)
-    {
-      word currentMineral = mineralList_[s];
-      Info << " Doing stuff for mineral: " << currentMineral << endl;
-
-      Ys_.set
-      (
-        s,
-        new volScalarField
-        (
-          IOobject
-          (
-            "Ys."+mineralList_[s],
-            mesh_.time().timeName(),
-            mesh_,
-            IOobject::MUST_READ, //READ_IF_PRESENT,  //MUST_READ ??
-            IOobject::AUTO_WRITE
-          ),
-          mesh_ //,
-          //		dimensionedScalar(currentMineral,dimless,0.0),
-          //		"zeroGradient"
-        )
-      );
-      Ys_[s].write();
-
-      rhos_.set
-      (
-          s,
-          new dimensionedScalar
-          (
-              geochemicalModelDict_.subDict(currentMineral+"Properties").lookup("rhos")
-          )
-      );
-
-      porousMedia_.set
-      (
-        s,
-        new porousModel
-        (
-          mesh,
-          mineralList_[s],
-          Ys_[s],
-          geochemicalModelDict_
-        )
-      );
-    }
-    updatePorosity();
-
 
 
 // -----------------------------------------------------------------------------

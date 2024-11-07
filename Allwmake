@@ -18,6 +18,7 @@ wmake libraries/porousBoundaryConditions
 # Compiling solvers
 wmake solvers/darcyFoam
 wmake solvers/impesFoam
+wmake solvers/impesRTMFoam
 #wmake solvers/dbsSimpleFoam
 wmake solvers/dbsFoam
 wmake solvers/constantVelocityFoam

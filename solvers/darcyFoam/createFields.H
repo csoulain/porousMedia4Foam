@@ -84,11 +84,11 @@ const volScalarField& rho = porousMedia.rho();
 //const volScalarField& mu0 = porousMedia.mu();
 
 
-Info << "Reading field K\n" << endl;
+Info << "Reading field 0K\n" << endl;
 const surfaceScalarField& Kf = porousMedia.Kf();
-
+Info << "Reading field K00\n" << endl;
 surfaceScalarField Mf ("Mf",Kf/mu);
-
+Info << "Reading field K01\n" << endl;
 //surfaceScalarField Mf ("Mf",Kf/fvc::interpolate(mu0));
 
 surfaceScalarField phiG("phiG",((fvc::interpolate(rho) * Mf) * g) & mesh.Sf());

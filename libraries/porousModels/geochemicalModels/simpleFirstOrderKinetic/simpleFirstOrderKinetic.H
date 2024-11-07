@@ -80,6 +80,7 @@ class simpleFirstOrderKinetic : public basicGeochemicalModel
     dimensionedScalar Di_;
   //  dimensionedScalar alphaL_;
 
+    PtrList<volScalarField> Y_;
 
 
   // Private Member Functions

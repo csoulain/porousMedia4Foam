@@ -399,7 +399,7 @@ std::string Foam::geochemicalModels::phreeqcRM::generateKineticsInputString()
 
                 //attention au 100 pour Calcite mais pas pour le reste
 
-                const volScalarField Ae_ ("Ae",porousMedia_[s].surfaceArea());
+                const volScalarField Ae_ ("Ae",mineral_[s].surfaceArea());
 
                 double AeMi = Ae_[i];
                 //          double AeMi = Ae_[i]/(Ys_[s][i]+SMALL);
@@ -474,7 +474,7 @@ void Foam::geochemicalModels::phreeqcRM::updateKineticsParameters()
             if(activatePhaseEquilibrium_[s] == false)
             {
 
-                const volScalarField Ae_ ("Ae",porousMedia_[s].surfaceArea());
+                const volScalarField Ae_ ("Ae",mineral_[s].surfaceArea());
 
                 //attention au 100 pour Calcite mais pas pour le reste
                 double AeMi;

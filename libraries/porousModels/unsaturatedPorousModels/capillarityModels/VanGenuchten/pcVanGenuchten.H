@@ -82,8 +82,8 @@ public:
     //- Correct the capillary pressure
     void correct()
     {
-        pc_ = pc0_ * pow(pow(Se_,-1/m_)-1,1/n_);
-        dpcdS_ = - (1/(n_*m_)) * (pc0_*dSedS_) * pow(pow(Se_,-1/m_)-1,(1/n_)-1) * pow(Se_,-(1+m_)/m_);
+        pc_ = pc0_ * pow(pow(Se_,-1./m_)-1,1./n_);
+        dpcdS_ = - (1./(n_*m_)) * (pc0_*dSedS_) * pow(pow(Se_,-1./m_)-1,(1./n_)-1) * pow(Se_,-(1+m_)/m_);
     }
 
 };

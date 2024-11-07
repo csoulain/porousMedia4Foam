@@ -23,53 +23,36 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "flowOnly.H"
-#include "addToRunTimeSelectionTable.H"
+#include "basicUnsaturatedGeochemicalModel.H"
 
+// ************************************************************************* //
 
-// * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
-
-namespace Foam
-{
-    namespace geochemicalModels
-    {
-        defineTypeNameAndDebug(flowOnly, 0);
-
-        addToRunTimeSelectionTable
-        (
-            basicGeochemicalModel,
-            flowOnly,
-            dictionary
-        );
-    }
-}
-
-// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
-
-Foam::geochemicalModels::flowOnly::flowOnly
+Foam::autoPtr<Foam::basicUnsaturatedGeochemicalModel> Foam::basicUnsaturatedGeochemicalModel::New
 (
     const fvMesh& mesh,
     const dictionary& dict
 )
-:
-      basicGeochemicalModel(mesh, dict)
-{}
-
-
-// -------------------------------------------------------------------------//
-
-/*
-Foam::volScalarField Foam::flowOnly::dMl() const
 {
+    const word modelType(dict.lookup("geochemicalModel"));
 
-    volScalarField dMl_(0.0*fvc::ddt(Y_[0])/this->rhol());
-    forAll(Y_,s)
+    Info<< "Selecting Geochemical package " << modelType << endl;
+
+    dictionaryConstructorTable::iterator cstrIter =
+        dictionaryConstructorTablePtr_->find(modelType);
+
+    if (cstrIter == dictionaryConstructorTablePtr_->end())
     {
-        dMl_ = dMl_ + fvc::ddt(Y_[s])/this->rhol();
+        FatalErrorInFunction
+            << "Unknown geochemical model type "
+            << modelType << nl << nl
+            << "Valid geochemical model are : " << endl
+            << dictionaryConstructorTablePtr_->sortedToc()
+            << exit(FatalError);
     }
 
-    return dMl_;
+    return autoPtr<basicUnsaturatedGeochemicalModel>
+        (cstrIter()(mesh, dict));
 }
-*/
+
 
 // ************************************************************************* //

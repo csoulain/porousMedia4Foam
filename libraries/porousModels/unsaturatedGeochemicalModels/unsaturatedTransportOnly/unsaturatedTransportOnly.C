@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "simpleFirstOrderKineticMole.H"
+#include "unsaturatedTransportOnly.H"
 #include "addToRunTimeSelectionTable.H"
 
 #include "fvMatrix.H"
@@ -39,12 +39,12 @@ namespace Foam
 {
     namespace geochemicalModels
     {
-        defineTypeNameAndDebug(simpleFirstOrderKineticMole, 0);
+        defineTypeNameAndDebug(unsaturatedTransportOnly, 0);
 
         addToRunTimeSelectionTable
         (
             basicGeochemicalModel,
-            simpleFirstOrderKineticMole,
+            unsaturatedTransportOnly,
             dictionary
         );
     }
@@ -52,20 +52,17 @@ namespace Foam
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::geochemicalModels::simpleFirstOrderKineticMole::simpleFirstOrderKineticMole
+Foam::geochemicalModels::unsaturatedTransportOnly::unsaturatedTransportOnly
 (
   const fvMesh& mesh,
   const dictionary& dict
 )
 :
     basicGeochemicalModel(mesh, dict),
-    geochemicalModelDict_(dict.subDict("geochemicalProperties")),
-    mineralSubDict_( mineralList_.size() ),
-    Vm_( mineralList_.size() ),
-    ki_( mineralList_.size() ),
-    Acti_( mineralList_.size() )
+//    unsaturatedTransportOnlyDict_(dict.subDict(typeName)),
+    transportPropertiesDict_(dict)
 {
-    Info << "initialization of the simpleFirstOrderKineticMole calculation ....";
+    Info << "initialization of the unsaturatedTransportOnly calculation ....";
     Y_.resize(1);
 
     Y_.set
@@ -85,85 +82,21 @@ Foam::geochemicalModels::simpleFirstOrderKineticMole::simpleFirstOrderKineticMol
       )
     );
 
-    readMineralProperties();
     Info<< "OK" << nl << endl;
 }
 
 
 // -------------------------------------------------------------------------//
 
-void Foam::geochemicalModels::simpleFirstOrderKineticMole::readMineralProperties()
+void Foam::geochemicalModels::unsaturatedTransportOnly::updateFluidComposition()
 {
 
-  forAll(mineralList_,s)
-	{
-		word currentMineral = mineralList_[s];
-		Info << " Doing stuff for mineral: " << currentMineral << endl;
-
-    mineralSubDict_.set
-    (
-        s,
-        new dictionary
-        (
-              geochemicalModelDict_.subDict(currentMineral+"Properties")
-        )
-    );
-
-		Vm_.set
-		(
-  			s,
-  			new dimensionedScalar
-  			(
-  					   mineralSubDict_[s].lookup("Vm")
-  			)
-		);
-
-    ki_.set
-    (
-        s,
-        new dimensionedScalar
-        (
-               mineralSubDict_[s].lookup("ki")
-        )
-    );
-
-    Acti_.set
-    (
-        s,
-        new dimensionedScalar
-        (
-               mineralSubDict_[s].lookup("Acti")
-        )
-    );
-
-  }
-
-}
-
-void Foam::geochemicalModels::simpleFirstOrderKineticMole::updateFluidComposition()
-{
-
-  //  Info << " Update fluid composition with simpleFirstOrderKineticMole" << endl;
+  //  Info << " Update fluid composition with unsaturatedTransportOnly" << endl;
 
     word divPhiYiScheme = "div(phi,Yi)";
 
-    const volTensorField &Deff = effectiveDispersionTensor();
-
-
-  //  tmp<volScalarField> Aee_ (this->surfaceArea());
-    volScalarField Ak_
-    (
-        "Ak",
-//        0.0*porousMedia_[0].surfaceArea()*ki_[0]*Acti_[0]
-        0.0*mineral_[0].surfaceArea()*ki_[0]*Acti_[0]
-
-    );
-
-    forAll(mineralList_,s)
-  	{
-//        Ak_ += porousMedia_[s].surfaceArea()*ki_[s]*Acti_[s];
-        Ak_ += mineral_[s].surfaceArea()*ki_[s]*Acti_[s];
-    }
+//    const volScalarField &Deff = effectiveDispersion();
+    const volTensorField &DispT =  effectiveDispersionTensor();
 
 //    Ak_ = 2*(1.-eps_)*Ak_;
 
@@ -173,12 +106,12 @@ void Foam::geochemicalModels::simpleFirstOrderKineticMole::updateFluidCompositio
         volScalarField& Yi = Y_[i];
       //        dimensionedScalar& Di = D[i];
 
+
         tmp<fvScalarMatrix> YiEqn
         (
                   fvm::ddt(eps_,Yi) + fvm::div(phi_,Yi,divPhiYiScheme)
-                - fvm::laplacian(Deff,Yi,"laplacian(Di,Yi)")
-          ==
-            fvm::Sp(Ak_,Yi)
+                - fvm::laplacian(eps_*DispT,Yi,"laplacian(Di,Yi)")
+//                - fvm::laplacian(Deff,Yi,"laplacian(Di,Yi)")
         );
 
         YiEqn.ref().relax();
@@ -199,30 +132,12 @@ volScalarField m_s ("m_s", stoec*ae*McaCo3*alphai*Ci/Ceq);
 
 }
 
-void Foam::geochemicalModels::simpleFirstOrderKineticMole::updateMineralDistribution()
-{
-    forAll(Ys_,s)
-    {
-        volScalarField dMs_
-        (
-            "dMs",
-//            porousMedia_[s].surfaceArea()*ki_[s]*Vm_[s]*Acti_[s]*Y_[s]/(Ys_[s]+SMALL)
-            mineral_[s].surfaceArea()*ki_[s]*Vm_[s]*Acti_[s]*Y_[s]/(Ys_[s]+SMALL)
-        );
-
-        solve
-        (
-          fvm::ddt(Ys_[s]) == fvm::Sp(dMs_,Ys_[s])
-        );
-
-      //    Ys_[s].max(0.0);
-      //    Ys_[s].min(0.999);
-    }
-}
+void Foam::geochemicalModels::unsaturatedTransportOnly::updateMineralDistribution()
+{}
 // -------------------------------------------------------------------------//
 
 /*
-Foam::volScalarField Foam::simpleFirstOrderKineticMole::dMl() const
+Foam::volScalarField Foam::unsaturatedTransportOnly::dMl() const
 {
 
     volScalarField dMl_(0.0*fvc::ddt(Y_[0])/this->rhol());

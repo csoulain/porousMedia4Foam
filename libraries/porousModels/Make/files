@@ -42,6 +42,8 @@ porousModels/surfaceAreaModels/volumeOfSolid/volumeOfSolid.C
 ##porousModels/surfaceAreaModels/improvedVolumeOfSolid/improvedVolumeOfSolid.C
 
 porousModels/porousModel.C
+porousModels/mineralModel.C
+porousModels/porousAssemblage.C
 
 
 unsaturatedPorousModels/reducedSaturationModels/reducedSaturationModel/reducedSaturationModel.C
@@ -71,16 +73,25 @@ unsaturatedPorousModels/unsaturatedPorousModel.C
 geochemicalModels/basicGeochemicalModel/basicGeochemicalModel.C
 geochemicalModels/basicGeochemicalModel/basicGeochemicalModelNew.C
 geochemicalModels/flowOnly/flowOnly.C
-geochemicalModels/simpleFirstOrderKinetic/simpleFirstOrderKinetic.C
+##geochemicalModels/simpleFirstOrderKinetic/simpleFirstOrderKinetic.C
 geochemicalModels/simpleFirstOrderKineticMole/simpleFirstOrderKineticMole.C
-geochemicalModels/thermoReactiveSerpentinization/thermoReactiveSerpentinization.C
+##geochemicalModels/thermoReactiveSerpentinization/thermoReactiveSerpentinization.C
 geochemicalModels/transportOnly/transportOnly.C
 geochemicalModels/phreeqcRM/phreeqcRM.C
 
 
-geochemicalModels/testDensity/testDensity.C
+##geochemicalModels/testDensity/testDensity.C
 
 geochemicalModels/geochemicalModel.C
+
+
+##unsaturatedGeochemicalModels/basicUnsaturatedGeochemicalModel/basicUnsaturatedGeochemicalModel.C
+##unsaturatedGeochemicalModels/basicUnsaturatedGeochemicalModel/basicUnsaturatedGeochemicalModelNew.C
+##unsaturatedGeochemicalModels/unsaturatedFlowOnly/unsaturatedFlowOnly.C
+##unsaturatedGeochemicalModels/unsaturatedTransportOnly/unsaturatedTransportOnly.C
+
+###unsaturatedGeochemicalModels/unsaturatedGeochemicalModel.C
+
 
 
 LIB = $(FOAM_USER_LIBBIN)/libporousModels

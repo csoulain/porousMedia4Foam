@@ -88,17 +88,18 @@ public:
     void correct()
     {
 
-        kra_ = kramax_ * pow(1-Se_,0.5) * pow(1-pow(Se_,1/m_),2*m_);
-        krb_ = krbmax_ * pow(Se_,0.5) * pow(1-pow(1-pow(Se_,1/m_),m_),2);
+        kra_ = kramax_ * pow(1-Se_,0.5) * pow(1-pow(Se_,1./m_),2*m_);
 
-        dkradS_ = - pow((1-pow(Se_,1/m_)),2*m_-1) * (-5*pow(Se_,1/m_+1)+4*pow(Se_,1/m_)+Se_);
-        dkradS_ *= 1/(2*pow((1-Se_),0.5)*Se_);
+        krb_ = krbmax_ * pow(Se_,0.5) * pow(1-pow(1-pow(Se_,1./m_),m_),2);
+
+        dkradS_ = - pow((1-pow(Se_,1./m_)),2*m_-1) * (-5*pow(Se_,1./m_+1)+4*pow(Se_,1./m_)+Se_);
+        dkradS_ *= 1./(2*pow((1-Se_),0.5)*Se_);
         dkradS_ *=  dSedS_;
         dkradS_ *= kramax_;
 
 
-        dkrbdS_ = 0.5 * (1-pow((1-pow(Se_,1/m_)),m_));
-        dkrbdS_ *= ( 4 * pow(Se_,1/m_-0.5) * pow( (1-pow(Se_,1/m_)) , m_-1)) - ( pow((1-pow(Se_,1/m_)),m_) -1) / pow(Se_,0.5);
+        dkrbdS_ = 0.5 * (1-pow((1-pow(Se_,1./m_)),m_));
+        dkrbdS_ *= ( 4 * pow(Se_,1./m_-0.5) * pow( (1-pow(Se_,1/m_)) , m_-1)) - ( pow((1-pow(Se_,1./m_)),m_) -1) / pow(Se_,0.5);
         dkrbdS_ *= dSedS_;
         dkrbdS_ *= krbmax_;
 

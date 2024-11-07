@@ -58,7 +58,8 @@ Foam::absolutePermeabilityModels::heterogeneousScalarConstant::heterogeneousScal
     K0_(heterogeneousScalarConstantDict_.lookupOrDefault
     (
         "K0",
-        dimensionedScalar("K0",dimensionSet(0,2,0,0,0,0,0),SMALL))
+//        dimensionedScalar("K0",dimensionSet(0,2,0,0,0,0,0),SMALL))
+        dimensionedScalar("K0",dimensionSet(0,2,0,0,0,0,0),1e-6))
     ),
     K_
     (
@@ -107,6 +108,7 @@ Foam::absolutePermeabilityModels::heterogeneousScalarConstant::inversePermeabili
 Foam::tmp<Foam::surfaceScalarField>
 Foam::absolutePermeabilityModels::heterogeneousScalarConstant::Kf() const
 {
+      Info << "avant Kf dans heterogeneous" <<endl;
       return Kf_;
 }
 
@@ -115,6 +117,7 @@ Foam::absolutePermeabilityModels::heterogeneousScalarConstant::Kf() const
 void Foam::absolutePermeabilityModels::heterogeneousScalarConstant::updatePermeability()
 {
     //do nothing
+    Info << "updatePermeability dans heterogeneous" <<endl;
 
 }
 

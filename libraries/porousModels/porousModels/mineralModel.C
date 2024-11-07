@@ -23,53 +23,34 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "flowOnly.H"
-#include "addToRunTimeSelectionTable.H"
-
+#include "mineralModel.H"
+#include "fvcDdt.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
-namespace Foam
-{
-    namespace geochemicalModels
-    {
-        defineTypeNameAndDebug(flowOnly, 0);
 
-        addToRunTimeSelectionTable
-        (
-            basicGeochemicalModel,
-            flowOnly,
-            dictionary
-        );
-    }
-}
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::geochemicalModels::flowOnly::flowOnly
+Foam::mineralModel::mineralModel
 (
     const fvMesh& mesh,
+    const word & name,
+    const volScalarField& Ys,
     const dictionary& dict
 )
 :
-      basicGeochemicalModel(mesh, dict)
+        mesh_(mesh),
+        mineralName_(name),
+        mineralDict_(dict.subDict(mineralName_+"Properties")),
+        surfaceAreaModelPtr_
+        (
+            surfaceAreaModel::New(mesh, Ys, mineralDict_)
+        )
 {}
 
 
 // -------------------------------------------------------------------------//
 
-/*
-Foam::volScalarField Foam::flowOnly::dMl() const
-{
-
-    volScalarField dMl_(0.0*fvc::ddt(Y_[0])/this->rhol());
-    forAll(Y_,s)
-    {
-        dMl_ = dMl_ + fvc::ddt(Y_[s])/this->rhol();
-    }
-
-    return dMl_;
-}
-*/
 
 // ************************************************************************* //

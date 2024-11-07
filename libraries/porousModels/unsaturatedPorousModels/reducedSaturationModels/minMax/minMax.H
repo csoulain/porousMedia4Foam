@@ -85,8 +85,10 @@ public:
     //- Compute the reduced saturation
     virtual void updateReducedSaturation()
     {
-        Se_=(Sb_+SMALL-Smin_)/(Smax_-Smin_);
+        Se_=(mag(Sb_-Smin_)+SMALL)/(Smax_-Smin_);
         dSedS_ = 1./(Smax_-Smin_);
+        Se_.min(1.0);
+        Se_.max(0.0);
     }
 
 };

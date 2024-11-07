@@ -182,6 +182,7 @@ void Foam::absolutePermeabilityModels::KozenyCarman::updatePermeability()
   dimensionedScalar smallInvK_("smallInvK",dimensionSet(0,-2,0,0,0),SMALL);
 
   K_ = 1./(invK_+smallInvK_);
+  K_.max(1e-18);
   K_.correctBoundaryConditions();
 
   //Kf_ = fvc::interpolate(K_,"harmonic");

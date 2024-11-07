@@ -1,0 +1,259 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
+     \\/     M anipulation  |
+-------------------------------------------------------------------------------
+License
+    This file is part of OpenFOAM.
+
+    OpenFOAM is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+
+\*---------------------------------------------------------------------------*/
+
+#include "basicUnsaturatedGeochemicalModel.H"
+#include "fvcDdt.H"
+
+// * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
+
+namespace Foam
+{
+    defineTypeNameAndDebug(basicUnsaturatedGeochemicalModel, 0);
+    defineRunTimeSelectionTable(basicUnsaturatedGeochemicalModel, dictionary);
+}
+
+// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
+
+Foam::basicUnsaturatedGeochemicalModel::basicUnsaturatedGeochemicalModel
+(
+    const fvMesh& mesh,
+    const dictionary& dict
+)
+:
+      fluidProperties(mesh,dict),
+      mesh_(mesh),
+      geochemicalModelDict_(dict.subDict("geochemicalProperties")),
+      fluidPropertiesDict_(dict.subDict("fluidProperties")),
+//      fluidProperties_(mesh,dict),
+      mineralList_(geochemicalModelDict_.lookup("mineral")),
+      Ys_(mineralList_.size() ),
+      inertMineral_
+      (
+          IOobject
+          (
+              "inertMineral",
+              mesh.time().timeName(),
+              mesh,
+              IOobject::READ_IF_PRESENT,
+              IOobject::AUTO_WRITE
+          ),
+          mesh,
+          dimensionedScalar("inertMineral",dimless,0.0),
+          "zeroGradient"
+      ),
+      eps_
+      (
+          IOobject
+          (
+              "eps",
+              mesh.time().timeName(),
+              mesh,
+              IOobject::NO_READ,
+              IOobject::AUTO_WRITE
+          ),
+          mesh,
+          dimensionedScalar("eps",dimless,1.0),
+          "zeroGradient"
+      ),
+      eps0_
+      (
+          IOobject
+          (
+              "eps0",
+              mesh.time().timeName(),
+              mesh,
+              IOobject::READ_IF_PRESENT,
+              IOobject::NO_WRITE
+          ),
+          mesh,
+          dimensionedScalar("eps0",dimless,1.0),
+          "zeroGradient"
+      ),
+      rhos_(mineralList_.size() ),
+      dMinvdRho_
+      (
+          IOobject
+          (
+              "dMinvdRho",
+              mesh.time().timeName(),
+              mesh,
+              IOobject::NO_READ,
+              IOobject::NO_WRITE
+          ),
+          mesh,
+          dimensionedScalar("dMinvdRho",dimless/dimTime,0.0),
+          "zeroGradient"
+      ),
+      dGasvdRho_
+      (
+          IOobject
+          (
+              "dGasvdRho",
+              mesh.time().timeName(),
+              mesh,
+              IOobject::NO_READ,
+              IOobject::NO_WRITE
+          ),
+          mesh,
+          dimensionedScalar("dGasvdRho",dimless/dimTime,0.0),
+          "zeroGradient"
+      ),
+      porousMedia_(mineralList_.size()),
+      /*
+      densityModelPtr_
+      (
+          densityModel::New(mesh, fluidPropertiesDict_)
+      ),
+      viscosityModelPtr_
+      (
+          viscosityModel::New(mesh, fluidPropertiesDict_)
+      ),
+      */
+      absolutePermeabilityModelPtr_
+      (
+          absolutePermeabilityModel::New(mesh, geochemicalModelDict_)
+      ),
+      dispersionTensorModelPtr_
+      (
+          dispersionTensorModel::New(mesh, geochemicalModelDict_)
+      ),
+      phiaName_(dict.lookupOrDefault<word>("phia","phia")),
+      phibName_(dict.lookupOrDefault<word>("phib","phib")),
+      phia_(mesh.lookupObject<surfaceScalarField>(phiaName_)),
+      phib_(mesh.lookupObject<surfaceScalarField>(phibName_)),
+//      phi_(phia_+phib_),
+      phiName_(geochemicalModelDict_.lookupOrDefault<word>("phi","phi")),
+      phi_(mesh.lookupObject<surfaceScalarField>(phiName_)),
+      SbName_(dict.lookupOrDefault<word>("Sb","Sb")),
+      Sb_(mesh.lookupObject<volScalarField>(SbName_))
+
+{
+
+    forAll(mineralList_,s)
+    {
+      word currentMineral = mineralList_[s];
+      Info << " Doing stuff for mineral: " << currentMineral << endl;
+
+      Ys_.set
+      (
+        s,
+        new volScalarField
+        (
+          IOobject
+          (
+            "Ys."+mineralList_[s],
+            mesh_.time().timeName(),
+            mesh_,
+            IOobject::MUST_READ, //READ_IF_PRESENT,  //MUST_READ ??
+            IOobject::AUTO_WRITE
+          ),
+          mesh_ //,
+          //		dimensionedScalar(currentMineral,dimless,0.0),
+          //		"zeroGradient"
+        )
+      );
+      Ys_[s].write();
+
+      rhos_.set
+      (
+          s,
+          new dimensionedScalar
+          (
+              geochemicalModelDict_.subDict(currentMineral+"Properties").lookup("rhos")
+          )
+      );
+
+      porousMedia_.set
+      (
+        s,
+        new porousModel
+        (
+          mesh,
+          mineralList_[s],
+          Ys_[s],
+          geochemicalModelDict_
+        )
+      );
+    }
+    updatePorosity();
+
+
+
+// -----------------------------------------------------------------------------
+    const word densitymodelType
+    (
+      fluidPropertiesDict_.lookup("densityModel")
+    );
+
+    const word geochemicalmodelType
+    (
+      dict.lookup("geochemicalModel")
+    );
+
+    if
+    (
+      (densitymodelType == "fromPhreeqc") && (geochemicalmodelType != "phreeqcRM")
+    )
+    {
+      FatalErrorInFunction
+          << "fromPhreeqc densityModel type must be used "
+          << "with phreeqcRM geochemical package" <<nl
+          << exit(FatalError);
+    }
+
+// -----------------------------------------------------------------------------
+
+
+}
+
+// -------------------------------------------------------------------------//
+
+
+void Foam::basicUnsaturatedGeochemicalModel::updatePorosity()
+{
+    eps_ = 0.0*eps_;
+    forAll(mineralList_,s)
+    {
+        eps_+=Ys_[s];
+    }
+    eps_ = 1.-eps_-inertMineral_;
+    eps_.correctBoundaryConditions(); //necessary??
+}
+
+
+void Foam::basicUnsaturatedGeochemicalModel::updatedMinvdRho()
+{
+    dMinvdRho_ = 0.0*dMinvdRho_;
+    forAll(mineralList_,s)
+    {
+        //dMinvdRho_+= -rhos_[s]*fvc::ddt(Ys_[s])*(1./rhol_-1./rhos_[s]);
+        dMinvdRho_+= -rhos_[s]*fvc::ddt(Ys_[s])*(1./this->rho()-1./rhos_[s]);
+    }
+    dMinvdRho_.correctBoundaryConditions(); //necessary??
+}
+
+
+
+// ************************************************************************* //

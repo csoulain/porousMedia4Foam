@@ -81,6 +81,8 @@ public:
     virtual void updateReducedSaturation()
     {
         Se_=Sb_;
+        Se_.min(1.0);
+        Se_.max(0.0);
     }
 
 };

@@ -21,61 +21,40 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
-Application
-    constantVelocityFoam
+Global
+    CourantNo
 
 Description
-    Solve geochemistry using a constant velocity field
+    Calculates and outputs the mean and maximum Courant Numbers.
 
-Developers
-    - Cyprien Soulaine
 \*---------------------------------------------------------------------------*/
 
-#include "argList.H"
-#include "incompressiblePhase.H"
-#include "geochemicalModel.H"
+scalar CoNum = 0.0;
+scalar meanCoNuma = 0.0;
+scalar meanCoNumb = 0.0;
 
-#include "fvcFlux.H"
-#include "fvcSurfaceIntegrate.H"
-
-
-using namespace Foam;
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-int main(int argc, char *argv[])
+if (mesh.nInternalFaces())
 {
+    scalarField sumPhia
+        (
+            fvc::surfaceSum(mag(phia))().internalField()
+        );
+    scalarField sumPhib
+        (
+            fvc::surfaceSum(mag(phib))().internalField()
+        );
 
-//    argList::addOption("phase","a","specify the phase name");
-//    Foam::argList args(argc,argv);
-    #include "setRootCase.H"
-    #include "createTime.H"
-    #include "createMesh.H"
-    #include "createFields.H"
+    CoNum = max(0.5*gMax(sumPhia/mesh.V().field())*runTime.deltaTValue(),0.5*gMax(sumPhib/mesh.V().field())*runTime.deltaTValue());
 
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-    Info<< "\nStarting time loop\n" << endl;
-
-    while (runTime.loop())
-    {
-
-        Info << "Time = " << runTime.timeName() << nl << endl;
-
-        #include "CourantNo.H"
-        porousMedia.update();
-
-        runTime.write();
-
-        Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
-            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
-            << nl << endl;
-
-    }
-
-    Info<< "End\n" << endl;
-
-    return 0;
+    meanCoNuma = 
+        0.5*(gSum(sumPhia)/gSum(mesh.V().field()))*runTime.deltaTValue();
+    meanCoNumb = 
+        0.5*(gSum(sumPhib)/gSum(mesh.V().field()))*runTime.deltaTValue();
 }
+
+Info<< "Courant Number mean: " << meanCoNuma << "," << meanCoNumb << " max: " << CoNum << endl;
+
+CFLUse = CoNum;
+maxDeltaTFact = maxCo/(CFLUse + SMALL);
 
 // ************************************************************************* //
