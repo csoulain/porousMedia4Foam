@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "unsaturatedGeochemicalModel.H"
+#include "unsaturatedPorousAssemblage.H"
 #include "fvcDdt.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
@@ -32,7 +32,7 @@ License
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::unsaturatedGeochemicalModel::unsaturatedGeochemicalModel
+Foam::unsaturatedPorousAssemblage::unsaturatedPorousAssemblage
 (
     const fvMesh& mesh,
     const dictionary& dict,
@@ -41,19 +41,68 @@ Foam::unsaturatedGeochemicalModel::unsaturatedGeochemicalModel
     const incompressiblePhase &phaseb
 )
 :
+        porousAssemblage(mesh,dict.subDict("geochemicalProperties")),
         mesh_(mesh),
-        basicUnsaturatedGeochemicalModelPtr_
+        porousMediaDict_(dict.subDict("geochemicalProperties")),
+        phasea_(phasea),
+        phaseb_(phaseb),
+        Sb_(Sb),        
+        reducedSaturationModelPtr_
         (
-//            basicUnsaturatedGeochemicalModel::New(mesh, unsaturatedGeochemicalModelDict_)
-            basicUnsaturatedGeochemicalModel::New(mesh, dict, Sb, phasea, phaseb)
-        )
-        /*,
-        densityModelPtr_
+            reducedSaturationModel::New(porousMediaDict_,Sb)
+        ),
+        relativePermeabilityModelPtr_
         (
-            densityModel::New(mesh, fluidPropertiesDict_)
-        )
-        */
+            relativePermeabilityModel::New
+            (
+              "krModel",
+              porousMediaDict_,
+              Sb,
+              reducedSaturationModelPtr_
+            )
+        ),
+        capillarityModelPtr_
+        (
+            capillarityModel::New
+            (
+              "pcModel",
+              porousMediaDict_,
+              Sb,
+              reducedSaturationModelPtr_
+            )
+        ),
+        Maf_
+        (
+          IOobject
+          (
+              "Faf",
+              Sb_.time().timeName(),
+              Sb_.db(),
+              IOobject::NO_READ,
+              IOobject::NO_WRITE
+          ),
+          Sb.mesh(),
+          dimensionedScalar("Maf",dimensionSet(-1,3,1,0,0),0)
+        ),
+        Mbf_("Mbf",0.0*Maf_),
+        Mf_("Mf",0.0*Maf_),
+        Laf_
+        (
+          IOobject
+          (
+              "Faf",
+              Sb_.time().timeName(),
+              Sb_.db(),
+              IOobject::NO_READ,
+              IOobject::NO_WRITE
+          ),
+          Sb.mesh(),
+          dimensionedScalar("Maf",dimensionSet(0,0,1,0,0),0)
+        ),
+        Lbf_("Lbf",0.0*Laf_),
+        Lf_("Lf",0.0*Laf_)
 {}
+
 
 // -------------------------------------------------------------------------//
 

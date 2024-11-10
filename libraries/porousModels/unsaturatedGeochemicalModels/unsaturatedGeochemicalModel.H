@@ -72,17 +72,10 @@ class unsaturatedGeochemicalModel
 
 //    dictionary fluidPropertiesDict_;
 
-//    volScalarField Ys_;
-
-//    volScalarField eps_;
 
     autoPtr<basicUnsaturatedGeochemicalModel> basicUnsaturatedGeochemicalModelPtr_;
 
-  //  autoPtr<densityModel> densityModelPtr_;
 
-/*
-    tmp<volScalarField> invK_;
-*/
   // Private Member Functions
 
     //- Disallow copy construct
@@ -98,15 +91,12 @@ class unsaturatedGeochemicalModel
     unsaturatedGeochemicalModel
     (
         const fvMesh& mesh,
-        const dictionary& dict
+        const dictionary& dict,
+        const volScalarField &Sb,
+        const incompressiblePhase &phasea,
+        const incompressiblePhase &phaseb
     );
 
-    unsaturatedGeochemicalModel
-    (
-        const fvMesh& mesh,
-        const volScalarField& Ys,
-        const dictionary& dict
-    );
 
     //- Destructor
     ~unsaturatedGeochemicalModel()

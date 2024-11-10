@@ -30,7 +30,10 @@ License
 Foam::autoPtr<Foam::basicUnsaturatedGeochemicalModel> Foam::basicUnsaturatedGeochemicalModel::New
 (
     const fvMesh& mesh,
-    const dictionary& dict
+    const dictionary& dict,
+    const volScalarField &Sb,
+    const incompressiblePhase &phasea,
+    const incompressiblePhase &phaseb
 )
 {
     const word modelType(dict.lookup("geochemicalModel"));
@@ -51,7 +54,7 @@ Foam::autoPtr<Foam::basicUnsaturatedGeochemicalModel> Foam::basicUnsaturatedGeoc
     }
 
     return autoPtr<basicUnsaturatedGeochemicalModel>
-        (cstrIter()(mesh, dict));
+        (cstrIter()(mesh, dict, Sb, phasea, phaseb));
 }
 
 
