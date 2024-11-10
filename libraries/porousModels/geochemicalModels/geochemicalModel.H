@@ -200,20 +200,12 @@ class geochemicalModel
 
         return mu;
     }
-/*
-    const viscosityModel & viscosity()
-    {
-        return basicGeochemicalModelPtr_->viscosity();
-    }
-*/
+
     void update()
     {
         basicGeochemicalModelPtr_->updateFluidComposition();
         basicGeochemicalModelPtr_->updateMineralDistribution();
-        basicGeochemicalModelPtr_->updatePorosity();
-        basicGeochemicalModelPtr_->updateSurfaceArea();
-        basicGeochemicalModelPtr_->updatePermeability();
-        basicGeochemicalModelPtr_->updateDispersionTensor();
+        basicGeochemicalModelPtr_->updatePorousAssemblageProperties();
         basicGeochemicalModelPtr_->updatedMinvdRho();
         basicGeochemicalModelPtr_->updateDensity();
         basicGeochemicalModelPtr_->updateViscosity();

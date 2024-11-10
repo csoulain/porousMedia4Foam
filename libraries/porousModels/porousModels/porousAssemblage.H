@@ -177,7 +177,7 @@ class porousAssemblage
     }
 
 
-    void update()
+    void updatePorousAssemblageProperties()
     {
         updatePorosity();
         updatePermeability();
