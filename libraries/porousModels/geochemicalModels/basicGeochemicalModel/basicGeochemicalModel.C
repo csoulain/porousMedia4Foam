@@ -95,7 +95,7 @@ Foam::basicGeochemicalModel::basicGeochemicalModel
 
 // -------------------------------------------------------------------------//
 
-
+/*
 void Foam::basicGeochemicalModel::updatePorosity()
 {
     eps_ = 0.0*eps_;
@@ -106,7 +106,7 @@ void Foam::basicGeochemicalModel::updatePorosity()
     eps_ = 1.-eps_-inertMineral_;
     eps_.correctBoundaryConditions(); //necessary??
 }
-
+*/
 
 void Foam::basicGeochemicalModel::updatedMinvdRho()
 {

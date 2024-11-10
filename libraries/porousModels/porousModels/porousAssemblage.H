@@ -160,6 +160,8 @@ class porousAssemblage
     }
 
 
+    void updatePorosity();
+
     const volScalarField & porosity() const
     {
         return eps_;
@@ -177,6 +179,7 @@ class porousAssemblage
 
     void update()
     {
+        updatePorosity();
         updatePermeability();
         updateSurfaceArea();
         updateDispersionTensor();

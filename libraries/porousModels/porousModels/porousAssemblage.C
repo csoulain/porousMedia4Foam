@@ -144,23 +144,23 @@ Foam::porousAssemblage::porousAssemblage
       );
 
     }
-        eps_ = 0.0*eps_;
-        forAll(mineralList_,s)
-        {
-            eps_+=Ys_[s];
-        }
-        eps_ = 1.-eps_-inertMineral_;
-        eps_.correctBoundaryConditions(); //necessary??
-
-    
-/*
-
     updatePorosity();
-*/
 }
 
 
 // -------------------------------------------------------------------------//
+
+void Foam::porousAssemblage::updatePorosity()
+{
+    eps_ = 0.0*eps_;
+    forAll(mineralList_,s)
+    {
+        eps_+=Ys_[s];
+    }
+    eps_ = 1.-eps_-inertMineral_;
+    eps_.correctBoundaryConditions(); //necessary??
+}
+
 
 
 // ************************************************************************* //

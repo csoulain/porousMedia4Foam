@@ -132,7 +132,7 @@ class basicGeochemicalModel : public fluidProperties, public porousAssemblage
 
     // Member Functions
 
-    virtual void updatePorosity();
+//    virtual void updatePorosity();
 
   //  virtual volScalarField dMs() const = 0;
 

@@ -68,6 +68,7 @@ unsaturatedPorousModels/capillarityModels/BrooksAndCorey/pcBrooksAndCorey.C
 
 
 unsaturatedPorousModels/unsaturatedPorousModel.C
+unsaturatedPorousModels/unsaturatedPorousAssemblage.C
 
 
 geochemicalModels/basicGeochemicalModel/basicGeochemicalModel.C
@@ -85,12 +86,12 @@ geochemicalModels/phreeqcRM/phreeqcRM.C
 geochemicalModels/geochemicalModel.C
 
 
-##unsaturatedGeochemicalModels/basicUnsaturatedGeochemicalModel/basicUnsaturatedGeochemicalModel.C
-##unsaturatedGeochemicalModels/basicUnsaturatedGeochemicalModel/basicUnsaturatedGeochemicalModelNew.C
+unsaturatedGeochemicalModels/basicUnsaturatedGeochemicalModel/basicUnsaturatedGeochemicalModel.C
+unsaturatedGeochemicalModels/basicUnsaturatedGeochemicalModel/basicUnsaturatedGeochemicalModelNew.C
 ##unsaturatedGeochemicalModels/unsaturatedFlowOnly/unsaturatedFlowOnly.C
 ##unsaturatedGeochemicalModels/unsaturatedTransportOnly/unsaturatedTransportOnly.C
 
-###unsaturatedGeochemicalModels/unsaturatedGeochemicalModel.C
+unsaturatedGeochemicalModels/unsaturatedGeochemicalModel.C
 
 
 
