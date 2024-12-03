@@ -43,13 +43,8 @@ Developers
 #include "argList.H"
 #include "harmonic.H"
 #include "incompressiblePhase.H"
-#include "unsaturatedPorousModel.H"
-#include "capillarityModel.H"
-#include "relativePermeabilityModel.H"
-//#include "sourceEventFile.H"
-//#include "outputEventFile.H"
-//#include "patchEventFile.H"
-//#include "eventInfiltration.H"
+#include "unsaturatedGeochemicalModel.H"
+
 
 #include "uniformDimensionedFields.H"
 

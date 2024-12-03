@@ -41,6 +41,7 @@
         "ColebrookWhite.C": "cpp",
         "none.C": "cpp",
         "mineralModel.C": "cpp",
-        "unsaturatedPorousAssemblage.C": "cpp"
+        "unsaturatedPorousAssemblage.C": "cpp",
+        "impesRTMFoam.C": "cpp"
     }
 }

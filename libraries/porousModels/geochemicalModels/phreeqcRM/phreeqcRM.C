@@ -62,7 +62,7 @@ Foam::geochemicalModels::phreeqcRM::phreeqcRM
 basicGeochemicalModel(mesh, dict),
 geochemicalModelDict_(dict.subDict("geochemicalProperties")),
 phreeqcDict_(geochemicalModelDict_.subDict(typeName)),
-activateUpdatePorosity_(phreeqcDict_.lookup("activateUpdatePorosity")),
+//activateUpdatePorosity_(phreeqcDict_.lookup("activateUpdatePorosity")),
 useSolutionDensityVolume_( phreeqcDict_.lookupOrDefault("useSolutionDensityVolume",false)),
 setComponentH2O_
 (
@@ -577,23 +577,28 @@ void Foam::geochemicalModels::phreeqcRM::initializeMineralDistribution()
 
     status = phreeqc_.RunString(true, true, true, input.c_str());
 
-    updatePorosity();
+//    updatePorosity();
+    updatePorosityInPhreeqcRM();
 
 }
 
 // -------------------------------------------------------------------------//
 
-void Foam::geochemicalModels::phreeqcRM::updatePorosity()
+//void Foam::geochemicalModels::phreeqcRM::updatePorosity()
+void Foam::geochemicalModels::phreeqcRM::updatePorosityInPhreeqcRM()
 {
+    Info << "updatePorosity dans phreeqcRM" <<endl;
     if(activateUpdatePorosity_)
     {
+        /*
         eps_ = 0.0*eps_;
         forAll(mineralList_,s)
         {
             eps_+=Ys_[s];
         }
         eps_ = 1.-eps_-inertMineral_;
-
+        */
+        updatePorosity();
         eps_.max(1e-3);
         eps_.correctBoundaryConditions();
 
@@ -978,7 +983,7 @@ void Foam::geochemicalModels::phreeqcRM::updateMineralDistribution()
     {
         Ys_[s].correctBoundaryConditions();
     }
-    //updatePorosity();
+    updatePorosityInPhreeqcRM();
     updateKineticsParameters();
     updateSaturationIndex();
 }

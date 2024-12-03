@@ -42,10 +42,11 @@ Authors
 //#include "dictionary.H"
 //#include "volFieldsFwd.H"
 #include "volFields.H"
-#include "speciesTable.H"
+//#include "speciesTable.H"
 #include "runTimeSelectionTables.H"
 #include "unsaturatedPorousAssemblage.H"
 #include "fluidProperties.H"
+#include "incompressiblePhase.H"
 //#include "autoPtr.H"
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -89,13 +90,6 @@ class basicUnsaturatedGeochemicalModel : public fluidProperties, public unsatura
     const volScalarField &Sb_;
 
 
-/*
-    // concentration fields
-    PtrList<volScalarField> Y_;
-
-    PtrList<volScalarField> Ya_; //allocate components in phase a
-    PtrList<volScalarField> Yb_; //allocate components in phase b
-*/
 
   // Private Member Functions
 
@@ -158,8 +152,6 @@ class basicUnsaturatedGeochemicalModel : public fluidProperties, public unsatura
 
 
     // Member Functions
-
- //   virtual void updatePorosity();
 
     tmp<volScalarField> dMinvdRho() const /// solid to liquid
     {

@@ -31,13 +31,13 @@ License
 
 namespace Foam
 {
-    namespace geochemicalModels
+    namespace unsaturatedGeochemicalModels
     {
         defineTypeNameAndDebug(unsaturatedFlowOnly, 0);
 
         addToRunTimeSelectionTable
         (
-            basicGeochemicalModel,
+            basicUnsaturatedGeochemicalModel,
             unsaturatedFlowOnly,
             dictionary
         );
@@ -46,32 +46,21 @@ namespace Foam
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::geochemicalModels::unsaturatedFlowOnly::unsaturatedFlowOnly
+Foam::unsaturatedGeochemicalModels::unsaturatedFlowOnly::unsaturatedFlowOnly
 (
     const fvMesh& mesh,
-    const dictionary& dict
+    const dictionary& dict,
+    const volScalarField &Sb,
+    const incompressiblePhase &phasea,
+    const incompressiblePhase &phaseb
 )
 :
-      basicGeochemicalModel(mesh, dict)
-{
-    Y_.resize(0);
-}
+      basicUnsaturatedGeochemicalModel(mesh, dict, Sb, phasea, phaseb)
+{}
 
 
 // -------------------------------------------------------------------------//
 
-/*
-Foam::volScalarField Foam::unsaturatedFlowOnly::dMl() const
-{
 
-    volScalarField dMl_(0.0*fvc::ddt(Y_[0])/this->rhol());
-    forAll(Y_,s)
-    {
-        dMl_ = dMl_ + fvc::ddt(Y_[s])/this->rhol();
-    }
-
-    return dMl_;
-}
-*/
 
 // ************************************************************************* //

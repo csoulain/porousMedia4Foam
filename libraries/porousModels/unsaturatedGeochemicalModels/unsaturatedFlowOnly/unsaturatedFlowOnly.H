@@ -40,20 +40,21 @@ SourceFiles
 #include "volFields.H"
 #include "speciesTable.H"
 #include "runTimeSelectionTables.H"
-#include "basicGeochemicalModel.H"
+#include "basicUnsaturatedGeochemicalModel.H"
+//#include "incompressiblePhase.H"
 //#include "autoPtr.H"
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
 {
-namespace geochemicalModels
+namespace unsaturatedGeochemicalModels
 {
 
 /*---------------------------------------------------------------------------*\
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class unsaturatedFlowOnly : public basicGeochemicalModel
+class unsaturatedFlowOnly : public basicUnsaturatedGeochemicalModel
 {
 
 
@@ -84,7 +85,10 @@ class unsaturatedFlowOnly : public basicGeochemicalModel
     unsaturatedFlowOnly
     (
         const fvMesh& mesh,
-        const dictionary& dict
+        const dictionary& dict,
+        const volScalarField &Sb,
+        const incompressiblePhase &phasea,
+        const incompressiblePhase &phaseb
     );
 
     //- Destructor
@@ -104,7 +108,7 @@ class unsaturatedFlowOnly : public basicGeochemicalModel
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-} // End namespace geochemicalModels
+} // End namespace unsaturatedGeochemicalModels
 
 } // End namespace Foam
 

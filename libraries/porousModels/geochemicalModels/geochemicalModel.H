@@ -68,21 +68,8 @@ class geochemicalModel
 
     const fvMesh &mesh_;
 
-//    dictionary geochemicalModelDict_;
-
-//    dictionary fluidPropertiesDict_;
-
-//    volScalarField Ys_;
-
-//    volScalarField eps_;
-
     autoPtr<basicGeochemicalModel> basicGeochemicalModelPtr_;
 
-  //  autoPtr<densityModel> densityModelPtr_;
-
-/*
-    tmp<volScalarField> invK_;
-*/
   // Private Member Functions
 
     //- Disallow copy construct

@@ -68,10 +68,6 @@ class unsaturatedGeochemicalModel
 
     const fvMesh &mesh_;
 
-//    dictionary unsaturatedGeochemicalModelDict_;
-
-//    dictionary fluidPropertiesDict_;
-
 
     autoPtr<basicUnsaturatedGeochemicalModel> basicUnsaturatedGeochemicalModelPtr_;
 
@@ -111,43 +107,6 @@ class unsaturatedGeochemicalModel
     //- Return the composition of the multi-component mixture
 //    virtual const basicMultiComponentMixture& composition() const = 0;
 
-/*
-    tmp<volScalarField> surfaceArea() const
-    {
-        return surfaceAreaModelPtr_->surfaceArea();
-    }
-
-    void updateSurfaceArea()
-    {
-        return surfaceAreaModelPtr_->updateSurfaceArea();
-    }
-
-
-    tmp<volScalarField> absolutePermeability() const
-    {
-        return absolutePermeabilityModelPtr_->absolutePermeability();
-    }
-
-    tmp<volScalarField> invK() const
-    {
-        return absolutePermeabilityModelPtr_->inversePermeability();
-    }
-
-    void updatePermeability()
-    {
-        return absolutePermeabilityModelPtr_->updatePermeability();
-    }
-
-    tmp<surfaceScalarField> Kf() const
-    {
-        return absolutePermeabilityModelPtr_->Kf();
-//          return fvc::interpolate(absolutePermeability(),"K");
-
-    }
-
-
-
-*/
 
     const volScalarField & absolutePermeability()  const
     {
@@ -191,12 +150,6 @@ class unsaturatedGeochemicalModel
         return fvc::interpolate(basicUnsaturatedGeochemicalModelPtr_->rho());
     }
 
-/*
-    const viscosityModel & viscosity()  const
-    {
-        return basicUnsaturatedGeochemicalModelPtr_->viscosity();
-    }
-*/
     const volScalarField & nu()  const
     {
         return basicUnsaturatedGeochemicalModelPtr_->nu();
@@ -227,21 +180,103 @@ class unsaturatedGeochemicalModel
 
         return mu;
     }
-/*
-    const viscosityModel & viscosity()
+
+
+    tmp<volScalarField> Se() const
     {
-        return basicUnsaturatedGeochemicalModelPtr_->viscosity();
+        return basicUnsaturatedGeochemicalModelPtr_->Se();
     }
-*/
+
+    tmp<volScalarField> kra() const
+    {
+        return basicUnsaturatedGeochemicalModelPtr_->kra();
+    }
+
+    tmp<volScalarField> krb() const
+    {
+        return basicUnsaturatedGeochemicalModelPtr_->krb();
+    }
+
+    tmp<surfaceScalarField> kraf() const
+    {
+        return basicUnsaturatedGeochemicalModelPtr_->kraf();
+    }
+
+    tmp<surfaceScalarField> krbf() const
+    {
+        return basicUnsaturatedGeochemicalModelPtr_->krbf();
+
+    }
+
+    tmp<surfaceScalarField> Maf() const
+    {
+        return basicUnsaturatedGeochemicalModelPtr_->Maf() ;
+
+    }
+
+    tmp<surfaceScalarField> Mbf() const
+    {
+        return basicUnsaturatedGeochemicalModelPtr_->Mbf() ;
+
+    }
+
+    tmp<surfaceScalarField> Mf() const
+    {
+        return basicUnsaturatedGeochemicalModelPtr_->Mf() ;
+
+    }
+
+    tmp<surfaceScalarField> Laf() const
+    {
+        return basicUnsaturatedGeochemicalModelPtr_->Laf() ;
+
+    }
+
+    tmp<surfaceScalarField> Lbf() const
+    {
+        return basicUnsaturatedGeochemicalModelPtr_->Lbf() ;
+
+    }
+
+    tmp<surfaceScalarField> Lf() const
+    {
+        return basicUnsaturatedGeochemicalModelPtr_->Lf() ;
+
+    }
+
+    tmp<volScalarField> dkradS() const
+    {
+        return basicUnsaturatedGeochemicalModelPtr_->dkradS();
+    }
+
+    tmp<volScalarField> dkrbdS() const
+    {
+        return basicUnsaturatedGeochemicalModelPtr_->dkrbdS();
+    }
+
+    tmp<volScalarField> pc() const
+    {
+        return basicUnsaturatedGeochemicalModelPtr_->pc();
+    }
+
+    tmp<volScalarField> dpcdS() const
+    {
+        return basicUnsaturatedGeochemicalModelPtr_->dpcdS();
+    }
+
+    Switch activateCapillarity() const
+    {
+        return basicUnsaturatedGeochemicalModelPtr_->activateCapillarity();
+    }
+
+
     void update()
     {
         basicUnsaturatedGeochemicalModelPtr_->updateFluidComposition();
         basicUnsaturatedGeochemicalModelPtr_->updateMineralDistribution();
-        basicUnsaturatedGeochemicalModelPtr_->updatePorosity();
-        basicUnsaturatedGeochemicalModelPtr_->updateSurfaceArea();
-        basicUnsaturatedGeochemicalModelPtr_->updatePermeability();
-        basicUnsaturatedGeochemicalModelPtr_->updateDispersionTensor();
+        basicUnsaturatedGeochemicalModelPtr_->updatePorousAssemblageProperties();
         basicUnsaturatedGeochemicalModelPtr_->updatedMinvdRho();
+        basicUnsaturatedGeochemicalModelPtr_->updateMobilities();  /// attention on n'update pas pc pour le moment
         basicUnsaturatedGeochemicalModelPtr_->updateDensity();
         basicUnsaturatedGeochemicalModelPtr_->updateViscosity();
         Info << "geochemistry updated" <<nl <<endl;

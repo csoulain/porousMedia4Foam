@@ -101,7 +101,11 @@ Foam::unsaturatedPorousAssemblage::unsaturatedPorousAssemblage
         ),
         Lbf_("Lbf",0.0*Laf_),
         Lf_("Lf",0.0*Laf_)
-{}
+{
+
+  updateMobilities();
+
+}
 
 
 // -------------------------------------------------------------------------//

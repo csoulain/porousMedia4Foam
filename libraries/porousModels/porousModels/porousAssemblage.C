@@ -52,7 +52,7 @@ Foam::porousAssemblage::porousAssemblage
                 IOobject::AUTO_WRITE
             ),
             mesh,
-            dimensionedScalar("inertMineral",dimless,0.0),
+            dimensionedScalar("inertMineral",dimless,0),
             "zeroGradient"
         ),
         eps_
@@ -69,24 +69,9 @@ Foam::porousAssemblage::porousAssemblage
             dimensionedScalar("eps",dimless,1.0),
             "zeroGradient"
         ),
-        eps0_
-        (
-            IOobject
-            (
-                "eps0",
-                mesh.time().timeName(),
-                mesh,
-                IOobject::READ_IF_PRESENT,
-                IOobject::NO_WRITE
-            ),
-            mesh,
-            dimensionedScalar("eps0",dimless,1.0),
-            "zeroGradient"
-        ),
+        activateUpdatePorosity_(dict.lookupOrDefault("activateUpdatePorosity",true)),
         rhos_(mineralList_.size() ),
         mineralSurfaceArea_(mineralList_.size() ),
-   //     porousMediaName_("porousMedia"),
-   //     porousMediaDict_(dict.subDict(porousMediaName_+"Properties")),
         mineral_(mineralList_.size()),
         absolutePermeabilityModelPtr_
         (
@@ -112,17 +97,15 @@ Foam::porousAssemblage::porousAssemblage
             "Ys."+mineralList_[s],
             mesh_.time().timeName(),
             mesh_,
-            IOobject::MUST_READ, //READ_IF_PRESENT,  //MUST_READ ??
+            IOobject::MUST_READ, 
             IOobject::AUTO_WRITE
           ),
-          mesh_ //,
-          //		dimensionedScalar(currentMineral,dimless,0.0),
-          //		"zeroGradient"
+          mesh_ 
         )
       );
-      Ys_[s].write();
+      //Ys_[s].write();
 
-      rhos_.set
+      rhos_.set // a bouger dans mineralModel
       (
           s,
           new dimensionedScalar
@@ -152,6 +135,7 @@ Foam::porousAssemblage::porousAssemblage
 
 void Foam::porousAssemblage::updatePorosity()
 {
+    Info << "update dans porous assemblage" << endl;
     eps_ = 0.0*eps_;
     forAll(mineralList_,s)
     {

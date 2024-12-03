@@ -82,9 +82,9 @@ Foam::basicUnsaturatedGeochemicalModel::basicUnsaturatedGeochemicalModel
       phibName_(dict.lookupOrDefault<word>("phib","phib")),
       phia_(mesh.lookupObject<surfaceScalarField>(phiaName_)),
       phib_(mesh.lookupObject<surfaceScalarField>(phibName_)),
-//      phi_(phia_+phib_),
       phiName_(geochemicalModelDict_.lookupOrDefault<word>("phi","phi")),
-      phi_(mesh.lookupObject<surfaceScalarField>(phiName_)),
+//      phi_(mesh.lookupObject<surfaceScalarField>(phiName_)),
+      phi_(phia_+phib_),
       SbName_(dict.lookupOrDefault<word>("Sb","Sb")),
       Sb_(mesh.lookupObject<volScalarField>(SbName_))
 

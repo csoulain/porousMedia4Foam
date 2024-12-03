@@ -225,6 +225,8 @@ class unsaturatedPorousAssemblage : public porousAssemblage
 
     void updateMobilities()
     {
+        reducedSaturationModelPtr_->updateReducedSaturation();
+        relativePermeabilityModelPtr_->correct();
         Maf_ = this->Kf()*this->kraf()/phasea_.mu();
         Mbf_ = Kf()*krbf()/phaseb_.mu();
         Mf_  = Maf_+Mbf_;

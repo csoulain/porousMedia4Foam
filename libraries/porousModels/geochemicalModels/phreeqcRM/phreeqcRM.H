@@ -66,7 +66,7 @@ namespace Foam
 
             dictionary  phreeqcDict_;
 
-            Switch activateUpdatePorosity_ ;
+//            Switch activateUpdatePorosity_ ;
 
             Switch useSolutionDensityVolume_;
 
@@ -157,6 +157,9 @@ namespace Foam
 
             void updateSaturationIndex();
 
+            void updatePorosityInPhreeqcRM();
+
+
             // Private Member Functions
 
             //- Disallow copy construct
@@ -192,7 +195,7 @@ namespace Foam
 
             virtual void updateMineralDistribution();
 
-            virtual void updatePorosity();
+ //           virtual void updatePorosity();
 
             virtual tmp<volScalarField> rho() const;
 

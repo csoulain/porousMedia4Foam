@@ -77,7 +77,9 @@ class porousAssemblage
     volScalarField inertMineral_;
 
     volScalarField eps_;
-    volScalarField eps0_;
+//    volScalarField eps0_;
+
+    Switch activateUpdatePorosity_ ;
 
     PtrList<dimensionedScalar> rhos_;
 
@@ -160,7 +162,9 @@ class porousAssemblage
     }
 
 
-    void updatePorosity();
+//    virtual void updatePorosity(); /// Attention, le compilateur n'aime pas le virtual... la fonction est réécrasé dasn Phreeqc... peut etre une erreur.
+    void updatePorosity(); /// Attention, le compilateur n'aime pas le virtual... la fonction est réécrasé dasn Phreeqc... peut etre une erreur.
+
 
     const volScalarField & porosity() const
     {
@@ -179,10 +183,13 @@ class porousAssemblage
 
     void updatePorousAssemblageProperties()
     {
-        updatePorosity();
-        updatePermeability();
-        updateSurfaceArea();
-        updateDispersionTensor();
+        if(activateUpdatePorosity_)
+        {
+            updatePorosity();
+            updatePermeability();
+            updateSurfaceArea();
+            updateDispersionTensor();
+        }
     }
 
 };

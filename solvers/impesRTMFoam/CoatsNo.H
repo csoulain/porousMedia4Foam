@@ -20,7 +20,7 @@
     (
         "dfw",
         (dkrbdS*kra - dkradS*krb)
-        /(Mmu*Foam::pow(kra,2)+2*kra*krb+1./Mmu*Foam::pow(krb,2))
+        /(Mmu*Foam::pow(kra,2)+2*kra*krb+1./Mmu*Foam::pow(krb,2)+SMALL)
     );
     dimensionedScalar smallRate("smallRate",dimVolume/dimTime, SMALL);
 
@@ -29,8 +29,7 @@
         /fvc::surfaceSum(mag(phi)+smallRate)
         * (Foam::pow(kra,2)*dkrbdS/mua
         + Foam::pow(krb,2)*dkradS/mub)/(Mmu*Foam::pow(kra,2)
-        +2*kra*krb+1/Mmu*Foam::pow(krb,2));
-
+        +2*kra*krb+1./Mmu*Foam::pow(krb,2)+SMALL);
 
     scalarField CFLCoats((runTime.deltaT()/eps)*dfw*fvc::surfaceSum(mag(phi)));
 

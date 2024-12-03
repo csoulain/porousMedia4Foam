@@ -123,7 +123,7 @@ const dimensionedScalar& mub = phaseb->mu();
 ////////////////////////// POROUS MEDIA PROPERTIES //////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 
-unsaturatedPorousModel porousMedia(mesh,physicalProperties,Sb,phasea,phaseb);
+unsaturatedGeochemicalModel porousMedia(mesh,physicalProperties,Sb,phasea,phaseb);
 
 // Porosity
 Info << nl << "Reading porosity field eps" << endl;
