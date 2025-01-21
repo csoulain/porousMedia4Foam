@@ -1,5 +1,5 @@
 darcyGradPressure/darcyGradPressure.C
-
+inletRobin/inletRobinFvPatchScalarField.C
 
 
 LIB = $(FOAM_USER_LIBBIN)/libporousBoundaryConditions

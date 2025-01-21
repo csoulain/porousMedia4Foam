@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "unsaturatedTransportOnly.H"
+#include "unsaturatedTwoTransport.H"
 #include "addToRunTimeSelectionTable.H"
 
 #include "fvMatrix.H"
@@ -40,12 +40,12 @@ namespace Foam
 {
     namespace unsaturatedGeochemicalModels
     {
-        defineTypeNameAndDebug(unsaturatedTransportOnly, 0);
+        defineTypeNameAndDebug(unsaturatedTwoTransport, 0);
 
         addToRunTimeSelectionTable
         (
             basicUnsaturatedGeochemicalModel,
-            unsaturatedTransportOnly,
+            unsaturatedTwoTransport,
             dictionary
         );
     }
@@ -53,7 +53,7 @@ namespace Foam
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::unsaturatedGeochemicalModels::unsaturatedTransportOnly::unsaturatedTransportOnly
+Foam::unsaturatedGeochemicalModels::unsaturatedTwoTransport::unsaturatedTwoTransport
 (
     const fvMesh& mesh,
     const dictionary& dict,
@@ -63,21 +63,26 @@ Foam::unsaturatedGeochemicalModels::unsaturatedTransportOnly::unsaturatedTranspo
 )
 :
     basicUnsaturatedGeochemicalModel(mesh, dict, Sb, phasea, phaseb),
-//    unsaturatedTransportOnlyDict_(dict.subDict(typeName)),
-    transportPropertiesDict_(dict),
-    Sb_(Sb)
+//    unsaturatedTwoTransportDict_(dict.subDict(typeName)),
+    geochemicalPropertiesDict_(dict.subDict("geochemicalProperties")),
+    Sb_(Sb),
+    Sa_(1.-Sb),
+    massExchangeCoeff_(geochemicalPropertiesDict_.lookup("massExchangeCoefficient")),
+    He_(geochemicalPropertiesDict_.lookup<scalar>("He"))
 {
-    Info << "initialization of the unsaturatedTransportOnly calculation ....";
-    Y_.resize(1);
+    Info << "initialization of the unsaturatedTwoTransport calculation ....";
+    Yb_.resize(1);
+    Ya_.resize(1);
 
-    Y_.set
+
+    Yb_.set
     (
       0,
       new volScalarField
       (
         IOobject
         (
-          "Ci",
+          "Cb",
           mesh_.time().timeName(),
           mesh_,
           IOobject::MUST_READ,
@@ -87,42 +92,77 @@ Foam::unsaturatedGeochemicalModels::unsaturatedTransportOnly::unsaturatedTranspo
       )
     );
 
+    Ya_.set
+    (
+      0,
+      new volScalarField
+      (
+        IOobject
+        (
+          "Ca",
+          mesh_.time().timeName(),
+          mesh_,
+          IOobject::MUST_READ,
+          IOobject::AUTO_WRITE
+        ),
+        mesh_
+      )
+    );
+
+
     Info<< "OK" << nl << endl;
 }
 
 
 // -------------------------------------------------------------------------//
 
-void Foam::unsaturatedGeochemicalModels::unsaturatedTransportOnly::updateFluidComposition()
+void Foam::unsaturatedGeochemicalModels::unsaturatedTwoTransport::updateFluidComposition()
 {
 
-  //  Info << " Update fluid composition with unsaturatedTransportOnly" << endl;
+  //  Info << " Update fluid composition with unsaturatedTwoTransport" << endl;
 
-    word divPhiYiScheme = "div(phi,Yi)";
+    word divPhiYbiScheme = "div(phib,Ybi)";
+    word divPhiYaiScheme = "div(phia,Yai)";
+
+
 
 //    const volScalarField &Deff = effectiveDispersion();
     const volTensorField &DispT =  effectiveDispersionTensor();
 
 //    Ak_ = 2*(1.-eps_)*Ak_;
 
-    forAll(Y_,i)
+    forAll(Yb_,i)
     {
       //        if(Y[i].name() != inertSpecies)
-        volScalarField& Yi = Y_[i];
-      //        dimensionedScalar& Di = D[i];
+        volScalarField& Ybi = Yb_[i];
+ 
+        volScalarField& Yai = Ya_[i];
 
 
-        tmp<fvScalarMatrix> YiEqn
+        tmp<fvScalarMatrix> YbiEqn
         (
-                  fvm::ddt(eps_*Sb_,Yi) + fvm::div(phib_,Yi,divPhiYiScheme)
-                - fvm::laplacian(eps_*Sb_*DispT,Yi,"laplacian(Di,Yi)")
+                  fvm::ddt(eps_*Sb_,Ybi) + fvm::div(phib_,Ybi,divPhiYbiScheme)
+                - fvm::laplacian(eps_*Sb_*DispT,Ybi,"laplacian(Di,Yi)")
+                ==
+                  fvm::Sp(massExchangeCoeff_,Ybi)-massExchangeCoeff_*He_*Yai
         );
 
-        YiEqn.ref().relax();
-        solve(YiEqn);
+        YbiEqn.ref().relax();
+        solve(YbiEqn);
 
-      //        Yi.max(0.0);
-      //        Yi.min(1.0);
+
+        tmp<fvScalarMatrix> YaiEqn
+        (
+                  fvm::ddt(eps_*(1-Sb_),Yai) + fvm::div(phia_,Yai,divPhiYaiScheme)
+                - fvm::laplacian(eps_*(1.-Sb_)*DispT,Yai,"laplacian(Di,Yi)")
+                ==
+                  -massExchangeCoeff_*Ybi+fvm::Sp(massExchangeCoeff_*He_,Yai)
+        );
+
+        YaiEqn.ref().relax();
+        solve(YaiEqn);
+
+
     }
   //  Info<<"Ok" << endl;
 
@@ -136,12 +176,12 @@ volScalarField m_s ("m_s", stoec*ae*McaCo3*alphai*Ci/Ceq);
 
 }
 
-void Foam::unsaturatedGeochemicalModels::unsaturatedTransportOnly::updateMineralDistribution()
+void Foam::unsaturatedGeochemicalModels::unsaturatedTwoTransport::updateMineralDistribution()
 {}
 // -------------------------------------------------------------------------//
 
 /*
-Foam::volScalarField Foam::unsaturatedTransportOnly::dMl() const
+Foam::volScalarField Foam::unsaturatedTwoTransport::dMl() const
 {
 
     volScalarField dMl_(0.0*fvc::ddt(Y_[0])/this->rhol());
@@ -153,5 +193,18 @@ Foam::volScalarField Foam::unsaturatedTransportOnly::dMl() const
     return dMl_;
 }
 */
+
+
+void Foam::unsaturatedGeochemicalModels::unsaturatedTwoTransport::updatedGasvdRho()
+{
+    dGasvdRho_ = 0.0*dGasvdRho_;
+ //   forAll(mineralList_,s)
+    {
+        //dMinvdRho_+= -rhos_[s]*fvc::ddt(Ys_[s])*(1./rhol_-1./rhos_[s]);
+//        dMinvdRho_+= -rhos_[s]*fvc::ddt(Ys_[s])*(1./this->rho()-1./rhos_[s]);
+    }
+    dGasvdRho_.correctBoundaryConditions(); //necessary??
+}
+
 
 // ************************************************************************* //

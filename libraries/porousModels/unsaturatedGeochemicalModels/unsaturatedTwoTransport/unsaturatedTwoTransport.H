@@ -25,15 +25,15 @@ Class
     Foam::twoPhaseMixture
 
 Description
-    unsaturatedTransportOnly module
+    unsaturatedTwoTransport module
 
 SourceFiles
     phreeqc.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef unsaturatedTransportOnly_H
-#define unsaturatedTransportOnly_H
+#ifndef unsaturatedTwoTransport_H
+#define unsaturatedTwoTransport_H
 
 //#include "dictionary.H"
 //#include "volFieldsFwd.H"
@@ -53,11 +53,11 @@ namespace unsaturatedGeochemicalModels
                       Class twoPhaseMixture Declaration
 \*---------------------------------------------------------------------------*/
 
-class unsaturatedTransportOnly : public basicUnsaturatedGeochemicalModel
+class unsaturatedTwoTransport : public basicUnsaturatedGeochemicalModel
 {
 
 
-//  dictionary  unsaturatedTransportOnlyDict_;
+//  dictionary  unsaturatedTwoTransportDict_;
 
 
   protected:
@@ -66,22 +66,31 @@ class unsaturatedTransportOnly : public basicUnsaturatedGeochemicalModel
 
 //    word mineral_;
 
-    dictionary transportPropertiesDict_;
+    dictionary geochemicalPropertiesDict_;
 
-    PtrList<volScalarField> Y_;
+    PtrList<volScalarField> Ya_;
+
+    PtrList<volScalarField> Yb_;
 
     const volScalarField & Sb_;
+
+    const volScalarField & Sa_;
+
+
+    dimensionedScalar massExchangeCoeff_;
+
+    scalar He_;
 
   // Private Member Functions
 
     //- Disallow copy construct
-    unsaturatedTransportOnly(const unsaturatedTransportOnly&);
+    unsaturatedTwoTransport(const unsaturatedTwoTransport&);
 
 
   public:
 
     //- Runtime type information
-      TypeName("unsaturatedTransportOnly");
+      TypeName("unsaturatedTwoTransport");
 
 
     // Declare run-time constructor selection table
@@ -90,7 +99,7 @@ class unsaturatedTransportOnly : public basicUnsaturatedGeochemicalModel
 
     //- Construct from components
 
-    unsaturatedTransportOnly
+    unsaturatedTwoTransport
     (
       const fvMesh& mesh,
       const dictionary& dict,
@@ -100,7 +109,7 @@ class unsaturatedTransportOnly : public basicUnsaturatedGeochemicalModel
     );
 
     //- Destructor
-    virtual ~unsaturatedTransportOnly()
+    virtual ~unsaturatedTwoTransport()
     {}
 
 
@@ -110,6 +119,7 @@ class unsaturatedTransportOnly : public basicUnsaturatedGeochemicalModel
 
     virtual void updateMineralDistribution();
 
+    virtual void updatedGasvdRho();
 
 };
 

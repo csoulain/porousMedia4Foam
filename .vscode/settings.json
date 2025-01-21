@@ -42,6 +42,13 @@
         "none.C": "cpp",
         "mineralModel.C": "cpp",
         "unsaturatedPorousAssemblage.C": "cpp",
-        "impesRTMFoam.C": "cpp"
+        "impesRTMFoam.C": "cpp",
+        "inletRobinFvPatchScalarField.C": "cpp",
+        "unsaturatedTwoTransport.C": "cpp",
+        "linearDispersionTensor.C": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "string": "cpp",
+        "vector": "cpp"
     }
 }

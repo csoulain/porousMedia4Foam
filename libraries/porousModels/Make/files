@@ -89,10 +89,15 @@ geochemicalModels/geochemicalModel.C
 unsaturatedGeochemicalModels/basicUnsaturatedGeochemicalModel/basicUnsaturatedGeochemicalModel.C
 unsaturatedGeochemicalModels/basicUnsaturatedGeochemicalModel/basicUnsaturatedGeochemicalModelNew.C
 unsaturatedGeochemicalModels/unsaturatedFlowOnly/unsaturatedFlowOnly.C
-##unsaturatedGeochemicalModels/unsaturatedTransportOnly/unsaturatedTransportOnly.C
+unsaturatedGeochemicalModels/unsaturatedTransportOnly/unsaturatedTransportOnly.C
+unsaturatedGeochemicalModels/unsaturatedTwoTransport/unsaturatedTwoTransport.C
+
 
 unsaturatedGeochemicalModels/unsaturatedGeochemicalModel.C
 
 
 
 LIB = $(FOAM_USER_LIBBIN)/libporousModels
+
+
+

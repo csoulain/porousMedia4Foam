@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "inletOutletFvPatchField.C": "cpp",
+        "firstOrderKineticsReactionFvPatchField.C": "cpp",
+        "firstOrderKineticsReactionFvPatchFields.C": "cpp",
+        "firstOrderKineticReactionFvPatchScalarField.C": "cpp"
+    }
+}
